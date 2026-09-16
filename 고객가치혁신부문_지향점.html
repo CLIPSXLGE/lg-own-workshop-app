@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>고객가치혁신부문 지향점</title>
+<style>
+
+@font-face { font-family:'Pretendard'; font-weight:400; src:url(assets/76a1283c27610a9ad7d6940b9b174e46.woff2) format('woff2'); }
+@font-face { font-family:'Pretendard'; font-weight:600; src:url(assets/d3b288a528801dae385d6f104693e022.woff2) format('woff2'); }
+@font-face { font-family:'Pretendard'; font-weight:700; src:url(assets/33860c9446a2671456e4619020774137.woff2) format('woff2'); }
+@font-face { font-family:'Pretendard'; font-weight:800; src:url(assets/4e75935a8e92c6b078d8e1bafd81cb42.woff2) format('woff2'); }
+
+:root {
+  --bg:#000000;
+  --accent:#ff3b30;
+  --accent2:#e2231a;
+  --text:#f5f5f5;
+  --muted:#9a9a9a;
+}
+* { box-sizing:border-box; }
+html,body {
+  margin:0; padding:0; background:#000; color:var(--text);
+  font-family:'Pretendard','Malgun Gothic','Apple SD Gothic Neo',sans-serif;
+  overflow:hidden; height:100%; width:100%;
+}
+#deck {
+  display:flex; flex-direction:row; width:100vw; height:100vh;
+  overflow-x:auto; overflow-y:hidden; scroll-snap-type:x mandatory;
+  scroll-behavior:smooth; -webkit-overflow-scrolling:touch;
+}
+#deck::-webkit-scrollbar { display:none; }
+#deck { scrollbar-width:none; }
+.slide {
+  flex:0 0 100vw; width:100vw; height:100vh; scroll-snap-align:start;
+  display:flex; align-items:center; justify-content:center;
+  background:#000; position:relative; overflow:hidden;
+}
+.stage {
+  position:relative; width:1920px; height:1080px; flex-shrink:0;
+  background:#000; transform-origin:center center;
+}
+.tb {
+  position:absolute; display:flex; flex-direction:column;
+  white-space:pre-wrap; word-break:keep-all; overflow-wrap:break-word;
+  line-height:1.32;
+}
+.tb.valign-mid { justify-content:center; }
+.tb.valign-top { justify-content:flex-start; }
+.tb.valign-bot { justify-content:flex-end; }
+.tb.halign-c { text-align:center; align-items:center; }
+.tb.halign-l { text-align:left; align-items:flex-start; }
+.tb.halign-r { text-align:right; align-items:flex-end; }
+.card { position:absolute; display:flex; align-items:center; justify-content:center; }
+.title-bar {
+  position:absolute; top:92px; left:0; width:1920px; text-align:center;
+  font-size:38px; font-weight:800; color:#fff; letter-spacing:-0.01em;
+}
+.hotspot {
+  cursor:pointer; transition:filter .2s ease, transform .15s ease;
+}
+.hotspot:hover { filter:brightness(1.28); }
+.hotspot:active { transform:scale(0.985); }
+
+/* nav */
+#counter { position:fixed; top:18px; right:24px; font-size:13px; color:var(--muted); z-index:50; font-variant-numeric:tabular-nums; pointer-events:none; }
+#counter b { color:var(--text); }
+.nav-arrow {
+  position:fixed; top:50%; transform:translateY(-50%); width:44px; height:44px; border-radius:50%;
+  background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.18); color:var(--text);
+  font-size:18px; display:flex; align-items:center; justify-content:center; cursor:pointer; z-index:250;
+  transition:background .2s,border-color .2s,opacity .2s; opacity:.55;
+}
+.nav-arrow:hover { background:rgba(255,45,26,.25); border-color:var(--accent); opacity:1; }
+.nav-arrow.disabled { opacity:.15; pointer-events:none; }
+#prevBtn { left:20px; } #nextBtn { right:20px; }
+#dots { position:fixed; bottom:18px; left:50%; transform:translateX(-50%); display:flex; gap:7px; z-index:50; background:rgba(0,0,0,.35); padding:8px 12px; border-radius:20px; }
+.dot { width:8px; height:8px; border-radius:50%; background:rgba(255,255,255,.28); border:none; padding:0; cursor:pointer; transition:background .2s,transform .2s; }
+.dot:hover { background:rgba(255,255,255,.6); }
+.dot.active { background:var(--accent); transform:scale(1.3); }
+#hint { position:fixed; bottom:60px; left:50%; transform:translateX(-50%); font-size:12px; color:var(--muted); z-index:50; background:rgba(0,0,0,.4); padding:6px 14px; border-radius:14px; transition:opacity .6s ease; pointer-events:none; }
+#hint.hide { opacity:0; }
+
+/* modal popup */
+#modalOverlay { position:fixed; inset:0; background:rgba(0,0,0,.86); display:none; align-items:center; justify-content:center; z-index:200; padding:4vh 4vw; backdrop-filter:blur(2px); }
+#modalOverlay.open { display:flex; }
+#modalBox { position:relative; max-width:94vw; max-height:94vh; background:#0a0a0a; border:1px solid rgba(255,59,48,.4); border-radius:10px; box-shadow:0 20px 60px rgba(0,0,0,.7); display:flex; flex-direction:column; overflow:hidden; }
+#modalHeader { display:flex; align-items:center; justify-content:space-between; padding:16px 22px; background:linear-gradient(100deg,#ff5a3c,#c40352 65%,#8f0230); border-bottom:1px solid rgba(255,59,48,.5); }
+#modalTitle { font-size:26px; font-weight:800; color:#fff; letter-spacing:-0.01em; }
+#modalClose { background:rgba(0,0,0,0.18); border:1px solid rgba(255,255,255,.5); color:#fff; width:30px; height:30px; border-radius:50%; cursor:pointer; font-size:15px; display:flex; align-items:center; justify-content:center; transition:background .2s,border-color .2s; }
+#modalClose:hover { background:rgba(0,0,0,0.4); border-color:#fff; }
+#modalBody { flex:1; display:flex; align-items:center; justify-content:center; overflow:hidden; padding:10px; position:relative; }
+#modalImg { max-width:86vw; max-height:80vh; object-fit:contain; border-radius:4px; display:block; }
+.modal-pager { display:flex; align-items:center; justify-content:center; gap:14px; padding:6px 16px 14px; }
+.modal-pagebtn { background:rgba(255,59,48,.12); border:1px solid var(--accent); color:var(--text); font-size:12px; padding:5px 13px; border-radius:14px; cursor:pointer; transition:background .2s; }
+.modal-pagebtn:hover { background:rgba(255,59,48,.3); }
+.modal-pagebtn.disabled { opacity:.3; pointer-events:none; }
+.modal-pageinfo { font-size:12px; color:var(--muted); font-variant-numeric:tabular-nums; }
+
+@media (max-width:640px) {
+  .nav-arrow { width:36px; height:36px; font-size:15px; }
+  #counter { font-size:11px; top:10px; right:12px; }
+  #dots { bottom:10px; padding:6px 10px; gap:5px; }
+  .dot { width:6px; height:6px; }
+}
+
+@keyframes coverPulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.09); }
+  100% { transform: scale(1); }
+}
+
+.blink-dot {
+  display:inline-block; width:14px; height:14px; border-radius:50%;
+  background:#ff2020; margin-right:10px; vertical-align:middle;
+  animation: blinkDot 1.2s ease-in-out infinite;
+  box-shadow: 0 0 8px rgba(255,32,32,0.8);
+}
+@keyframes blinkDot {
+  0%, 100% { opacity:1; }
+  50% { opacity:0.15; }
+}
+
+.text-pulse {
+  display: inline-block;
+  animation: textPulse 1.8s ease-in-out infinite;
+  transform-origin: center center;
+  margin-right: 0.22em;
+}
+@keyframes textPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.45); }
+}
+
+#fullscreenBtn:hover {
+  background: rgba(255,59,48,0.28) !important;
+  border-color: #ff3b18 !important;
+}
+
+.popup-stage-wrap { width:1920px; height:1080px; position:relative; background:#000; }
+#modalImg.hidden-el, .popup-stage-wrap.hidden-el { display:none; }
+#modalStageHost { position:relative; overflow:hidden; }
+</style>
+</head>
+<body>
+
+<div id="counter"><b id="curNum">1</b> / 13</div>
+
+<div id="deck">
+<section class="slide" id="mslide-0" data-index="0"><div class="stage"><div class="cover-circle" style="left:220px;top:372px;width:336px;height:336px;background:#ff3b18;border-radius:999px;position:absolute;animation:coverPulse 2.6s ease-in-out infinite;"></div><div class="tb halign-l valign-mid" data-autofit="1" style="left:300px;top:449px;width:1500px;height:182px;font-size:104.0px;font-weight:800;color:#fff;white-space:nowrap;"><span>고객가치혁신부문 <span style="color:#ff8a1e">지향점</span></span></div><button id="fullscreenBtn" onclick="toggleFullscreen()" style="position:absolute;left:1780px;top:40px;width:110px;height:40px;background:rgba(255,255,255,0.08);border:1.5px solid rgba(255,255,255,0.5);border-radius:8px;color:#fff;font-family:Pretendard,sans-serif;font-weight:700;font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;"><span id="fsIcon" style="font-size:13px;">&#9974;</span><span id="fsLabel">전체화면</span></button></div></section><section class="slide" id="mslide-1" data-index="1"><div class="stage"><div class="title-bar" style="font-size:57.2px;letter-spacing:0.01em;text-shadow:0 0 26px rgba(255,59,48,0.55), 0 2px 6px rgba(0,0,0,0.6);"><span style="color:#ff8a1e;">1.</span> 사업 / 고객의 변화 인식</div><div class="card" style="left:133px;top:236px;width:822px;height:85px;background:#7a7a7a;border-radius:6px;"></div><div class="tb halign-c valign-mid" data-autofit="1" style="left:133px;top:236px;width:822px;height:85px;font-size:39.0px;font-weight:700;color:#fff;"><span>경영환경</span></div><div class="card" style="left:992px;top:236px;width:822px;height:85px;background:#d8027c;border-radius:6px;"></div><div class="tb halign-c valign-mid" data-autofit="1" style="left:992px;top:236px;width:822px;height:85px;font-size:39.0px;font-weight:700;color:#fff;"><span>고객의 변화</span></div><div class="card" style="left:177px;top:376px;width:738px;height:77px;background:#f0ece4;border-radius:14px;"></div><div class="tb halign-c valign-mid" data-autofit="1" style="left:197px;top:376px;width:698px;height:77px;font-size:27.3px;font-weight:700;color:#1a1a1a;"><span>불확실한 국제정세 및 지정학적 <span style="color:#f90006">Risk</span></span></div><div class="card" style="left:177px;top:506px;width:738px;height:77px;background:#f0ece4;border-radius:14px;"></div><div class="tb halign-c valign-mid" data-autofit="1" style="left:197px;top:506px;width:698px;height:77px;font-size:27.3px;font-weight:700;color:#1a1a1a;"><span>원자재 인플레이션 (`25년 1월 대비)</span></div><div class="card" style="left:177px;top:636px;width:738px;height:77px;background:#f0ece4;border-radius:14px;"></div><div class="tb halign-c valign-mid" data-autofit="1" style="left:197px;top:636px;width:698px;height:77px;font-size:27.3px;font-weight:700;color:#1a1a1a;"><span>AI Everywhere (모든 곳에 존재하는 AI)</span></div><div class="card" style="left:177px;top:766px;width:738px;height:77px;background:#f0ece4;border-radius:14px;"></div><div class="tb halign-c valign-mid" data-autofit="1" style="left:197px;top:766px;width:698px;height:77px;font-size:27.3px;font-weight:700;color:#1a1a1a;"><span>현실이 되어버린 휴머노이드 로봇, 자율주행</span></div><div class="card hotspot" id="popupTrigger-2" style="left:177px;top:896px;width:738px;height:77px;background:#f0ece4;border-radius:14px;"></div><div class="tb halign-c valign-mid" data-autofit="1" style="left:197px;top:896px;width:698px;height:77px;font-size:27.3px;font-weight:700;color:#1a1a1a; pointer-events:none;"><span><span style="color:#f90006"><span class="text-pulse">C_Brand</span> 서비스 국내 진출 / 역습</span></span></div><div class="card" style="left:1037px;top:376px;width:738px;height:77px;background:#f0ece4;border-radius:14px;"></div><div class="tb halign-c valign-mid" data-autofit="1" style="left:1057px;top:376px;width:698px;height:77px;font-size:27.3px;font-weight:700;color:#1a1a1a;"><span><span style="color:#f90006">앱 중심</span>의 일상 (일상속 디지털화)</span></div><div class="card" style="left:1037px;top:506px;width:738px;height:77px;background:#f0ece4;border-radius:14px;"></div><div class="tb halign-c valign-mid" data-autofit="1" style="left:1057px;top:506px;width:698px;height:77px;font-size:27.3px;font-weight:700;color:#1a1a1a;"><span><span style="color:#f90006">온라인 / 비대면</span> 라이프 스타일</span></div><div class="card" style="left:1037px;top:636px;width:738px;height:77px;background:#f0ece4;border-radius:14px;"></div><div class="tb halign-c valign-mid" data-autofit="1" style="left:1057px;top:636px;width:698px;height:77px;font-size:27.3px;font-weight:700;color:#1a1a1a;"><span><span style="color:#f90006">스마트 / 연결형</span> 제품 사용 (전문가)</span></div><div class="card" style="left:1037px;top:766px;width:738px;height:77px;background:#f0ece4;border-radius:14px;"></div><div class="tb halign-c valign-mid" data-autofit="1" style="left:1057px;top:766px;width:698px;height:77px;font-size:27.3px;font-weight:700;color:#1a1a1a;"><span><span style="color:#f90006">개인화 / 맞춤형</span> 서비스 선호</span></div><div class="card" style="left:1037px;top:896px;width:738px;height:77px;background:#f0ece4;border-radius:14px;"></div><div class="tb halign-c valign-mid" data-autofit="1" style="left:1057px;top:896px;width:698px;height:77px;font-size:27.3px;font-weight:700;color:#1a1a1a;"><span>브랜드 = <span style="color:#f90006">제품 + 서비스 전체</span> 개념으로 확장</span></div><div class="tb halign-l valign-mid" data-autofit="1" style="left:247px;top:583px;width:700px;height:40px;font-size:19.5px;font-weight:400;color:#cfcfcf;"><span>- 반도체 150%↑, 원유 30%↑, 알류미늄 40%↑, 나프타 30%↑</span></div></div></section><section class="slide" id="mslide-2" data-index="2"><div class="stage"><div class="title-bar" style="font-size:57.2px;letter-spacing:0.01em;text-shadow:0 0 26px rgba(255,59,48,0.55), 0 2px 6px rgba(0,0,0,0.6);"><span style="color:#ff8a1e;">2.</span> 우리의 경쟁력</div><div class="tb halign-c valign-mid" data-autofit="1" style="left:0px;top:195px;width:1920px;height:82px;font-size:41.6px;font-weight:700;color:#fff;"><span>국내 / 해외 CC&S 경쟁력 현황</span></div><div class="card" style="left:270px;top:320px;width:183px;height:300px;background:linear-gradient(150deg,#ff9466,#e2231a);border-radius:24px;"></div><div class="tb halign-c valign-mid" data-autofit="1" style="left:270px;top:320px;width:183px;height:300px;font-size:39.0px;font-weight:700;color:#fff;"><span>국내</span></div><div class="card" style="left:484px;top:320px;width:1166px;height:300px;background:#f2f2f2;border-radius:10px;"></div><div class="tb halign-l valign-mid" data-autofit="1" style="left:520px;top:335px;width:1090px;height:80px;font-size:29.9px;font-weight:700;color:#111;"><span>(수리) KS-SQI ’25년 단독 1위 달성 (`24년 ~ `25년)</span></div><div class="tb halign-l valign-mid" data-autofit="1" style="left:520px;top:425px;width:1090px;height:80px;font-size:29.9px;font-weight:700;color:#111;"><span>(상담) KS-CQI 5년 연속 1위 달성</span></div><div class="tb halign-l valign-mid" data-autofit="1" style="left:520px;top:515px;width:1090px;height:80px;font-size:29.9px;font-weight:700;color:#111;"><span>(CEJ경쟁력) T-NPS : 90.2 (`22년) → 94.3 (`25년)</span></div><div class="card" style="left:270px;top:682px;width:183px;height:300px;background:linear-gradient(150deg,#4fc3f7,#1565c0);border-radius:24px;"></div><div class="tb halign-c valign-mid" data-autofit="1" style="left:270px;top:682px;width:183px;height:300px;font-size:39.0px;font-weight:700;color:#fff;"><span>해외</span></div><div class="card" style="left:484px;top:682px;width:1166px;height:300px;background:#f2f2f2;border-radius:10px;"></div><div class="tb halign-l valign-mid" data-autofit="1" style="left:520px;top:697px;width:1090px;height:80px;font-size:29.9px;font-weight:700;color:#111;"><span>▪ 상담/수리 영역의 기본 경쟁력 혁신</span></div><div class="tb halign-l valign-mid" data-autofit="1" style="left:520px;top:787px;width:1090px;height:80px;font-size:29.9px;font-weight:700;color:#111;"><span>▪ OBS/구독 고객경험 개선으로 사업 성장기여</span></div><div class="tb halign-l valign-mid" data-autofit="1" style="left:520px;top:877px;width:1090px;height:80px;font-size:29.9px;font-weight:700;color:#111;"><span>▪ 글로벌 R-NPS : 61.9 (`23년) → 63.3 (`25년)</span></div></div></section><section class="slide" id="mslide-3" data-index="3"><div class="stage"><div class="title-bar" style="font-size:57.2px;letter-spacing:0.01em;text-shadow:0 0 26px rgba(255,59,48,0.55), 0 2px 6px rgba(0,0,0,0.6);"><span style="color:#ff8a1e;">2.</span> 우리의 경쟁력</div><div class="tb halign-c valign-mid" data-autofit="1" style="left:0px;top:185px;width:1920px;height:82px;font-size:41.6px;font-weight:700;color:#fff;"><span>국내는 <span style="color:#ff8a1e">조금 앞서기</span> 시작, 해외는 아직 경쟁사와의 <span style="color:#ff8a1e">Gap</span> 존재</span></div><div class="card" style="left:255px;top:318px;width:183px;height:300px;background:linear-gradient(150deg,#c86dff,#6a1b9a);border-radius:24px;"></div><div class="tb halign-c valign-mid" data-autofit="1" style="left:255px;top:318px;width:183px;height:300px;font-size:35.1px;font-weight:700;color:#fff;"><span>CEJ<br>경쟁력</span></div><div class="card" style="left:468px;top:318px;width:1250px;height:300px;background:#f2f2f2;border-radius:10px;"></div><div class="tb halign-l valign-mid" data-autofit="1" style="left:505px;top:378px;width:1180px;height:85px;font-size:31.2px;font-weight:700;color:#111;"><span>▪ 국내 R-NPS 경쟁 Gap 정체</span></div><div class="tb halign-l valign-mid" data-autofit="1" style="left:505px;top:473px;width:1180px;height:85px;font-size:31.2px;font-weight:700;color:#111;"><span>▪ 해외 R-NPS 경쟁 Gap 개선 중이나 열위 및 속도 더딤</span></div><div class="card" style="left:255px;top:681px;width:183px;height:300px;background:linear-gradient(150deg,#26d0ce,#00796b);border-radius:24px;"></div><div class="tb halign-c valign-mid" data-autofit="1" style="left:255px;top:681px;width:183px;height:300px;font-size:35.1px;font-weight:700;color:#fff;"><span>사업<br>성과</span></div><div class="card" style="left:468px;top:681px;width:1250px;height:300px;background:#f2f2f2;border-radius:10px;"></div><div class="tb halign-l valign-mid" data-autofit="1" style="left:505px;top:741px;width:1180px;height:85px;font-size:31.2px;font-weight:700;color:#111;"><span>▪ 고객가치제고 → 자립경영 기반 (본질 <span style="color:#e2231a">고객</span>, 경쟁력 <span style="color:#e2231a">CC&S</span>)</span></div><div class="tb halign-l valign-mid" data-autofit="1" style="left:505px;top:836px;width:1180px;height:85px;font-size:31.2px;font-weight:700;color:#111;"><span>▪ 인원은 감소하고 있으나 고정비 증가 구조혁신 필요</span></div></div></section><section class="slide" id="mslide-4" data-index="4"><div class="stage"><div class="title-bar" style="font-size:57.2px;letter-spacing:0.01em;text-shadow:0 0 26px rgba(255,59,48,0.55), 0 2px 6px rgba(0,0,0,0.6);"><span style="color:#ff8a1e;">3.</span> 우리의 변화 방향</div><div class="tb halign-c valign-mid" data-autofit="1" style="left:130px;top:205px;width:1660px;height:240px;font-size:44.2px;font-weight:700;color:#fff;"><span>예측하기 어려운 불확실성 및 경영환경에도 이를 극복하고<br>고객으로부터 인정받는 글로벌 <span style="color:#ff8a1e">CC&S</span> 선도 기업이 되어야 함</span></div><div class="card" style="left:335px;top:548px;width:1333px;height:98px;background:#ffe4d6;border-radius:6px;"></div><div class="tb halign-l valign-mid" data-autofit="1" style="left:365px;top:548px;width:1273px;height:98px;font-size:33.8px;font-weight:700;color:#111;"><span>• 그 누구도 감히 따라오지 못하는 압도적 국내 1위 <span style="color:#e2231a">고객케어 전문가 집단</span></span></div><div class="card" style="left:335px;top:680px;width:1333px;height:98px;background:#dbe9ff;border-radius:6px;"></div><div class="tb halign-l valign-mid" data-autofit="1" style="left:365px;top:680px;width:1273px;height:98px;font-size:33.8px;font-weight:700;color:#111;"><span>• <span style="color:#e2231a">떳떳하고 정정당당하게</span> 고객으로부터 인정받는 서비스센터</span></div><div class="card" style="left:335px;top:812px;width:1333px;height:98px;background:#e0f7ef;border-radius:6px;"></div><div class="tb halign-l valign-mid" data-autofit="1" style="left:365px;top:812px;width:1273px;height:98px;font-size:33.8px;font-weight:700;color:#111;"><span>• 고객가치혁신 = 고객경험 개선 = 자립경영을 위한 수익확대 = <span style="color:#e2231a">Profit center</span></span></div></div></section><section class="slide" id="mslide-5" data-index="5"><div class="stage"><div class="title-bar" style="font-size:57.2px;letter-spacing:0.01em;text-shadow:0 0 26px rgba(255,59,48,0.55), 0 2px 6px rgba(0,0,0,0.6);"><span style="color:#ff8a1e;">3.</span> 우리의 변화 방향</div><div class="tb halign-c valign-mid" data-autofit="1" style="left:150px;top:195px;width:1620px;height:130px;font-size:32.5px;font-weight:600;color:#e6e6e6;"><span>우리는 빠르게 변화하는 고객, 환경, 기술에 선제적으로 대응하기 위해<br>어떤 마인드와 자세를 가져야 하는가?</span></div><div class="tb halign-c valign-mid" data-autofit="1" style="left:0px;top:308px;width:1920px;height:78px;font-size:52.0px;font-weight:800;color:#fff;"><span>우리의 본질은 <span style="color:#ff8a1e">고객</span></span></div><div class="tb halign-c valign-mid hotspot" id="popupTrigger-8" data-autofit="1" style="left:0px;top:386px;width:1920px;height:96px;font-size:49.4px;font-weight:800;color:#fff;white-space:nowrap;"><span>우리의 경쟁력은 진정한 <span class="text-pulse" style="color:#ff8a1e;text-decoration:underline">CC&amp;S</span></span></div><div style="position:absolute;left:447px;top:562px;width:474px;height:432px;overflow:hidden;border-radius:6px;"><img src="assets/ad14cb7e676e4ed030dce9ee9219879e.png" style="width:100%;height:100%;object-fit:cover;filter:grayscale(35%) contrast(1.05);"><div style="position:absolute;inset:0;background:linear-gradient(to bottom, rgba(0,0,0,0) 45%, rgba(0,0,0,0.88) 100%);"></div></div><div style="position:absolute;left:1068px;top:560px;width:441px;height:436px;overflow:hidden;border-radius:6px;"><img src="assets/4668f3c619947fe5b71c8ded77b59878.png" style="width:100%;height:100%;object-fit:cover;filter:grayscale(35%) contrast(1.05);"><div style="position:absolute;inset:0;background:linear-gradient(to bottom, rgba(0,0,0,0) 45%, rgba(0,0,0,0.88) 100%);"></div></div><div class="tb halign-c valign-mid" data-autofit="1" style="left:447px;top:795px;width:474px;height:175px;font-size:44.2px;font-weight:800;color:#fff;"><span><span style="color:#ff2020">C</span>C&S<br><span style="color:#ff2020">P</span>erformance</span></div><div class="tb halign-c valign-mid" data-autofit="1" style="left:1068px;top:795px;width:441px;height:175px;font-size:44.2px;font-weight:800;color:#fff;"><span><span style="color:#ff2020">C</span>ustomer<br>e<span style="color:#ff2020">X</span>perience</span></div><div class="card" style="left:873px;top:645px;width:239px;height:78px;background:#ff0000;border-radius:14px;"></div><div class="tb halign-c valign-mid" data-autofit="1" style="left:873px;top:645px;width:239px;height:78px;font-size:20.8px;font-weight:700;color:#fff;"><span>Proactive<br>Warm Tech.</span></div></div></section><section class="slide" id="mslide-6" data-index="6"><div class="stage"><div class="title-bar" style="font-size:57.2px;letter-spacing:0.01em;text-shadow:0 0 26px rgba(255,59,48,0.55), 0 2px 6px rgba(0,0,0,0.6);"><span style="color:#ff8a1e;">4.</span> 우리의 지향점 필요성</div><div class="tb halign-c valign-mid" data-autofit="1" style="left:0px;top:178px;width:1920px;height:130px;font-size:57.2px;font-weight:800;color:#fff;"><span><span style="color:#ff8a1e">CVI Aspiration</span></span></div><div class="tb halign-c valign-mid" data-autofit="1" style="left:0px;top:335px;width:1920px;height:90px;font-size:31.2px;font-weight:600;color:#ddd;"><span>고객가치혁신부문 구성원과 함께 만드는</span></div><div class="tb halign-c valign-mid" data-autofit="1" style="left:0px;top:380px;width:1920px;height:110px;font-size:57.2px;font-weight:800;color:#fff;"><span>고객가치혁신부문의 <span style="color:#fff200">미래</span></span></div><div style="position:absolute;left:848px;top:520px;width:224px;height:130px;background:#ff8a1e;clip-path:polygon(42% 0%, 58% 0%, 58% 62%, 100% 62%, 50% 100%, 0% 62%, 42% 62%);"></div><div class="tb halign-c valign-mid" data-autofit="1" style="left:0px;top:715px;width:1920px;height:130px;font-size:49.4px;font-weight:800;color:#fff;"><span>고객을 향한 고객가치혁신부문의 <span style="color:#fff200">지향점</span> 정립</span></div></div></section><section class="slide" id="mslide-7" data-index="7"><div class="stage"><div class="title-bar" style="font-size:57.2px;letter-spacing:0.01em;text-shadow:0 0 26px rgba(255,59,48,0.55), 0 2px 6px rgba(0,0,0,0.6);"><span style="color:#ff8a1e;">5.</span> 부문 지향점 정립 배경</div><div style="position:absolute;left:160px;top:213px;width:620px;height:70px;border:2px solid #fff;border-radius:999px;background:linear-gradient(100deg,#ff5a3c,#c40352 65%,#8f0230);display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:700;color:#fff;">【 LG전자 비전 (MVC) 】</div><div style="position:absolute;left:1135px;top:213px;width:620px;height:70px;border:2px solid #fff;border-radius:999px;background:linear-gradient(100deg,#ff5a3c,#c40352 65%,#8f0230);display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:700;color:#fff;">【 부문 지향점 Position 및 의미 】</div><div class="tb halign-c valign-mid" data-autofit="1" style="left:40px;top:350px;width:190px;height:60px;font-size:28.6px;font-weight:700;color:#fff;text-decoration:underline;"><span>Mission</span></div><div class="tb halign-c valign-mid" data-autofit="1" style="left:40px;top:400px;width:210px;height:40px;font-size:19.5px;font-weight:600;color:#bbb;"><span>존재의 이유</span></div><div class="card" style="left:271px;top:335px;width:540px;height:105px;background:#fff;border-radius:6px;"></div><div class="tb halign-c valign-mid" data-autofit="1" style="left:271px;top:335px;width:540px;height:105px;font-size:33.8px;font-weight:800;color:#111;"><span>Innovation for a better life</span></div><div class="tb halign-c valign-mid" data-autofit="1" style="left:40px;top:508px;width:190px;height:60px;font-size:28.6px;font-weight:700;color:#fff;text-decoration:underline;"><span>Vision</span></div><div class="tb halign-c valign-mid" data-autofit="1" style="left:40px;top:558px;width:220px;height:40px;font-size:19.5px;font-weight:600;color:#bbb;"><span>되고자 갈망하는 모습</span></div><div class="card" style="left:271px;top:500px;width:540px;height:105px;background:#fff;border-radius:6px;"></div><div class="tb halign-c valign-mid" data-autofit="1" style="left:271px;top:500px;width:540px;height:105px;font-size:29.9px;font-weight:800;color:#d8027c;"><span>Smart Life Solution Company</span></div><div class="tb halign-l valign-mid" data-autofit="1" style="left:262px;top:608px;width:494px;height:30px;font-size:20.8px;font-weight:500;color:#ddd;"><span>• HS (지향점) : Zero Labor Home</span></div><div class="tb halign-l valign-mid" data-autofit="1" style="left:262px;top:640px;width:494px;height:30px;font-size:20.8px;font-weight:500;color:#ddd;"><span>• ES (지향점) : Global Top-Tier HVAC Solution Company</span></div><div class="tb halign-l valign-mid" data-autofit="1" style="left:262px;top:672px;width:494px;height:30px;font-size:20.8px;font-weight:500;color:#ddd;"><span>• MS (CX미션) : 고객감동 (信-休-美-樂)</span></div><div class="tb halign-l valign-mid" data-autofit="1" style="left:262px;top:704px;width:494px;height:30px;font-size:20.8px;font-weight:500;color:#ddd;"><span>• VS (슬로건) : Driving better future mobility</span></div><div class="tb halign-l valign-mid" data-autofit="1" style="left:262px;top:736px;width:494px;height:30px;font-size:20.8px;font-weight:500;color:#ddd;"><span>• 생기원 : The Manufacturing Game Changer</span></div><div class="card" style="left:255px;top:775px;width:275px;height:44px;background:#ff3b18;border-radius:20px;"></div><div class="tb halign-c valign-mid" data-autofit="1" style="left:255px;top:775px;width:275px;height:44px;font-size:22.1px;font-weight:700;color:#fff;"><span>고객가치혁신부문</span></div><div class="tb halign-c valign-mid" data-autofit="1" style="left:40px;top:913px;width:260px;height:40px;font-size:19.5px;font-weight:600;color:#bbb;"><span>믿고 따르는 원칙과 기준</span></div><div class="tb halign-c valign-mid" data-autofit="1" style="left:40px;top:866px;width:220px;height:60px;font-size:28.6px;font-weight:700;color:#fff;text-decoration:underline;"><span>Core Value</span></div><div class="card" style="left:271px;top:850px;width:540px;height:105px;background:#fff;border-radius:6px;"></div><div class="tb halign-c valign-mid" data-autofit="1" style="left:271px;top:850px;width:540px;height:105px;font-size:29.9px;font-weight:800;color:#111;"><span>고객 · 도전 · 최고 · 존중 · 정도</span></div><div class="card" style="left:971px;top:327px;width:884px;height:630px;background:rgba(255,255,255,0.04);border-radius:6px;border:1px solid rgba(255,255,255,.35);"></div><div class="tb halign-l valign-mid" data-autofit="1" style="left:1028px;top:368px;width:785px;height:63px;font-size:28.6px;font-weight:700;color:#fff;"><span><span class="blink-dot"></span><span style="color:#fff">LG전자</span> Vision과 <span style="color:#fff">Align</span>하여 하위 개념으로 운영</span></div><div class="tb halign-l valign-mid" data-autofit="1" style="left:1070px;top:486px;width:740px;height:68px;font-size:29.9px;font-weight:700;color:#f0f0f0;"><span>• 우리가 함께 만든 지향점</span></div><div class="tb halign-l valign-mid" data-autofit="1" style="left:1070px;top:645px;width:740px;height:68px;font-size:29.9px;font-weight:700;color:#f0f0f0;"><span>• 선언 → 인식, 행동, 판단의 기준</span></div><div class="tb halign-l valign-mid" data-autofit="1" style="left:1070px;top:804px;width:740px;height:90px;font-size:29.9px;font-weight:700;color:#f0f0f0;"><span>• 진정한 글로벌 CC&S 조직으로의 출발점</span></div><div style="position:absolute;left:530px;top:795px;width:420px;height:4px;background:#e2231a;"></div><div style="position:absolute;left:948px;top:375px;width:4px;height:420px;background:#e2231a;"></div><div style="position:absolute;left:950px;top:373px;width:30px;height:4px;background:#e2231a;"></div><div style="position:absolute;left:971px;top:368px;width:0;height:0;border-top:9px solid transparent;border-bottom:9px solid transparent;border-left:15px solid #e2231a;"></div></div></section><section class="slide" id="mslide-8" data-index="8"><div class="stage"><div class="title-bar" style="font-size:57.2px;letter-spacing:0.01em;text-shadow:0 0 26px rgba(255,59,48,0.55), 0 2px 6px rgba(0,0,0,0.6);"><span style="color:#ff8a1e;">5.</span> 부문 지향점 정립 배경</div><div class="tb halign-c valign-mid" data-autofit="1" style="left:0px;top:216px;width:1920px;height:82px;font-size:39.0px;font-weight:700;color:#fff;"><span>CS → 글로벌 CC&S 역할 확대 → <span style="color:#ff8a1e">사업기여 및 고객으로 인정받는 조직</span></span></div><div class="card" style="left:231px;top:383px;width:582px;height:142px;background:#dcefdc;border-radius:6px;"></div><div class="tb halign-c valign-mid" data-autofit="1" style="left:231px;top:383px;width:582px;height:142px;font-size:35.1px;font-weight:700;color:#111;"><span>고객가치혁신부문 지향점</span></div><div class="card" style="left:231px;top:573px;width:582px;height:142px;background:#fdfdc8;border-radius:6px;"></div><div class="tb halign-c valign-mid" data-autofit="1" style="left:231px;top:573px;width:582px;height:142px;font-size:35.1px;font-weight:700;color:#111;"><span>핵심가치<br><span style="font-size:16px;font-weight:500">(믿고 따르는 원칙)</span></span></div><div class="card" style="left:231px;top:763px;width:582px;height:140px;background:#fbd4f8;border-radius:6px;"></div><div class="tb halign-c valign-mid" data-autofit="1" style="left:231px;top:763px;width:582px;height:140px;font-size:35.1px;font-weight:700;color:#111;"><span>일하는 방식</span></div><div style="position:absolute;left:880px;top:548px;width:110px;height:190px;background:#ececec;clip-path:polygon(0% 42%, 0% 58%, 62% 58%, 62% 100%, 100% 50%, 62% 0%, 62% 42%);"></div><div class="tb halign-l valign-mid" data-autofit="1" style="left:1072px;top:368px;width:656px;height:150px;font-size:33.8px;font-weight:700;color:#fff;"><span>진정한 글로벌 <span style="color:#ff8a1e">CC&S</span> 조직으로의<br>변화를 위한 구심점 (求心點)</span></div><div class="tb halign-l valign-mid" data-autofit="1" style="left:1072px;top:599px;width:654px;height:80px;font-size:28.6px;font-weight:600;color:#fff;"><span>• 고객중심 <span style="color:#ff8a1e">인식, 행동 변화</span> 내재화</span></div><div class="tb halign-l valign-mid" data-autofit="1" style="left:1072px;top:753px;width:679px;height:150px;font-size:28.6px;font-weight:600;color:#fff;"><span>• 사업기여, 고객으로부터 인정받는<br>&nbsp;&nbsp;글로벌 <span style="color:#ff8a1e">CC&S 경쟁력 확보</span></span></div></div></section><section class="slide" id="mslide-9" data-index="9"><div class="stage"><div class="title-bar" style="font-size:57.2px;letter-spacing:0.01em;text-shadow:0 0 26px rgba(255,59,48,0.55), 0 2px 6px rgba(0,0,0,0.6);"><span style="color:#ff8a1e;">6.</span> 고객가치혁신부문 지향점 _ 1) 지향점</div><div class="card" style="left:266px;top:232px;width:1380px;height:130px;background:linear-gradient(100deg,#ff8f7a,#e2231a 55%,#c40352);border-radius:14px;"></div><div class="tb halign-c valign-mid" data-autofit="1" style="left:266px;top:240px;width:1380px;height:78px;font-size:49.4px;font-weight:800;color:#fff;"><span>Customer Life C&bull;A&bull;R&bull;E Partner</span></div><div class="tb halign-c valign-mid" data-autofit="1" style="left:266px;top:305px;width:1380px;height:50px;font-size:26.0px;font-weight:600;color:#ffe;"><span>고객의 삶 전반을 CARE 하는 파트너</span></div><div class="card" style="left:266px;top:550px;width:238px;height:131px;background:#fff;border-radius:6px;"></div><div class="tb halign-c valign-mid" data-autofit="1" style="left:266px;top:550px;width:238px;height:131px;font-size:28.6px;font-weight:700;color:#111;"><span>공간 / 제품</span></div><div style="position:absolute;left:528px;top:570px;width:490px;height:90px;background:#cfcfcf;clip-path:polygon(0% 0%, 82% 0%, 100% 50%, 82% 100%, 0% 100%, 14% 50%);"></div><div class="tb halign-c valign-mid" data-autofit="1" style="left:568px;top:570px;width:410px;height:90px;font-size:28.6px;font-weight:700;color:#222;"><span>가전 (Appliance)</span></div><div class="card" style="left:1049px;top:550px;width:597px;height:131px;background:#fff2f2;border-radius:6px;border:2px solid #e2231a;"></div><div class="tb halign-c valign-mid" data-autofit="1" style="left:1049px;top:550px;width:597px;height:131px;font-size:28.6px;font-weight:700;color:#111;"><span><span style="color:#e2231a">집</span> = 가전(Home) / B2B / 로봇</span></div><div class="card" style="left:266px;top:709px;width:238px;height:131px;background:#fff;border-radius:6px;"></div><div class="tb halign-c valign-mid" data-autofit="1" style="left:266px;top:709px;width:238px;height:131px;font-size:28.6px;font-weight:700;color:#111;"><span>여정</span></div><div style="position:absolute;left:528px;top:730px;width:490px;height:90px;background:#cfcfcf;clip-path:polygon(0% 0%, 82% 0%, 100% 50%, 82% 100%, 0% 100%, 14% 50%);"></div><div class="tb halign-c valign-mid" data-autofit="1" style="left:568px;top:730px;width:410px;height:90px;font-size:28.6px;font-weight:700;color:#222;"><span>구매 이후 상담 / 수리</span></div><div class="card" style="left:1049px;top:709px;width:597px;height:131px;background:#fff2f2;border-radius:6px;border:2px solid #e2231a;"></div><div class="tb halign-c valign-mid" data-autofit="1" style="left:1049px;top:709px;width:597px;height:131px;font-size:28.6px;font-weight:700;color:#111;"><span>고객 <span style="color:#e2231a">Lifetime Care</span></span></div><div class="tb halign-l valign-mid" data-autofit="1" style="left:248px;top:890px;width:900px;height:55px;font-size:20.8px;font-weight:500;color:#aaa;"><span>* Customer : 고객, 이해관계자 (기관, 사업본부 등)</span></div></div></section><section class="slide" id="mslide-10" data-index="10"><div class="stage"><div class="title-bar" style="font-size:57.2px;letter-spacing:0.01em;text-shadow:0 0 26px rgba(255,59,48,0.55), 0 2px 6px rgba(0,0,0,0.6);"><span style="color:#ff8a1e;">6.</span> 고객가치혁신부문 지향점 _ 핵심가치</div><div class="tb halign-c valign-mid" data-autofit="1" style="left:0px;top:178px;width:1920px;height:110px;font-size:62.4px;font-weight:800;color:#fff;"><span>Customer Life <span style="color:#ff8a1e">CARE</span> Partner</span></div><div class="tb halign-c valign-mid" data-autofit="1" style="left:0px;top:300px;width:1920px;height:60px;font-size:31.2px;font-weight:600;color:#ddd;"><span>고객의 삶 전반을 CARE하는 파트너</span></div><div class="card" style="left:734px;top:411px;width:417px;height:63px;background:#c00000;border-radius:999px;"></div><div class="tb halign-c valign-mid" data-autofit="1" style="left:734px;top:411px;width:417px;height:63px;font-size:31.2px;font-weight:700;color:#fff;"><span>핵심가치</span></div><div class="card" style="left:254px;top:534px;width:299px;height:271px;background:#fff;border-radius:16px;"></div><div class="tb halign-c valign-mid" data-autofit="1" style="left:254px;top:555px;width:299px;height:90px;font-size:67.6px;font-weight:800;color:#d8027c;"><span>C</span></div><div class="tb halign-c valign-mid" data-autofit="1" style="left:254px;top:638px;width:299px;height:40px;font-size:28.6px;font-weight:700;color:#111;"><span>Capability</span></div><div class="tb halign-c valign-mid" data-autofit="1" style="left:254px;top:680px;width:299px;height:90px;font-size:33.8px;font-weight:700;color:#111;"><span>전문성</span></div><div class="tb halign-c valign-mid" data-autofit="1" style="left:208px;top:824px;width:391px;height:160px;font-size:22.1px;font-weight:500;color:#ddd;"><span>최고의 문제해결 역량과<br>기술력을 바탕으로<br>글로벌 CC&S를 선도하는<br>전문가 조직</span></div><div class="card" style="left:625px;top:534px;width:299px;height:271px;background:#fff;border-radius:16px;"></div><div class="tb halign-c valign-mid" data-autofit="1" style="left:625px;top:555px;width:299px;height:90px;font-size:67.6px;font-weight:800;color:#d8027c;"><span>A</span></div><div class="tb halign-c valign-mid" data-autofit="1" style="left:625px;top:638px;width:299px;height:40px;font-size:28.6px;font-weight:700;color:#111;"><span>Agility</span></div><div class="tb halign-c valign-mid" data-autofit="1" style="left:625px;top:680px;width:299px;height:90px;font-size:33.8px;font-weight:700;color:#111;"><span>빠른실행</span></div><div class="tb halign-c valign-mid" data-autofit="1" style="left:579px;top:824px;width:391px;height:160px;font-size:22.1px;font-weight:500;color:#ddd;"><span>고객을 위해 민첩하게<br>실행하고 두려움 없이<br>시도/도전</span></div><div class="card" style="left:995px;top:534px;width:299px;height:271px;background:#fff;border-radius:16px;"></div><div class="tb halign-c valign-mid" data-autofit="1" style="left:995px;top:555px;width:299px;height:90px;font-size:67.6px;font-weight:800;color:#d8027c;"><span>R</span></div><div class="tb halign-c valign-mid" data-autofit="1" style="left:995px;top:638px;width:299px;height:40px;font-size:28.6px;font-weight:700;color:#111;"><span>Reliability</span></div><div class="tb halign-c valign-mid" data-autofit="1" style="left:995px;top:680px;width:299px;height:90px;font-size:33.8px;font-weight:700;color:#111;"><span>신뢰</span></div><div class="tb halign-c valign-mid" data-autofit="1" style="left:949px;top:824px;width:391px;height:160px;font-size:22.1px;font-weight:500;color:#ddd;"><span>고객, 이해관계자, 임직원이<br>가장 신뢰하는<br>글로벌 CC&S 조직</span></div><div class="card" style="left:1366px;top:534px;width:299px;height:271px;background:#fff;border-radius:16px;"></div><div class="tb halign-c valign-mid" data-autofit="1" style="left:1366px;top:555px;width:299px;height:90px;font-size:67.6px;font-weight:800;color:#d8027c;"><span>E</span></div><div class="tb halign-c valign-mid" data-autofit="1" style="left:1366px;top:638px;width:299px;height:40px;font-size:28.6px;font-weight:700;color:#111;"><span>Ethics</span></div><div class="tb halign-c valign-mid" data-autofit="1" style="left:1366px;top:680px;width:299px;height:90px;font-size:33.8px;font-weight:700;color:#111;"><span>떳떳함</span></div><div class="tb halign-c valign-mid" data-autofit="1" style="left:1320px;top:824px;width:391px;height:160px;font-size:22.1px;font-weight:500;color:#ddd;"><span>고객, 이해관계자, 임직원<br>모두가 정정당당하게<br>책임을 다하는 떳떳함</span></div></div></section><section class="slide" id="mslide-11" data-index="11"><div class="stage"><div class="title-bar" style="font-size:57.2px;letter-spacing:0.01em;text-shadow:0 0 26px rgba(255,59,48,0.55), 0 2px 6px rgba(0,0,0,0.6);"><span style="color:#ff8a1e;">6.</span> 고객가치혁신부문 지향점 _ 일하는 방식</div><div class="tb halign-c valign-mid" data-autofit="1" style="left:0px;top:178px;width:1920px;height:110px;font-size:62.4px;font-weight:800;color:#fff;"><span>Customer Life <span style="color:#ff8a1e">CARE</span> Partner</span></div><div class="tb halign-c valign-mid" data-autofit="1" style="left:0px;top:300px;width:1920px;height:60px;font-size:31.2px;font-weight:600;color:#ddd;"><span>고객의 삶 전반을 CARE하는 파트너</span></div><div class="card" style="left:734px;top:427px;width:398px;height:72px;background:#c00000;border-radius:999px;"></div><div class="tb halign-c valign-mid" data-autofit="1" style="left:734px;top:427px;width:398px;height:72px;font-size:32.5px;font-weight:700;color:#fff;"><span>일하는 방식</span></div><div class="tb halign-c valign-mid hotspot" id="popupTrigger-15" data-autofit="1" style="left:196px;top:512px;width:1528px;height:100px;font-size:52.0px;font-weight:800;color:#fff;white-space:nowrap;"><span><span style="color:#fff200">Proactive</span> <span style="color:#fff200">C</span>X &ndash; <span class="text-pulse"><span style="color:#fff200">A</span>X</span> &ndash; <span style="color:#fff200">P</span>erformance</span></div><div style="position:absolute;left:266px;top:620px;width:380px;height:3px;background:#ffffff;"></div><div style="position:absolute;left:674px;top:620px;width:115px;height:3px;background:#ffffff;"></div><div style="position:absolute;left:862px;top:620px;width:115px;height:3px;background:#ffffff;"></div><div style="position:absolute;left:1072px;top:620px;width:390px;height:3px;background:#ffffff;"></div><div style="position:absolute;left:1072px;top:620px;width:3px;height:40px;background:#ffffff;"></div><div style="position:absolute;left:1072px;top:660px;width:22px;height:3px;background:#ffffff;"></div><div class="tb halign-l valign-mid" data-autofit="1" style="left:1102px;top:636px;width:428px;height:50px;font-size:31.2px;font-weight:600;color:#f0f0f0;"><span>&bull; (What) 실질적 고객가치 및 경영성과 창출</span></div><div style="position:absolute;left:862px;top:620px;width:3px;height:130px;background:#ffffff;"></div><div style="position:absolute;left:862px;top:750px;width:22px;height:3px;background:#ffffff;"></div><div class="tb halign-l valign-mid" data-autofit="1" style="left:892px;top:726px;width:638px;height:50px;font-size:31.2px;font-weight:600;color:#f0f0f0;"><span>&bull; (How) AI를 통한 경쟁력 확보/생산성 및 속도 혁신</span></div><div style="position:absolute;left:674px;top:620px;width:3px;height:220px;background:#ffffff;"></div><div style="position:absolute;left:674px;top:840px;width:22px;height:3px;background:#ffffff;"></div><div class="tb halign-l valign-mid" data-autofit="1" style="left:704px;top:816px;width:826px;height:50px;font-size:31.2px;font-weight:600;color:#f0f0f0;"><span>&bull; (Why) 일의 본질인 고객으로부터 출발</span></div><div style="position:absolute;left:266px;top:620px;width:3px;height:310px;background:#ffffff;"></div><div style="position:absolute;left:266px;top:930px;width:22px;height:3px;background:#ffffff;"></div><div class="tb halign-l valign-mid" data-autofit="1" style="left:296px;top:906px;width:1234px;height:50px;font-size:31.2px;font-weight:600;color:#f0f0f0;"><span>&bull; 능동적, 선제적 C-A-P 일하는 방식으로 최고의 고객경험제공과 사업기여</span></div></div></section><section class="slide" id="mslide-12" data-index="12"><div class="stage"><div class="title-bar" style="font-size:57.2px;letter-spacing:0.01em;text-shadow:0 0 26px rgba(255,59,48,0.55), 0 2px 6px rgba(0,0,0,0.6);"><span style="color:#ff8a1e;">7.</span> 마무리 다짐</div><div class="tb halign-c valign-mid" data-autofit="1" style="left:150px;top:300px;width:1620px;height:420px;font-size:57.2px;font-weight:800;color:#fff;line-height:1.5;"><span>[ <span style="color:#ff8a1e">Customer Life C.A.R.E Partner</span> ] 로서<br><br><span style="color:#fff200">고객</span>으로부터 <span style="color:#fff200">인정</span>받는<br><br><span style="color:#fff200">진정한 글로벌 CC&S 조직</span>을 함께 만들어 갑시다.</span></div></div></section>
+</div>
+
+<button id="prevBtn" class="nav-arrow disabled" aria-label="이전 슬라이드">&#10094;</button>
+<button id="nextBtn" class="nav-arrow" aria-label="다음 슬라이드">&#10095;</button>
+
+<div id="dots">
+<button class="dot" data-index="0" title="고객가치혁신부문 지향점" aria-label="1번 슬라이드로 이동"></button><button class="dot" data-index="1" title="1. 사업 / 고객의 변화 인식" aria-label="2번 슬라이드로 이동"></button><button class="dot" data-index="2" title="2. 우리의 경쟁력" aria-label="3번 슬라이드로 이동"></button><button class="dot" data-index="3" title="2. 우리의 경쟁력" aria-label="4번 슬라이드로 이동"></button><button class="dot" data-index="4" title="3. 우리의 변화 방향" aria-label="5번 슬라이드로 이동"></button><button class="dot" data-index="5" title="3. 우리의 변화 방향" aria-label="6번 슬라이드로 이동"></button><button class="dot" data-index="6" title="4. 우리의 지향점 필요성" aria-label="7번 슬라이드로 이동"></button><button class="dot" data-index="7" title="5. 부문 지향점 정립 배경" aria-label="8번 슬라이드로 이동"></button><button class="dot" data-index="8" title="5. 부문 지향점 정립 배경" aria-label="9번 슬라이드로 이동"></button><button class="dot" data-index="9" title="6. 지향점 _ 1) 지향점" aria-label="10번 슬라이드로 이동"></button><button class="dot" data-index="10" title="6. 지향점 _ 핵심가치" aria-label="11번 슬라이드로 이동"></button><button class="dot" data-index="11" title="6. 지향점 _ 일하는 방식" aria-label="12번 슬라이드로 이동"></button><button class="dot" data-index="12" title="7. 마무리 다짐" aria-label="13번 슬라이드로 이동"></button>
+</div>
+
+<div id="hint">← → 방향키 또는 스크롤로 이동 · 강조된 문구 클릭 시 상세 팝업</div>
+
+
+<template id="tpl-popup-9"><div class="popup-stage-wrap"><div class="stage" style="transform:none;position:relative;"><div class="tb halign-c valign-mid" data-autofit="1" style="left:447px;top:90px;width:1101px;height:100px;font-size:39.0px;font-weight:600;color:#ddd;"><span>고객의 삶 전반을 Care하는 Partner로의 역할변화</span></div><div class="card" style="left:447px;top:224px;width:553px;height:150px;background:#3a3a3a;border-radius:6px;"></div><div class="tb halign-c valign-mid" data-autofit="1" style="left:447px;top:224px;width:553px;height:150px;font-size:45.0px;font-weight:800;color:#fff;"><span>CS</span></div><div class="card" style="left:1064px;top:227px;width:553px;height:150px;background:#d8027c;border-radius:6px;"></div><div class="tb halign-c valign-mid" data-autofit="1" style="left:1064px;top:227px;width:553px;height:150px;font-size:45.0px;font-weight:800;color:#fff;"><span>CC&S</span></div><div class="tb halign-c valign-mid" data-autofit="1" style="left:614px;top:323px;width:254px;height:65px;font-size:27.0px;font-weight:600;color:#ddd;"><span>Customer Service</span></div><div class="tb halign-c valign-mid" data-autofit="1" style="left:1186px;top:323px;width:400px;height:65px;font-size:27.0px;font-weight:600;color:#fff;"><span>Customer Care &amp; Service</span></div><div class="card" style="left:447px;top:410px;width:553px;height:580px;background:rgba(255,255,255,0.06);border-radius:4px;border:1px solid rgba(255,255,255,.25);"></div><div class="card" style="left:1064px;top:411px;width:553px;height:580px;background:rgba(255,255,255,0.06);border-radius:4px;border:1px solid rgba(255,255,255,.25);"></div><div class="tb halign-c valign-mid" data-autofit="1" style="left:330px;top:440px;width:100px;height:90px;font-size:30.0px;font-weight:700;color:#bbb;"><span>방식</span></div><div class="tb halign-c valign-mid" data-autofit="1" style="left:330px;top:584px;width:100px;height:90px;font-size:30.0px;font-weight:700;color:#bbb;"><span>역할</span></div><div class="tb halign-c valign-mid" data-autofit="1" style="left:330px;top:728px;width:100px;height:90px;font-size:30.0px;font-weight:700;color:#bbb;"><span>대상</span></div><div class="tb halign-c valign-mid" data-autofit="1" style="left:330px;top:872px;width:100px;height:90px;font-size:30.0px;font-weight:700;color:#bbb;"><span>운영</span></div><div class="tb halign-l valign-mid" data-autofit="1" style="left:458px;top:438px;width:531px;height:88px;font-size:25.0px;font-weight:600;color:#eee;"><span>사후 대응 (Reactive)</span></div><div class="tb halign-l valign-mid" data-autofit="1" style="left:1091px;top:438px;width:531px;height:88px;font-size:25.0px;font-weight:600;color:#fff;"><span><span style="color:#ff8a1e">사전 / 능동 대응 (Proactive)</span></span></div><div class="tb halign-l valign-mid" data-autofit="1" style="left:458px;top:582px;width:531px;height:88px;font-size:25.0px;font-weight:600;color:#eee;"><span>단발성/문제 해결자 (Repair/Fixer)</span></div><div class="tb halign-l valign-mid" data-autofit="1" style="left:1091px;top:582px;width:531px;height:88px;font-size:25.0px;font-weight:600;color:#fff;"><span><span style="color:#ff8a1e">고객 삶 전반 케어 (Life Care)</span></span></div><div class="tb halign-l valign-mid" data-autofit="1" style="left:458px;top:726px;width:531px;height:88px;font-size:25.0px;font-weight:600;color:#eee;"><span>제품 (Appliance)</span></div><div class="tb halign-l valign-mid" data-autofit="1" style="left:1091px;top:726px;width:531px;height:88px;font-size:25.0px;font-weight:600;color:#fff;"><span><span style="color:#ff8a1e">Home (ThinQ. IoT 연결 집/가정)</span></span></div><div class="tb halign-l valign-mid" data-autofit="1" style="left:458px;top:870px;width:531px;height:88px;font-size:25.0px;font-weight:600;color:#eee;"><span>Cost Center (적자경영)</span></div><div class="tb halign-l valign-mid" data-autofit="1" style="left:1091px;top:870px;width:531px;height:88px;font-size:25.0px;font-weight:600;color:#fff;"><span><span style="color:#ff8a1e">Profit Center (자립경영)</span></span></div></div></div></template>
+<template id="tpl-popup-3"><div class="popup-stage-wrap"><div class="stage" style="transform:none;position:relative;"><img class="" src="assets/fb35bad8b3f48f607c3887967331a0e2.png" style="position:absolute;left:110px;top:122px;width:1700px;height:835px;"></div></div></template>
+
+
+<div id="modalOverlay">
+  <div id="modalBox">
+    <div id="modalHeader">
+      <div id="modalTitle"></div>
+      <button id="modalClose" aria-label="닫기">&#10005;</button>
+    </div>
+    <div id="modalBody">
+      <img id="modalImg" src="" alt="" class="hidden-el">
+      <div id="modalStageHost"></div>
+    </div>
+    <div class="modal-pager" id="modalPager" style="display:none;">
+      <button class="modal-pagebtn" id="pagerPrev">&#8592; 이전</button>
+      <span class="modal-pageinfo" id="pagerInfo">1 / 2</span>
+      <button class="modal-pagebtn" id="pagerNext">다음 &#8594;</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const TOTAL = 13;
+  const deck = document.getElementById('deck');
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  const dots = Array.from(document.querySelectorAll('.dot'));
+  const curNumEl = document.getElementById('curNum');
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  const hint = document.getElementById('hint');
+  let current = 0;
+  let popupClosedForSlide = null;
+
+  function updateActive(idx) {
+    if (idx !== current) popupClosedForSlide = null;
+    current = idx;
+    curNumEl.textContent = idx + 1;
+    dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+    prevBtn.classList.toggle('disabled', idx === 0);
+    nextBtn.classList.toggle('disabled', idx === TOTAL - 1);
+  }
+  function goTo(idx, behavior) {
+    idx = Math.max(0, Math.min(TOTAL - 1, idx));
+    slides[idx].scrollIntoView({ behavior: behavior || 'smooth', inline: 'start', block: 'nearest' });
+  }
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting && entry.intersectionRatio > 0.6) {
+        updateActive(parseInt(entry.target.dataset.index, 10));
+      }
+    });
+  }, { root: deck, threshold: [0.6] });
+  slides.forEach(s => observer.observe(s));
+
+  prevBtn.addEventListener('click', () => {
+    if (modalOverlay.classList.contains('open')) { pagerPrev.click(); return; }
+    goTo(current - 1);
+  });
+  nextBtn.addEventListener('click', smartNext);
+  dots.forEach(d => d.addEventListener('click', () => goTo(parseInt(d.dataset.index, 10))));
+
+  // "Smart next": if a popup is open, step through its pages then close it on
+  // the last page; otherwise, if the current slide has a linked popup, open
+  // it instead of advancing; only then move to the next main slide.
+  const SLIDE_NAMES = ["1", "2", "5", "6", "7", "8", "10", "11", "12", "13", "14", "15", "18"];
+  const POPUP_LABELS = {"2": "상세 · C-Brand 역습", "8": "참조 · 진정한 CC&S 란?", "15": "참조 · 모두의 AX / CC&S AX 과제"};
+  function smartNext() {
+    if (current === 0 && !document.fullscreenElement) {
+      toggleFullscreen();
+      return;
+    }
+    if (modalOverlay.classList.contains('open')) {
+      if (currentPageIdx < currentPages.length - 1) {
+        currentPageIdx++;
+        renderPage(currentPageIdx);
+      } else {
+        closeModal();
+      }
+      return;
+    }
+    const key = SLIDE_NAMES[current];
+    if (POPUP_DATA[key] && popupClosedForSlide !== current) {
+      openPopup(key, POPUP_LABELS[key]);
+      return;
+    }
+    goTo(current + 1);
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (modalOverlay.classList.contains('open')) {
+      if (e.key === 'Escape') closeModal();
+      else if (e.key === 'ArrowRight' || e.key === 'PageDown') { e.preventDefault(); smartNext(); }
+      else if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); pagerPrev.click(); }
+      return;
+    }
+    if (e.key === 'ArrowRight' || e.key === 'PageDown') { e.preventDefault(); smartNext(); }
+    else if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); goTo(current - 1); }
+    else if (e.key === 'Home') { e.preventDefault(); goTo(0); }
+    else if (e.key === 'End') { e.preventDefault(); goTo(TOTAL - 1); }
+  });
+
+  let wheelLock = false;
+  deck.addEventListener('wheel', (e) => {
+    if (Math.abs(e.deltaY) <= Math.abs(e.deltaX)) return;
+    e.preventDefault();
+    if (wheelLock) return;
+    wheelLock = true;
+    if (e.deltaY > 0) goTo(current + 1); else goTo(current - 1);
+    setTimeout(() => wheelLock = false, 550);
+  }, { passive: false });
+
+  function dismissHint() { hint.classList.add('hide'); }
+  setTimeout(dismissHint, 4500);
+  window.addEventListener('wheel', dismissHint, { once: true });
+  window.addEventListener('keydown', dismissHint, { once: true });
+  window.addEventListener('touchstart', dismissHint, { once: true });
+
+  // ---- Canvas scaling ----
+  function fitStage(stageEl, container) {
+    const cw = container.clientWidth, ch = container.clientHeight;
+    const k = Math.min(cw / 1920, ch / 1080);
+    stageEl.style.transform = `scale(${k})`;
+  }
+  function fitAllStages() {
+    document.querySelectorAll('.slide').forEach(sec => {
+      const stage = sec.querySelector('.stage');
+      if (stage) fitStage(stage, sec);
+    });
+  }
+  window.addEventListener('resize', fitAllStages);
+  fitAllStages();
+  updateActive(0);
+
+  // ---- Fullscreen toggle (button lives on the cover slide) ----
+  function toggleFullscreen() {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen().catch(() => {});
+    } else {
+      document.exitFullscreen().catch(() => {});
+    }
+  }
+  window.toggleFullscreen = toggleFullscreen;
+  document.addEventListener('fullscreenchange', () => {
+    const label = document.getElementById('fsLabel');
+    const icon = document.getElementById('fsIcon');
+    if (!label || !icon) return;
+    if (document.fullscreenElement) {
+      label.textContent = '전체화면 종료';
+      icon.innerHTML = '&#10006;';
+    } else {
+      label.textContent = '전체화면';
+      icon.innerHTML = '&#9974;';
+    }
+  });
+
+  // ---- Autofit text: shrink font-size until content fits box ----
+  function autofitAll(root) {
+    const els = root.querySelectorAll('[data-autofit="1"]');
+    els.forEach(el => {
+      let size = parseFloat(getComputedStyle(el).fontSize);
+      const minSize = 11;
+      let guard = 0;
+      while ((el.scrollHeight > el.clientHeight + 1 || el.scrollWidth > el.clientWidth + 1) && size > minSize && guard < 40) {
+        size -= 1;
+        el.style.fontSize = size + 'px';
+        guard++;
+      }
+    });
+  }
+  autofitAll(document);
+
+  // ---- Popup / modal system ----
+  const POPUP_DATA = {"2": [{"type": "html", "tpl": "tpl-popup-3"}, {"type": "img", "src": "p2page2new", "maxH": 66}], "8": [{"type": "html", "tpl": "tpl-popup-9"}], "15": [{"type": "img", "src": "p12page1"}, {"type": "img", "src": "p12page2"}]};
+  const POPUP_IMAGES = {
+    img3: "assets/a4f4d2e2a071193bcae8424d1bcac365.png",
+    img4: "assets/c7a9f372de36c6aaace132eca8eb156b.png",
+    img16: "assets/dd7331176e6c4daee1032095745990b1.png",
+    img17: "assets/1a996c64875bbbaf3e1e3a9d2cf50e5e.png",
+    p12page1: "assets/dbfc39e37148008f78ce2d324e39d522.png",
+    p12page2: "assets/3303f120bdc3f4431b3f73820eaa4ae2.png",
+    p2page2new: "assets/5dd3cd365b3795da6350a740a1ccb153.png",
+  };
+  const modalOverlay = document.getElementById('modalOverlay');
+  const modalImg = document.getElementById('modalImg');
+  const modalStageHost = document.getElementById('modalStageHost');
+  const modalTitle = document.getElementById('modalTitle');
+  const modalClose = document.getElementById('modalClose');
+  const modalPager = document.getElementById('modalPager');
+  const pagerPrev = document.getElementById('pagerPrev');
+  const pagerNext = document.getElementById('pagerNext');
+  const pagerInfo = document.getElementById('pagerInfo');
+
+  let currentPages = [];
+  let currentPageIdx = 0;
+
+  function renderPage(i) {
+    const page = currentPages[i];
+    modalImg.classList.add('hidden-el');
+    modalStageHost.innerHTML = '';
+    if (page.type === 'img') {
+      modalStageHost.style.width = '';
+      modalStageHost.style.height = '';
+      modalImg.src = POPUP_IMAGES[page.src];
+      modalImg.style.maxHeight = (page.maxH || 80) + 'vh';
+      modalImg.classList.remove('hidden-el');
+    } else if (page.type === 'html') {
+      const tpl = document.getElementById(page.tpl);
+      const clone = tpl.content.cloneNode(true);
+      modalStageHost.appendChild(clone);
+      const wrap = modalStageHost.querySelector('.popup-stage-wrap');
+      const stage = wrap.querySelector('.stage');
+      // size host based on viewport
+      const maxW = window.innerWidth * 0.84, maxH = window.innerHeight * 0.72;
+      const k = Math.min(maxW / 1920, maxH / 1080);
+      modalStageHost.style.width = (1920*k) + 'px';
+      modalStageHost.style.height = (1080*k) + 'px';
+      stage.style.transform = `scale(${k})`;
+      stage.style.transformOrigin = 'top left';
+      autofitAll(wrap);
+    }
+    pagerInfo.textContent = (i+1) + ' / ' + currentPages.length;
+    pagerPrev.classList.toggle('disabled', i === 0);
+    pagerNext.classList.toggle('disabled', i === currentPages.length - 1);
+    modalPager.style.display = currentPages.length > 1 ? 'flex' : 'none';
+  }
+
+  function openPopup(key, label) {
+    currentPages = POPUP_DATA[key];
+    currentPageIdx = 0;
+    modalTitle.textContent = label;
+    renderPage(0);
+    modalOverlay.classList.add('open');
+  }
+  function closeModal() {
+    modalOverlay.classList.remove('open');
+    modalImg.src = '';
+    modalStageHost.innerHTML = '';
+    popupClosedForSlide = current;
+  }
+  pagerPrev.addEventListener('click', () => { if (currentPageIdx>0) { currentPageIdx--; renderPage(currentPageIdx); } });
+  pagerNext.addEventListener('click', () => { if (currentPageIdx<currentPages.length-1) { currentPageIdx++; renderPage(currentPageIdx); } });
+  modalClose.addEventListener('click', closeModal);
+  modalOverlay.addEventListener('click', (e) => { if (e.target === modalOverlay) closeModal(); });
+
+  document.getElementById('popupTrigger-2').addEventListener('click', () => openPopup('2', '상세 · C-Brand 역습'));
+  document.getElementById('popupTrigger-8').addEventListener('click', () => openPopup('8', '참조 · 진정한 CC&S 란?'));
+  document.getElementById('popupTrigger-15').addEventListener('click', () => openPopup('15', '참조 · 모두의 AX / CC&S AX 과제'));
+</script>
+</body>
+</html>
