@@ -751,6 +751,7 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
     --img-card1: url('https://images.unsplash.com/photo-1772598146388-f26fd535bbc5?w=1000&q=70&auto=format&fit=crop');
     --img-card2: url('https://images.unsplash.com/photo-1565544754144-e949f60e1db7?w=1000&q=70&auto=format&fit=crop');
     --img-pitzone: url('https://images.unsplash.com/photo-1748283373393-efe3e2aa8d09?w=1000&q=70&auto=format&fit=crop');
+    --img-instr-header: url('assets/655d84b8608aa1aadda0ff81f7a6746d.jpg');
     --img-finishline-new: url('assets/430fa85b11bab77ccadc896dd0962fc8.png');
     --img-circuitview: url('assets/09f92bf7562bdab92188018dbb986043.jpg');
     --img-rvpopup-bg: url('assets/a4e38a11b7dee1ac333940b64cca30df.jpg');
@@ -1743,6 +1744,8 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
   .rv-popup.green-theme{
     border-top-color:#3ddc71;
     background: linear-gradient(160deg, rgba(10,22,16,0.98) 0%, rgba(6,10,8,1) 55%, rgba(3,4,4,1) 100%);
+    width: 80vw;
+    max-width: 1360px;
   }
   .rv-popup-close{
     position:absolute; top:16px; right:20px; width:36px; height:36px; border-radius:50%;
@@ -1775,6 +1778,7 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
     background:var(--black2); border:1.5px solid var(--line); color:#fff; border-radius:10px;
     padding:10px 22px; font-weight:700; cursor:pointer; font-size:15.5px;
   }
+  .pz-refill-btn{ padding:6px 14px; font-size:12.5px; border-radius:7px; }
   .bm-add-team-btn{
     background:none; border:none; color:var(--red); border-radius:0;
     padding:10px 6px; font-weight:900; cursor:pointer; font-size:15.5px;
@@ -2144,6 +2148,7 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
   .sm-qr-panel h3{ font-family:'Racing Sans One'; color:#fff; font-size:23px; margin-bottom:10px; }
   .sm-qr-panel p{ color:#e8e8e8; font-size:14px; line-height:1.6; margin:0 auto 16px; }
   .sm-qr-img{ width:190px; height:190px; border-radius:12px; background:#fff; padding:10px; margin-bottom:16px; }
+  .sm-qr-img-large{ width:340px; height:340px; padding:18px; margin-top:10px; }
   .sm-qr-note{ color:var(--gray-dim) !important; font-size:12.5px !important; }
   .sm-lightbox-caption{
     position:absolute; left:0; right:0; bottom:8%; text-align:center; color:#fff; font-weight:800;
@@ -2235,10 +2240,10 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
     width:100%; flex:1; min-height:0; overflow:hidden;
     display:flex; align-items:center; justify-content:center;
   }
-  .pz-board-stage{ position:relative; width:1020px; height:700px; flex:none; }
+  .pz-board-stage{ position:relative; width:1200px; height:860px; flex:none; }
   .pz-grid{
     position:absolute; inset:0; display:grid; grid-template-columns:repeat(6,1fr);
-    grid-template-rows:repeat(5,1fr); gap:8px;
+    grid-template-rows:repeat(5,1fr); gap:10px;
   }
   .pz-cell{
     border-radius:12px; background:rgba(20,20,22,0.9); border:2px solid var(--line);
@@ -2251,7 +2256,7 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
   .pz-cell img.pz-prize-img{ width:100%; height:100%; object-fit:cover; position:absolute; inset:0; }
   .pz-balloons{ position:absolute; inset:0; }
   .pz-balloon{
-    position:absolute; width:130px; height:130px; margin-left:-65px; margin-top:-65px;
+    position:absolute; width:165px; height:165px; margin-left:-82.5px; margin-top:-82.5px;
     cursor:pointer; background-size:contain; background-position:center; background-repeat:no-repeat;
     animation:pzFloat 3s ease-in-out infinite; transition:opacity .2s ease;
     filter:drop-shadow(0 8px 14px rgba(0,0,0,0.5));
@@ -3436,17 +3441,36 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
   }
   .tc-video-columns-wrap{
     position:relative; max-width:1300px; margin:0 auto; border-radius:20px; overflow:hidden;
+    min-height:660px;
   }
   #page-prep-blank1 .tc-video-stage{ overflow:hidden; }
   #page-prep-blank1 .tc-title{ position:relative; z-index:2; }
   #page-prep-blank1 .reveal-dim-overlay{ z-index:1; }
-  #page-prep-blank1 .tc-columns{ position:relative; z-index:2; }
+  #page-prep-blank1 .tc-columns{ position:absolute; inset:0; z-index:2; }
   #page-prep-blank1 .blank-page:focus{ outline:none; box-shadow:none; }
   #page-prep-blank1 .blank-page.kbd-focusable:focus{ outline:none; box-shadow:none; }
   .tc-columns{ display:grid; grid-template-columns:1fr 1.3fr 1fr; gap:24px; max-width:1300px; margin:0 auto; }
   @media (max-width:900px){ .tc-columns{ grid-template-columns:1fr; } }
   #page-prep-blank1 .tc-columns{ opacity:0; transform:translateY(16px); transition:opacity .6s ease, transform .6s ease; pointer-events:none; }
   #page-prep-blank1 .tc-columns.show{ opacity:1; transform:translateY(0); pointer-events:auto; }
+  .tc-winner-card-wrap{
+    position:absolute; inset:0; z-index:3;
+    display:flex; flex-direction:column; align-items:center; justify-content:center; gap:26px;
+    opacity:0; transform:translateY(16px); transition:opacity .6s ease, transform .6s ease; pointer-events:none;
+  }
+  .tc-winner-card-wrap.show{ opacity:1; transform:translateY(0); pointer-events:auto; }
+  .tc-winner-headline{
+    font-family:'Racing Sans One',sans-serif; font-weight:900; text-align:center;
+    font-size:clamp(24px, 3vw, 38px); color:#fff; line-height:1.4;
+    text-shadow:0 3px 14px rgba(0,0,0,0.85); padding:0 5vw;
+  }
+  .tc-winner-highlight{ color:#ffe600; }
+  .tc-winner-video-card{
+    width:min(300px, 42vh, 70vw); aspect-ratio:9/16; border-radius:20px; overflow:hidden;
+    border:3px solid rgba(255,255,255,0.85); box-shadow:0 18px 40px rgba(0,0,0,0.6);
+    background:#000;
+  }
+  .tc-winner-video{ width:100%; height:100%; object-fit:cover; display:block; }
   .tc-col{ background:rgba(255,255,255,0.06); border-radius:16px; padding:26px 20px 36px; min-height:660px; }
   .tc-col-header{
     background:var(--red); color:#fff; font-weight:900; font-size:24.5px; text-align:center;
@@ -4734,9 +4758,62 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
   .ccs-ppt-link-btn:hover{ background:rgba(255,255,255,0.14); }
   .instr-plan-link{
     border:none !important; display:flex; align-items:center; justify-content:center;
-    width:fit-content; margin:14px auto 0;
+    width:fit-content;
   }
   .instr-plan-link:hover{ background:rgba(255,255,255,0.08); }
+  .instr-btn-row{
+    display:flex; align-items:center; justify-content:center; gap:14px; flex-wrap:wrap;
+    margin:14px auto 0; width:fit-content;
+  }
+  /* ---- 사내강사 양성과정 시간계획 팝업 ---- */
+  .instr-sch-popup{
+    width:640px; max-width:92vw; height:88vh; padding:0; overflow:hidden;
+    display:flex; flex-direction:column;
+  }
+  .instr-sch-popup .rv-popup-close{ z-index:6; background:rgba(0,0,0,0.5); border-radius:50%; }
+  .instr-sch-scroll{ overflow:hidden; height:100%; border-radius:16px; position:relative; }
+  .instr-sch-scroll-inner{ transform-origin:top center; }
+  .instr-sch-header{
+    position:relative; height:190px; flex:none;
+    background-image:
+      linear-gradient(180deg, rgba(6,6,7,0.1) 0%, rgba(6,6,7,0.45) 55%, rgba(6,6,7,1) 100%),
+      var(--img-instr-header);
+    background-size:cover; background-position:center 22%; background-repeat:no-repeat;
+    display:flex; align-items:flex-end; justify-content:center; padding-bottom:18px;
+  }
+  .instr-sch-header h2{
+    font-family:'Racing Sans One',sans-serif; color:#fff; font-size:clamp(21px,2.6vw,28px);
+    text-shadow:0 3px 12px rgba(0,0,0,0.85); margin:0; text-align:center; letter-spacing:0.5px;
+  }
+  .instr-sch-body{ background:#000; padding:6px 30px 30px; }
+  .instr-sch-day-label{
+    display:flex; align-items:center; gap:12px;
+    color:var(--gold); font-family:'Racing Sans One',sans-serif; font-size:19.5px;
+    margin:18px 0 14px; text-align:center; justify-content:center;
+  }
+  .instr-sch-day-line{ flex:1; max-width:60px; height:1px; background:rgba(255,255,255,0.25); }
+  .instr-sch-row-flip{
+    position:relative; width:min(78%,380px); margin:0 auto 9px; height:50px; perspective:1000px; cursor:pointer;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .instr-sch-row-inner{
+    position:relative; width:100%; height:100%;
+    transition:transform .5s cubic-bezier(.3,.7,.4,1); transform-style:preserve-3d;
+  }
+  .instr-sch-row-flip.flipped .instr-sch-row-inner{ transform:rotateX(180deg); }
+  .instr-sch-face{
+    position:absolute; inset:0; backface-visibility:hidden; border-radius:999px;
+    display:flex; align-items:center; justify-content:flex-start; gap:14px;
+    border:2px solid var(--red); font-weight:800; padding-left:40px;
+  }
+  .instr-sch-front{ background:var(--red); color:#fff; font-size:18px; letter-spacing:1px; }
+  .instr-sch-front:hover{ filter:brightness(1.1); }
+  .instr-sch-back{
+    background:#161616; color:#fff; transform:rotateX(180deg);
+    font-size:16.5px; padding-left:40px; padding-right:16px;
+  }
+  .instr-sch-time{ color:#ffe600; font-weight:900; flex:none; }
+  .instr-sch-desc{ text-align:left; }
   .rap-ppt-link-btn{
     padding:7px 18px; font-size:13px; gap:6px;
   }
@@ -5966,7 +6043,10 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
     <input type="file" id="seatExcelUpload" accept=".xlsx,.xls" style="display:none;" onchange="handleSeatExcelUpload(event)">
     <div class="welcome-center-name">
       <div class="center-name-display" id="welcomeCenterNameDisplay"></div>
-      <a id="instructorTeamPlanLink" class="ccs-ppt-link-btn instr-plan-link" href="26년_전사원과정_운영계획_웹리포트.html" target="_blank" rel="noopener" style="display:none;"><span class="dot-blink" style="color:var(--red);">●</span> 2026 센터 전사원 교육 운영 계획</a>
+      <div class="instr-btn-row" id="instrBtnRow" style="display:none;">
+        <a id="instructorTeamPlanLink" class="ccs-ppt-link-btn instr-plan-link" href="26년_전사원과정_운영계획_웹리포트.html" target="_blank" rel="noopener"><span class="dot-blink" style="color:var(--red);">●</span> 2026 센터 전사원 교육 운영 계획</a>
+        <button type="button" id="instructorScheduleBtn" class="ccs-ppt-link-btn instr-plan-link" style="font:inherit; font-size:13.5px; font-weight:700;" onclick="openInstructorSchedulePopup(event)"><span class="dot-blink" style="color:#3ddc71;">●</span> 사내강사 양성과정 시간계획</button>
+      </div>
     </div>
     <div class="top-text">
       <div class="line1"><span class="y2026">2026</span>년 서비스 센터 전사원 과정에 오신걸 환영합니다.</div>
@@ -6172,6 +6252,7 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
           <div class="prep-col-head">
             <h2>🏁 원팀 편성 테이블</h2>
             <div class="prep-col-actions">
+              <button class="bm-add-team-btn" id="prepLoadCenterBtn" onclick="loadPrepTeamsFromCenter(false)" style="color:#3ddc71; border-color:#3ddc71;">📥 센터 명단 불러오기</button>
               <button class="bm-add-team-btn" id="prepAddTeamBtn" onclick="addPrepTeam()">+ 팀 추가</button>
               <button class="bm-add-team-btn prep-confirm-btn" id="prepConfirmBtn" onclick="togglePrepTeamsConfirm()">✅ 팀 확정</button>
             </div>
@@ -6213,6 +6294,12 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
     </div>
     <div class="tc-video-columns-wrap" id="tcVideoColumnsWrap">
       <div class="reveal-dim-overlay" id="prepBlank1Dim"></div>
+      <div class="tc-winner-card-wrap" id="tcWinnerCardWrap" onclick="event.stopPropagation();">
+        <div class="tc-winner-headline">최고 에너지 레벨의 <span class="tc-winner-highlight">고객 행복</span> 수호대는 우리팀</div>
+        <div class="tc-winner-video-card">
+          <video class="tc-winner-video" id="tcWinnerVideo" muted playsinline preload="none" loop src="assets/aab709b0c3a966c839c81a974f9d52ba.mp4"></video>
+        </div>
+      </div>
       <div class="tc-columns" id="tcColumnsPrep1" onclick="event.stopPropagation();">
       <div class="tc-col">
         <div class="tc-col-header">레이스 팀 명</div>
@@ -7428,10 +7515,6 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
         </div>
       </div>
       
-      <div class="sm-photo-folder-row" style="text-align:center; margin-bottom:14px;">
-        <a href="전사원 교육 사진 저장소/수도권 사진 저장소/" id="smPhotoFolderLink" target="_blank" rel="noopener" class="bm-qr-btn" style="display:inline-flex; text-decoration:none;">📁 사진 저장소 폴더 열어서 확인하기</a>
-        <p style="font-size:12px; color:var(--gray-dim); margin-top:6px;">위 버튼으로 폴더를 열어 어떤 사진들이 있는지 먼저 확인한 뒤, 아래 사진 칸을 클릭해서 뜨는 선택창에서 그 사진을 직접 골라주세요.</p>
-      </div>
       <div class="sm-polaroid-row">
         <div class="sm-polaroid sm-p1" onclick="pickSmPhoto(0)">
           <span class="sm-pin"></span>
@@ -7475,12 +7558,85 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
     <div class="sm-qr-panel" id="smQrPanel">
       <div class="sm-qr-panel-card">
         <button class="rv-popup-close" onclick="closeSmQrPanel(event)">✕</button>
-        <h3>📱 QR로 사진 올리기</h3>
-        <p>휴대폰으로 아래 QR코드를 스캔하면, 팀과 키워드를 선택하고 사진을 바로 올릴 수 있는 화면이 열립니다.</p>
-        <img id="smQrImg" class="sm-qr-img" src="" alt="QR">
-        <p class="sm-qr-note">※ 이 포털이 인터넷(웹)으로 열려있는 상태에서만 다른 기기에서 인식됩니다.<br>같은 PC/화면에서 바로 테스트하려면 아래 버튼을 눌러주세요.</p>
-        <p class="sm-qr-note" id="smCloudFolderNote" style="display:none;"></p>
-        <button class="admin-action-btn" onclick="location.hash='smupload';">이 화면에서 바로 올려보기</button>
+        <h3>📧 QR 스캔 후, 진행자 메일로 사진 보내기</h3>
+        <img id="smQrImg" class="sm-qr-img sm-qr-img-large" src="" alt="QR">
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="rv-popup-overlay" id="instructorScheduleOverlay" onclick="if(event.target===this) closeInstructorSchedulePopup();">
+  <div class="rv-popup pink-theme instr-sch-popup" id="instructorSchedulePopupBox">
+    <button class="rv-popup-close" onclick="closeInstructorSchedulePopup()">✕</button>
+    <div class="instr-sch-scroll">
+      <div class="instr-sch-scroll-inner" id="instrSchScrollInner">
+      <div class="instr-sch-header">
+        <h2>🏁 최강의 사내강사 레이서 육성 그랑프리</h2>
+      </div>
+      <div class="instr-sch-body">
+        <div class="instr-sch-day-label"><span class="instr-sch-day-line"></span>1<sup>st</sup> DAY – 강의 Flow 시연<span class="instr-sch-day-line"></span></div>
+      <div class="instr-sch-row-flip" onclick="this.classList.toggle('flipped')">
+        <div class="instr-sch-row-inner">
+          <div class="instr-sch-face instr-sch-front"><span>ACTIVITY 1</span></div>
+          <div class="instr-sch-face instr-sch-back"><span class="instr-sch-time">09:00 ~</span><span class="instr-sch-desc">웰커밍</span></div>
+        </div>
+      </div>
+      <div class="instr-sch-row-flip" onclick="this.classList.toggle('flipped')">
+        <div class="instr-sch-row-inner">
+          <div class="instr-sch-face instr-sch-front"><span>ACTIVITY 2</span></div>
+          <div class="instr-sch-face instr-sch-back"><span class="instr-sch-time">09:30 ~</span><span class="instr-sch-desc">2026 센터 전사원 교육 계획 안내</span></div>
+        </div>
+      </div>
+      <div class="instr-sch-row-flip" onclick="this.classList.toggle('flipped')">
+        <div class="instr-sch-row-inner">
+          <div class="instr-sch-face instr-sch-front"><span>ACTIVITY 3</span></div>
+          <div class="instr-sch-face instr-sch-back"><span class="instr-sch-time">10:30 ~</span><span class="instr-sch-desc">리허설 RACE 진행 시연</span></div>
+        </div>
+      </div>
+      <div class="instr-sch-row-flip" onclick="this.classList.toggle('flipped')">
+        <div class="instr-sch-row-inner">
+          <div class="instr-sch-face instr-sch-front"><span>ACTIVITY 4</span></div>
+          <div class="instr-sch-face instr-sch-back"><span class="instr-sch-time">11:00 ~</span><span class="instr-sch-desc">본격 RACE - 1~2 LAP 시연</span></div>
+        </div>
+      </div>
+      <div class="instr-sch-row-flip" onclick="this.classList.toggle('flipped')">
+        <div class="instr-sch-row-inner">
+          <div class="instr-sch-face instr-sch-front"><span>ACTIVITY 5</span></div>
+          <div class="instr-sch-face instr-sch-back"><span class="instr-sch-time">13:00 ~</span><span class="instr-sch-desc">본격 RACE - 2~5 LAP 시연</span></div>
+        </div>
+      </div>
+      <div class="instr-sch-row-flip" onclick="this.classList.toggle('flipped')">
+        <div class="instr-sch-row-inner">
+          <div class="instr-sch-face instr-sch-front"><span>ACTIVITY 6</span></div>
+          <div class="instr-sch-face instr-sch-back"><span class="instr-sch-time">17:30 ~</span><span class="instr-sch-desc">전체 과정 리뷰 / 저녁 만찬</span></div>
+        </div>
+      </div>
+        <div class="instr-sch-day-label" style="margin-top:34px;"><span class="instr-sch-day-line"></span>2<sup>nd</sup> DAY – 강의 계획/다짐<span class="instr-sch-day-line"></span></div>
+      <div class="instr-sch-row-flip" onclick="this.classList.toggle('flipped')">
+        <div class="instr-sch-row-inner">
+          <div class="instr-sch-face instr-sch-front"><span>ACTIVITY 7</span></div>
+          <div class="instr-sch-face instr-sch-back"><span class="instr-sch-time">08:30 ~</span><span class="instr-sch-desc">과정 진행상 보완/개선점 논의</span></div>
+        </div>
+      </div>
+      <div class="instr-sch-row-flip" onclick="this.classList.toggle('flipped')">
+        <div class="instr-sch-row-inner">
+          <div class="instr-sch-face instr-sch-front"><span>ACTIVITY 8</span></div>
+          <div class="instr-sch-face instr-sch-back"><span class="instr-sch-time">10:00 ~</span><span class="instr-sch-desc">권역별 강의 계획/전략 작성</span></div>
+        </div>
+      </div>
+      <div class="instr-sch-row-flip" onclick="this.classList.toggle('flipped')">
+        <div class="instr-sch-row-inner">
+          <div class="instr-sch-face instr-sch-front"><span>ACTIVITY 9</span></div>
+          <div class="instr-sch-face instr-sch-back"><span class="instr-sch-time">13:00 ~</span><span class="instr-sch-desc">권역별 강의 목표/전략 발표</span></div>
+        </div>
+      </div>
+      <div class="instr-sch-row-flip" onclick="this.classList.toggle('flipped')">
+        <div class="instr-sch-row-inner">
+          <div class="instr-sch-face instr-sch-front"><span>ACTIVITY 10</span></div>
+          <div class="instr-sch-face instr-sch-back"><span class="instr-sch-time">15:00 ~</span><span class="instr-sch-desc">종합 Wrap-up / 귀가</span></div>
+        </div>
+      </div>
+      </div>
       </div>
     </div>
   </div>
@@ -8737,7 +8893,9 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
       el.classList.add('show');
     });
     const planLink = document.getElementById('instructorTeamPlanLink');
-    if(planLink) planLink.style.display = (name === '사내강사팀') ? 'flex' : 'none';
+    if(planLink) planLink.style.display = 'flex';
+    const instrBtnRow = document.getElementById('instrBtnRow');
+    if(instrBtnRow) instrBtnRow.style.display = (name === '사내강사팀') ? 'flex' : 'none';
   }
   function selectCenterByName(rawName){
     const resolved = resolveCenterKey(rawName);
@@ -9221,8 +9379,8 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
       lap6finishBoardShownThisVisit = handleFinishPageNextNoPrize(lap6finishBoardShownThisVisit);
       return;
     }
-    if(dir === 1 && cur === 'lapfinalfinish' && lapfinalfinishBoardShownThisVisit < 5){
-      lapfinalfinishBoardShownThisVisit = handleFinishPageNextWithScoreboard(lapfinalfinishBoardShownThisVisit);
+    if(dir === 1 && cur === 'lapfinalfinish' && lapfinalfinishBoardShownThisVisit < 2){
+      lapfinalfinishBoardShownThisVisit = handleFinishPageNextNoPrize(lapfinalfinishBoardShownThisVisit);
       return;
     }
     if(dir === 1 && cur === 'ccs-quiz' && ccsQuizStep < 5){
@@ -9474,9 +9632,17 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
 
     const smOverlay = document.getElementById('suddenMissionPopupOverlay');
     if(smOverlay && smOverlay.classList.contains('active')){
-      if(e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === 'PageDown' || e.key === ' ' || e.key === 'Spacebar'){
+      if((e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === 'PageDown' || e.key === ' ' || e.key === 'Spacebar') && smSmartStep < 3){
         e.preventDefault();
-        flipNextSmKwCard();
+        handleSmSmartNext();
+      }
+      return;
+    }
+    const instrSchOverlay = document.getElementById('instructorScheduleOverlay');
+    if(instrSchOverlay && instrSchOverlay.classList.contains('active')){
+      if((e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === 'PageDown' || e.key === ' ' || e.key === 'Spacebar') && instrSchSmartStep < 3){
+        e.preventDefault();
+        handleInstrSchSmartNext();
       }
       return;
     }
@@ -10898,6 +11064,17 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
         const groupKeys = Object.keys(data.teams);
         let matchKey = groupKeys.find(function(k){ return k === team.name; });
         if(!matchKey) matchKey = groupKeys.find(function(k){ return team.name && (team.name.indexOf(k) > -1 || k.indexOf(team.name) > -1); });
+        if(!matchKey){
+          // "팀 1", "1팀", "1조"처럼 표기 방식이 달라도 팀 번호가 같으면 매칭합니다.
+          const teamNumMatch = team.name && team.name.match(/\d+/);
+          const teamNum = teamNumMatch ? teamNumMatch[0] : null;
+          if(teamNum){
+            matchKey = groupKeys.find(function(k){
+              const kNumMatch = k.match(/\d+/);
+              return kNumMatch && kNumMatch[0] === teamNum;
+            });
+          }
+        }
         if(matchKey){
           const leader = data.teams[matchKey].find(function(m){ return m.title && m.title.indexOf('반장') > -1; });
           if(leader) return leader;
@@ -11751,13 +11928,13 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
     });
     if(typeof upgradeFacePhotos === 'function') upgradeFacePhotos(grid);
 
-    // 6x5 grid over a 1020x700 stage => cell 170x140, center offsets. Leftmost column = red balloons.
+    // 6x5 grid over a 1200x860 stage => cell 200x172, center offsets. Leftmost column = red balloons.
     let bi = 0;
     for(let row = 0; row < 5; row++){
       for(let col = 0; col < 6; col++){
         const idx = row * 6 + col;
-        const cx = col * 170 + 85;
-        const cy = row * 140 + 70;
+        const cx = col * 200 + 100;
+        const cy = row * 172 + 86;
         const balloon = document.createElement('div');
         balloon.className = 'pz-balloon';
         balloon.id = 'pzBalloon' + idx;
@@ -12104,7 +12281,9 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
     PREP_MEMBERS = [];
     teamNames.forEach(function(tn, ti){
       (data.teams[tn] || []).forEach(function(m){
-        PREP_MEMBERS.push({ photo: m.photo || '', name: m.name || '', position: m.position || '', teamIdx: ti });
+        // 업로드한 명단 엑셀에서 직책이 '반장'으로 표시된 사람은 자동으로 팀장(★)으로 지정합니다.
+        const isLeader = !!(m.title && m.title.indexOf('반장') > -1);
+        PREP_MEMBERS.push({ photo: m.photo || '', name: m.name || '', position: m.position || '', teamIdx: ti, isLeader: isLeader });
       });
     });
     renderPrepTeams();
@@ -12138,7 +12317,7 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
           '<select' + (locked ? ' disabled' : ' onchange="updatePrepMember(' + mi + ',\'teamIdx\',this.value)"') + '>' + teamOptions + '</select>' +
           '</div>';
       });
-      if(!membersHtml) membersHtml = '<div class="prep-empty">아직 팀원이 없습니다. 위에서 사진을 일괄 업로드해보세요.</div>';
+      if(!membersHtml) membersHtml = '<div class="prep-empty">아직 팀원이 없습니다. 위 "📥 센터 명단 불러오기" 버튼을 눌러주세요.</div>';
       block.innerHTML =
         '<div class="prep-team-head">' +
         '<input type="text" class="prep-team-name" value="' + team.name + '"' + (locked ? ' readonly' : ' oninput="updatePrepTeam(' + ti + ',\'name\',this.value)"') + '>' +
@@ -13984,6 +14163,73 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
     });
   }
   let welcomeEventPopupOpen = false;
+  let instrSchSmartStep = 0;
+  function handleInstrSchSmartNext(){
+    instrSchSmartStep++;
+    const cards = document.querySelectorAll('#instructorScheduleOverlay .instr-sch-row-flip');
+    if(instrSchSmartStep === 1){
+      for(let i = 0; i < 6; i++){
+        (function(idx){
+          setTimeout(function(){ if(cards[idx]) cards[idx].classList.add('flipped'); }, idx * 150);
+        })(i);
+      }
+      return;
+    }
+    if(instrSchSmartStep === 2){
+      for(let i = 6; i < 10; i++){
+        (function(idx){
+          setTimeout(function(){ if(cards[idx]) cards[idx].classList.add('flipped'); }, (idx - 6) * 150);
+        })(i);
+      }
+      return;
+    }
+    if(instrSchSmartStep === 3){
+      closeInstructorSchedulePopup();
+      return;
+    }
+  }
+  function openInstructorSchedulePopup(e){
+    if(e){ e.stopPropagation(); }
+    const overlay = document.getElementById('instructorScheduleOverlay');
+    if(!overlay) return;
+    instrSchSmartStep = 0;
+    document.querySelectorAll('#instructorScheduleOverlay .instr-sch-row-flip.flipped').forEach(function(c){ c.classList.remove('flipped'); });
+    overlay.classList.add('active');
+    overlay.classList.add('center-mode');
+    requestAnimationFrame(function(){
+      requestAnimationFrame(function(){
+        overlay.classList.add('open');
+        fitInstructorSchedulePopup();
+      });
+    });
+  }
+  function fitInstructorSchedulePopup(){
+    const inner = document.getElementById('instrSchScrollInner');
+    if(!inner || !inner.parentElement) return;
+    inner.style.transform = 'none';
+    inner.style.width = '100%';
+    const availH = inner.parentElement.clientHeight;
+    const naturalH = inner.scrollHeight;
+    if(naturalH > availH && naturalH > 0){
+      const scale = availH / naturalH;
+      inner.style.transform = 'scale(' + scale + ')';
+      inner.style.width = (100 / scale) + '%';
+    } else {
+      inner.style.transform = '';
+      inner.style.width = '';
+    }
+  }
+  window.addEventListener('resize', function(){
+    const overlay = document.getElementById('instructorScheduleOverlay');
+    if(overlay && overlay.classList.contains('active')) fitInstructorSchedulePopup();
+  });
+  function closeInstructorSchedulePopup(){
+    const overlay = document.getElementById('instructorScheduleOverlay');
+    if(!overlay) return;
+    overlay.classList.remove('open');
+    overlay.classList.remove('center-mode');
+    setTimeout(function(){ overlay.classList.remove('active'); }, 420);
+  }
   function openWelcomeEventPopup(e){
     welcomeEventPopupOpen = true;
     if(e){ e.stopPropagation(); }
@@ -14012,20 +14258,28 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
     card.classList.toggle('flipped');
     if(willFlip) burstConfettiAt(card);
   }
-  function flipNextSmKwCard(){
-    const cards = document.querySelectorAll('#suddenMissionPopupOverlay .sm-kw-card');
-    if(!cards.length) return;
-    let next = null;
-    for(let i = 0; i < cards.length; i++){
-      if(!cards[i].classList.contains('flipped')){ next = cards[i]; break; }
+  let smSmartStep = 0;
+  function handleSmSmartNext(){
+    smSmartStep++;
+    if(smSmartStep === 1){
+      const cards = document.querySelectorAll('#suddenMissionPopupOverlay .sm-kw-card');
+      cards.forEach(function(card, i){
+        setTimeout(function(){
+          card.classList.add('flipped');
+          burstConfettiAt(card);
+        }, i * 150);
+      });
+      return;
     }
-    if(!next){
-      // 모든 카드가 이미 뒤집힌 상태에서 '다음'을 한 번 더 누르면 팝업을 닫습니다.
+    if(smSmartStep === 2){
+      openSmQrPanel();
+      return;
+    }
+    if(smSmartStep === 3){
+      closeSmQrPanel();
       closeSuddenMissionPopup();
       return;
     }
-    next.classList.add('flipped');
-    burstConfettiAt(next);
   }
   function burstConfettiAt(el){
     const rect = el.getBoundingClientRect();
@@ -14058,6 +14312,7 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
 
   function openSuddenMissionPopup(e){
     if(e){ e.stopPropagation(); }
+    smSmartStep = 0;
     const overlay = document.getElementById('suddenMissionPopupOverlay');
     overlay.classList.add('active');
     overlay.classList.remove('open');
@@ -14117,6 +14372,12 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
       return;
     }
     smActivePhotoIdx = idx;
+    // 사진이 저장된 폴더(권역별 관리자 설정)를 함께 열어서, 어떤 사진이 있는지 먼저 확인할 수 있게 합니다.
+    try{
+      const region = (typeof currentAdminRegion !== 'undefined' && currentAdminRegion) || (typeof getSmActiveRegion === 'function' ? getSmActiveRegion() : null);
+      const folderPath = region && typeof getSmCloudFolderForRegion === 'function' ? getSmCloudFolderForRegion(region) : '';
+      if(folderPath){ window.open(folderPath, '_blank', 'noopener'); }
+    }catch(err){}
     const input = document.getElementById('smPhotoInput');
     if(input) input.click();
   }
@@ -14243,7 +14504,7 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
     if(!panel) return;
     const base = location.href.split('#')[0];
     const img = document.getElementById('smQrImg');
-    if(img) img.src = 'https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=' + encodeURIComponent(base + '#play');
+    if(img) img.src = 'https://api.qrserver.com/v1/create-qr-code/?size=420x420&data=' + encodeURIComponent(base + '#play');
     updateSmCloudFolderNote();
     panel.classList.add('show');
   }
@@ -14964,9 +15225,9 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
 
     const gain = bmActx.createGain();
     gain.gain.setValueAtTime(0, t0);
-    gain.gain.linearRampToValueAtTime(0.22, t0 + dur * 0.28);
-    gain.gain.linearRampToValueAtTime(0.26, t0 + dur * 0.5);
-    gain.gain.linearRampToValueAtTime(0.05, t0 + dur * 0.82);
+    gain.gain.linearRampToValueAtTime(0.08, t0 + dur * 0.28);
+    gain.gain.linearRampToValueAtTime(0.1, t0 + dur * 0.5);
+    gain.gain.linearRampToValueAtTime(0.02, t0 + dur * 0.82);
     gain.gain.linearRampToValueAtTime(0, t0 + dur);
     gain.connect(bmActx.destination);
 
@@ -15772,17 +16033,19 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
   // 원팀 챌린지 페이지 진입 시: 레이스 팀명/역할 분장/파이팅 구호 박스가 자동으로 나타나고, 영상은 대기합니다.
   let prepBlank1Revealed = false;
   function initPrepBlank1Video(){
-    const vid = document.getElementById('raceTeamVideo');
     const cols = document.getElementById('tcColumnsPrep1');
     const dim = document.getElementById('prepBlank1Dim');
+    const winnerWrap = document.getElementById('tcWinnerCardWrap');
+    const winnerVid = document.getElementById('tcWinnerVideo');
     if(!cols) return;
     prepBlank1Revealed = false;
     cols.classList.add('show');
     if(dim) dim.classList.add('show');
-    if(vid){ vid.pause(); vid.currentTime = 0; }
+    if(winnerWrap) winnerWrap.classList.remove('show');
+    if(winnerVid){ winnerVid.pause(); winnerVid.currentTime = 0; }
   }
   function pausePrepBlank1Video(){
-    const vid = document.getElementById('raceTeamVideo');
+    const vid = document.getElementById('tcWinnerVideo');
     if(vid) vid.pause();
   }
   // 스마트 포인터(또는 클릭) 다음 넘김: 팀명/역할 분장/파이팅 구호 박스를 감추고, 영상을 재생합니다.
@@ -15790,16 +16053,18 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
     if(e) e.stopPropagation();
     if(prepBlank1Revealed) return;
     prepBlank1Revealed = true;
-    const vid = document.getElementById('raceTeamVideo');
     const cols = document.getElementById('tcColumnsPrep1');
     const dim = document.getElementById('prepBlank1Dim');
+    const winnerWrap = document.getElementById('tcWinnerCardWrap');
+    const winnerVid = document.getElementById('tcWinnerVideo');
     if(dim) dim.classList.remove('show');
     if(cols) cols.classList.remove('show');
-    if(vid){
-      vid.currentTime = 0;
-      vid.muted = false;
-      const p = vid.play();
-      if(p && p.catch){ p.catch(function(){ vid.muted = true; vid.play().catch(function(){}); }); }
+    if(winnerWrap) winnerWrap.classList.add('show');
+    if(winnerVid){
+      winnerVid.currentTime = 0;
+      winnerVid.muted = false;
+      const p = winnerVid.play();
+      if(p && p.catch){ p.catch(function(){ winnerVid.muted = true; winnerVid.play().catch(function(){}); }); }
     }
   }
   // 자동재생 배경 영상들은 브라우저 정책상 처음엔 음소거로 시작해야 하므로,
