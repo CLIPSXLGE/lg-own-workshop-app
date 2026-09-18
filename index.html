@@ -3497,7 +3497,9 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
     width:100%; background:rgba(20,20,22,0.85); border:2px solid #fff; border-radius:999px;
     color:#fff; font-weight:900; font-size:21px; text-align:center; padding:16px 18px;
     animation: tcFloat 3.2s ease-in-out infinite;
+    min-height:1.2em;
   }
+  .tc-pill-filled{ color:#ffe600; }
   @keyframes tcFloat{
     0%,100%{ transform:translateY(0); }
     50%{ transform:translateY(-10px); }
@@ -3945,12 +3947,25 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
 
   .prep-leader-toggle{
     position:absolute; top:6px; left:6px; background:none; border:none; cursor:pointer;
-    font-size:16px; line-height:1; padding:2px;
+    font-size:19px; line-height:1; padding:2px; color:#fff;
+    text-shadow:0 1px 3px rgba(0,0,0,0.8); z-index:2;
   }
+  .prep-leader-toggle:disabled{ color:rgba(255,255,255,0.45); cursor:default; }
   .prep-member.is-leader{
     border:2px solid var(--gold); background:rgba(255,214,0,0.08);
   }
   .prep-member.is-leader .prep-member-photo{ border:2px solid var(--gold); }
+  .prep-member-photo.official-leader{ border:3px solid #ff3b3b; }
+  .prep-team-grouplabel{
+    font-family:'Racing Sans One',sans-serif; color:var(--gold); font-size:15px;
+    margin-bottom:4px;
+  }
+  .prep-add-member-btn{
+    display:block; width:100%; margin-top:10px; padding:8px; border-radius:8px;
+    background:none; border:1.5px dashed var(--line); color:var(--gray-dim);
+    cursor:pointer; font-size:13px; font-weight:700;
+  }
+  .prep-add-member-btn:hover{ border-color:var(--red); color:#fff; }
   .prep-team-block{
     background:rgba(10,10,11,0.6); border:1px solid var(--line); border-radius:12px;
     padding:18px 20px; margin-bottom:16px;
@@ -3965,7 +3980,7 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
   .prep-team-head{ display:flex; align-items:center; gap:10px; margin-bottom:10px; }
   .prep-team-name{
     background:var(--red); color:#fff; border:none; border-radius:999px;
-    padding:8px 22px; font-weight:900; font-size:17px; text-align:center; flex:none; width:110px;
+    padding:8px 22px; font-weight:900; font-size:17px; text-align:center; flex:1; min-width:220px;
   }
   .prep-remove-team{ background:none; border:none; color:var(--gray-dim); cursor:pointer; font-size:15.5px; margin-left:auto; }
   .prep-remove-team:hover{ color:var(--red); }
@@ -4767,12 +4782,12 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
   }
   /* ---- 사내강사 양성과정 시간계획 팝업 ---- */
   .instr-sch-popup{
-    width:640px; max-width:92vw; height:88vh; padding:0; overflow:hidden;
+    width:720px; max-width:92vw; height:88vh; padding:0; overflow:hidden;
     display:flex; flex-direction:column;
   }
   .instr-sch-popup .rv-popup-close{ z-index:6; background:rgba(0,0,0,0.5); border-radius:50%; }
   .instr-sch-scroll{ overflow:hidden; height:100%; border-radius:16px; position:relative; }
-  .instr-sch-scroll-inner{ transform-origin:top center; }
+  .instr-sch-scroll-inner{ transform-origin:top left; }
   .instr-sch-header{
     position:relative; height:190px; flex:none;
     background-image:
@@ -4791,25 +4806,25 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
     color:var(--gold); font-family:'Racing Sans One',sans-serif; font-size:19.5px;
     margin:18px 0 14px; text-align:center; justify-content:center;
   }
-  .instr-sch-day-line{ flex:1; max-width:60px; height:1px; background:rgba(255,255,255,0.25); }
+  .instr-sch-day-line{ flex:1; max-width:60px; height:1px; background:var(--red); }
   .instr-sch-row-flip{
-    position:relative; width:min(78%,380px); margin:0 auto 9px; height:50px; perspective:1000px; cursor:pointer;
+    position:relative; width:min(80%,520px); margin:0 auto 9px; height:50px; perspective:1000px; cursor:pointer;
     -webkit-tap-highlight-color:transparent;
   }
   .instr-sch-row-inner{
     position:relative; width:100%; height:100%;
     transition:transform .5s cubic-bezier(.3,.7,.4,1); transform-style:preserve-3d;
   }
-  .instr-sch-row-flip.flipped .instr-sch-row-inner{ transform:rotateX(180deg); }
+  .instr-sch-row-flip.flipped .instr-sch-row-inner{ transform:rotateY(180deg); }
   .instr-sch-face{
     position:absolute; inset:0; backface-visibility:hidden; border-radius:999px;
     display:flex; align-items:center; justify-content:flex-start; gap:14px;
-    border:2px solid var(--red); font-weight:800; padding-left:40px;
+    border:1px solid #6b6b6b; font-weight:800; padding-left:40px;
   }
-  .instr-sch-front{ background:var(--red); color:#fff; font-size:18px; letter-spacing:1px; }
+  .instr-sch-front{ background:var(--red); color:#fff; font-size:16px; letter-spacing:1px; justify-content:center; padding-left:0; }
   .instr-sch-front:hover{ filter:brightness(1.1); }
   .instr-sch-back{
-    background:#161616; color:#fff; transform:rotateX(180deg);
+    background:#161616; color:#fff; transform:rotateY(180deg);
     font-size:16.5px; padding-left:40px; padding-right:16px;
   }
   .instr-sch-time{ color:#ffe600; font-weight:900; flex:none; }
@@ -6252,7 +6267,6 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
           <div class="prep-col-head">
             <h2>🏁 원팀 편성 테이블</h2>
             <div class="prep-col-actions">
-              <button class="bm-add-team-btn" id="prepLoadCenterBtn" onclick="loadPrepTeamsFromCenter(false)" style="color:#3ddc71; border-color:#3ddc71;">📥 센터 명단 불러오기</button>
               <button class="bm-add-team-btn" id="prepAddTeamBtn" onclick="addPrepTeam()">+ 팀 추가</button>
               <button class="bm-add-team-btn prep-confirm-btn" id="prepConfirmBtn" onclick="togglePrepTeamsConfirm()">✅ 팀 확정</button>
             </div>
@@ -8630,10 +8644,12 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
       return;
     }
     namesWrap.innerHTML = PREP_TEAMS.map(function(t, i){
-      return '<div class="tc-pill" style="animation-delay:' + (i * 0.3) + 's;">' + (t.name || '팀 ' + (i+1)) + '</div>';
+      const label = t.name ? ((t.groupLabel ? t.groupLabel + ' ' : '') + t.name) : '';
+      return '<div class="tc-pill' + (label ? ' tc-pill-filled' : '') + '" style="animation-delay:' + (i * 0.3) + 's;">' + label + '</div>';
     }).join('');
     slogansWrap.innerHTML = PREP_TEAMS.map(function(t, i){
-      return '<div class="tc-pill" style="animation-delay:' + (i * 0.3) + 's;">' + (t.slogan || '구호 미입력') + '</div>';
+      const label = t.slogan || '';
+      return '<div class="tc-pill' + (label ? ' tc-pill-filled' : '') + '" style="animation-delay:' + (i * 0.3) + 's;">' + label + '</div>';
     }).join('');
     const leaderLabel = document.getElementById('tcLeaderLabel');
     if(leaderLabel){
@@ -12227,6 +12243,10 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
     PREP_MEMBERS.splice(idx, 1);
     renderPrepTeams();
   }
+  function addPrepMember(ti){
+    PREP_MEMBERS.push({ photo:'', name:'', position:'', title:'', teamIdx: ti, isLeader:false });
+    renderPrepTeams();
+  }
   function togglePrepLeader(idx){
     const m = PREP_MEMBERS[idx];
     if(!m) return;
@@ -12260,10 +12280,12 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
   function autoLoadPrepTeamsOnEnter(){
     const wrap = document.getElementById('prepTeamsWrap');
     if(wrap) wrap.style.display = '';
-    if(PREP_MEMBERS.length) return; // 이미 편성되어 있으면 그대로 유지
     if(!currentSeatCenter) return; // 센터 미선택 시 조용히 대기 (빈 팀 카드만 표시)
+    if(PREP_MEMBERS.length && PREP_LOADED_CENTER === currentSeatCenter) return; // 이미 이 센터로 불러온 상태면 유지(입력값 보존)
+    PREP_LOADED_CENTER = currentSeatCenter;
     loadPrepTeamsFromCenter(true);
   }
+  let PREP_LOADED_CENTER = null;
   function loadPrepTeamsFromCenter(silent){
     if(!currentSeatCenter){
       if(!silent) alert('먼저 웰컴 2페이지 지도에서 센터를 선택해주세요.');
@@ -12275,18 +12297,22 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
       return;
     }
     const teamNames = Object.keys(data.teams);
-    const prevSlogans = {};
-    PREP_TEAMS.forEach(function(t){ if(t.name) prevSlogans[t.name] = t.slogan; });
-    PREP_TEAMS = teamNames.map(function(tn){ return { name:tn, slogan: prevSlogans[tn] || '' }; });
+    const prevByLabel = {};
+    PREP_TEAMS.forEach(function(t){ if(t.groupLabel) prevByLabel[t.groupLabel] = t; });
+    PREP_TEAMS = teamNames.map(function(tn){
+      const prev = prevByLabel[tn];
+      return { groupLabel: tn, name: prev ? (prev.name || '') : '', slogan: prev ? (prev.slogan || '') : '' };
+    });
     PREP_MEMBERS = [];
     teamNames.forEach(function(tn, ti){
       (data.teams[tn] || []).forEach(function(m){
-        // 업로드한 명단 엑셀에서 직책이 '반장'으로 표시된 사람은 자동으로 팀장(★)으로 지정합니다.
-        const isLeader = !!(m.title && m.title.indexOf('반장') > -1);
-        PREP_MEMBERS.push({ photo: m.photo || '', name: m.name || '', position: m.position || '', teamIdx: ti, isLeader: isLeader });
+        // 팀장(★/👑) 지정은 이 화면에서 진행자가 직접 선택합니다(자동 지정 안 함).
+        // 다만 명단 엑셀에서 직책이 '반장'인 사람은 원형 사진 테두리를 빨간색으로 표시해 구분합니다.
+        PREP_MEMBERS.push({ photo: m.photo || '', name: m.name || '', position: m.position || '', title: m.title || '', teamIdx: ti, isLeader: false });
       });
     });
     renderPrepTeams();
+    renderTeamChallenge();
     if(!silent) alert('"' + currentSeatCenter + '" 센터 명단을 불러왔습니다. (' + PREP_MEMBERS.length + '명, 사진 포함)');
   }
   // 팀 확정: 누르면 팀원 조정(팀 이동/삭제/팀장 지정/팀 추가·삭제)을 잠그고, 다시 누르면 잠금 해제합니다.
@@ -12304,27 +12330,30 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
     PREP_TEAMS.forEach(function(team, ti){
       const block = document.createElement('div');
       block.className = 'prep-team-block';
-      const teamOptions = PREP_TEAMS.map(function(t, i){ return '<option value="'+i+'"'+(i===ti?' selected':'')+'>'+t.name+'</option>'; }).join('');
+      const teamOptions = PREP_TEAMS.map(function(t, i){ return '<option value="'+i+'"'+(i===ti?' selected':'')+'>'+(t.groupLabel || t.name || ('팀 '+(i+1)))+'</option>'; }).join('');
       let membersHtml = '';
       PREP_MEMBERS.forEach(function(m, mi){
         if(m.teamIdx !== ti) return;
         const comboVal = (m.name || '') + (m.position ? ' / ' + m.position : '');
+        const isOfficialLeader = !!(m.title && m.title.indexOf('반장') > -1);
         membersHtml += '<div class="prep-member' + (m.isLeader ? ' is-leader' : '') + '">' +
           (locked ? '' : '<button class="prep-member-remove" onclick="removePrepMember('+mi+')">✕</button>') +
           '<button class="prep-leader-toggle" title="팀장 지정"' + (locked ? ' disabled' : ' onclick="togglePrepLeader(' + mi + ')"') + '>' + (m.isLeader ? '👑' : '☆') + '</button>' +
-          '<div class="prep-member-photo" data-photo-name="' + (m.name || '').replace(/"/g,'&quot;') + '" data-photo-src="' + (m.photo || findCenterMemberPhoto(m.name) || '').replace(/"/g,'&quot;') + '" data-photo-center="' + (currentSeatCenter || '').replace(/"/g,'&quot;') + '" style="background-image:url(\'' + makeFaceAvatar(m.name, m.photo || findCenterMemberPhoto(m.name), currentSeatCenter) + '\');"></div>' +
+          '<div class="prep-member-photo' + (isOfficialLeader ? ' official-leader' : '') + '" title="' + (isOfficialLeader ? '명단상 반장' : '') + '" data-photo-name="' + (m.name || '').replace(/"/g,'&quot;') + '" data-photo-src="' + (m.photo || findCenterMemberPhoto(m.name) || '').replace(/"/g,'&quot;') + '" data-photo-center="' + (currentSeatCenter || '').replace(/"/g,'&quot;') + '" style="background-image:url(\'' + makeFaceAvatar(m.name, m.photo || findCenterMemberPhoto(m.name), currentSeatCenter) + '\');"></div>' +
           '<input type="text" class="prep-member-combo" placeholder="이름 / 직위" value="' + comboVal.replace(/"/g,'&quot;') + '"' + (locked ? ' readonly' : ' oninput="updatePrepMemberCombo(' + mi + ',this.value)"') + '>' +
           '<select' + (locked ? ' disabled' : ' onchange="updatePrepMember(' + mi + ',\'teamIdx\',this.value)"') + '>' + teamOptions + '</select>' +
           '</div>';
       });
-      if(!membersHtml) membersHtml = '<div class="prep-empty">아직 팀원이 없습니다. 위 "📥 센터 명단 불러오기" 버튼을 눌러주세요.</div>';
+      if(!membersHtml) membersHtml = '<div class="prep-empty">아직 팀원이 없습니다. 웰컴 2페이지에서 센터를 선택하면 자동으로 명단이 채워집니다.</div>';
       block.innerHTML =
         '<div class="prep-team-head">' +
-        '<input type="text" class="prep-team-name" value="' + team.name + '"' + (locked ? ' readonly' : ' oninput="updatePrepTeam(' + ti + ',\'name\',this.value)"') + '>' +
+        (team.groupLabel ? '<div class="prep-team-grouplabel">' + team.groupLabel + '</div>' : '') +
+        '<input type="text" class="prep-team-name" placeholder="팀명을 입력하세요(선택)" value="' + (team.name || '') + '"' + (locked ? ' readonly' : ' oninput="updatePrepTeam(' + ti + ',\'name\',this.value)"') + '>' +
         (locked ? '' : '<button class="prep-remove-team" onclick="removePrepTeam(' + ti + ')">✕ 팀 삭제</button>') +
         '</div>' +
-        '<input type="text" class="prep-team-slogan" placeholder="팀 구호를 입력하세요" value="' + team.slogan + '"' + (locked ? ' readonly' : ' oninput="updatePrepTeam(' + ti + ',\'slogan\',this.value)"') + '>' +
-        '<div class="prep-members-row">' + membersHtml + '</div>';
+        '<input type="text" class="prep-team-slogan" placeholder="팀 구호를 입력하세요" value="' + (team.slogan || '') + '"' + (locked ? ' readonly' : ' oninput="updatePrepTeam(' + ti + ',\'slogan\',this.value)"') + '>' +
+        '<div class="prep-members-row">' + membersHtml + '</div>' +
+        (locked ? '' : '<button class="prep-add-member-btn" onclick="addPrepMember(' + ti + ')">+ 인원 추가</button>');
       wrap.appendChild(block);
     });
     const addBtn = document.getElementById('prepAddTeamBtn');
@@ -14193,13 +14222,19 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
     const overlay = document.getElementById('instructorScheduleOverlay');
     if(!overlay) return;
     instrSchSmartStep = 0;
-    document.querySelectorAll('#instructorScheduleOverlay .instr-sch-row-flip.flipped').forEach(function(c){ c.classList.remove('flipped'); });
+    const cards = document.querySelectorAll('#instructorScheduleOverlay .instr-sch-row-flip');
+    cards.forEach(function(c){ c.classList.remove('flipped'); });
     overlay.classList.add('active');
     overlay.classList.add('center-mode');
     requestAnimationFrame(function(){
       requestAnimationFrame(function(){
         overlay.classList.add('open');
         fitInstructorSchedulePopup();
+        // 팝업이 열리면 곧바로 1~10번 카드가 빠르게(0.18초 간격) 순서대로 자동으로 뒤집힙니다.
+        cards.forEach(function(c, i){
+          setTimeout(function(){ c.classList.add('flipped'); }, 400 + i * 180);
+        });
+        setTimeout(function(){ instrSchSmartStep = 2; }, 400 + cards.length * 180);
       });
     });
   }
