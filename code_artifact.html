@@ -879,7 +879,7 @@
           </div>
         </div>
 
-        <!-- CARD 9: 복불복 미니 Race (offline) -->
+        <!-- CARD 9: 조커 게임 (구 복불복 미니 Race, offline) -->
         <div id="hub-card-9" onclick="openOfflineGamePopup('race1')" class="game-hub-card aspect-[4/3]">
           <div class="hub-bg" style="background-image: url('assets/00c935122f101d40cdb85c39c122bc50.jpg')"></div>
           <div class="hub-overlay"></div>
@@ -887,7 +887,7 @@
             <span class="offline-badge-dot"></span>오프라인
           </span>
           <div class="hub-card-content">
-            <h3 class="hub-card-title">복불복 미니<br>Race</h3>
+            <h3 class="hub-card-title">조커 게임</h3>
           </div>
         </div>
 
@@ -2238,7 +2238,7 @@
 
     let currentActiveRound = 1;
     let smartPointerReturnedToLobby = false;
-    let introSmartPointerStage = 0; // 0:ready 1:buzzer-open 2:buzzer-closed 3:roulette-started 4:roulette-stopped(awaiting pick)
+    let introSmartPointerStage = 0; // 0:play intro music (file-open only, never repeats) 1:stop music/roulette-started 2:roulette-stopped(awaiting pick) 3:open selected card (after which repeat cycles re-enter at stage 1, skipping music)
     let customShowDuration = 2.0; // In seconds
     let soundEnabled = true;
 
@@ -2313,35 +2313,55 @@
       }
       if (typeof stopRouletteSound === 'function') stopRouletteSound();
 
-      // Intro background music plays only on the intro hub screen
-      if (slideId === 'intro') {
-        playIntroBGM();
-      } else {
+      // Intro background music plays only once per file-open (see window.onload),
+      // not every time the intro hub screen is shown again.
+      if (slideId !== 'intro') {
         stopIntroBGM();
       }
+    }
+
+    // Tracks a pending "resume playback on next interaction" fallback (used when the
+    // browser blocks autoplay). Exposed at module scope so stopIntroBGM() can cancel
+    // it explicitly — otherwise a stale fallback listener could resurrect playback
+    // right after an explicit stop (e.g. the smart-pointer's stop-music-and-start-roulette step).
+    let introBgmResumeHandler = null;
+    function clearIntroBgmResumeHandler() {
+      if (!introBgmResumeHandler) return;
+      document.removeEventListener('click', introBgmResumeHandler);
+      document.removeEventListener('keydown', introBgmResumeHandler);
+      document.removeEventListener('touchstart', introBgmResumeHandler);
+      introBgmResumeHandler = null;
     }
 
     function playIntroBGM() {
       const audio = document.getElementById('intro-bgm-audio');
       if (!audio) return;
+      clearIntroBgmResumeHandler(); // this explicit play supersedes any stale pending fallback
       const p = audio.play();
       if (p && p.catch) {
         p.catch(() => {
-          // Autoplay was blocked by the browser; start on the first user interaction instead
-          const resume = () => {
+          // Autoplay was blocked by the browser; start on the first "neutral" user
+          // interaction instead. A click on a game card (which opens a game/popup)
+          // is deliberately NOT treated as that trigger, so the BGM never appears to
+          // start "because" a card/popup was opened — it waits for some other
+          // interaction (a key press, the roulette button, clicking empty space, etc.).
+          const isCardInteraction = (e) => (e.type === 'click' || e.type === 'touchstart') &&
+            e.target && e.target.closest && e.target.closest('.game-hub-card');
+          const resume = (e) => {
+            if (isCardInteraction(e)) return; // keep waiting for a non-card interaction
             audio.play().catch(() => {});
-            document.removeEventListener('click', resume);
-            document.removeEventListener('keydown', resume);
-            document.removeEventListener('touchstart', resume);
+            clearIntroBgmResumeHandler();
           };
-          document.addEventListener('click', resume, { once: true });
-          document.addEventListener('keydown', resume, { once: true });
-          document.addEventListener('touchstart', resume, { once: true });
+          introBgmResumeHandler = resume;
+          document.addEventListener('click', resume);
+          document.addEventListener('keydown', resume);
+          document.addEventListener('touchstart', resume);
         });
       }
     }
 
     function stopIntroBGM() {
+      clearIntroBgmResumeHandler(); // cancel any pending "resume on next interaction" fallback
       const audio = document.getElementById('intro-bgm-audio');
       if (!audio) return;
       audio.pause();
@@ -2857,13 +2877,10 @@
       { slide: 'g3-lobby', accent: '#f43f5e', cardId: 'hub-card-3' },
       { slide: 'g4-lobby', accent: '#14b8a6', cardId: 'hub-card-4' },
       { slide: 'g5-lobby', accent: '#f59e0b', cardId: 'hub-card-5' },
-      { slide: null, accent: '#a855f7', cardId: 'hub-card-9', popupKey: 'race1' },
+      { slide: null, accent: '#c026d3', cardId: 'hub-card-9', popupKey: 'race1' },
       { slide: null, accent: '#a855f7', cardId: 'hub-card-10', popupKey: 'race2' },
       { slide: null, accent: '#a855f7', cardId: 'hub-card-11', popupKey: 'pingpong' },
-      { slide: null, accent: '#a855f7', cardId: 'hub-card-12', popupKey: 'straw' },
-      { slide: null, accent: '#c026d3', cardId: null, isJoker: true,
-        bgImage: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0%25' stop-color='%23c026d3'/%3E%3Cstop offset='100%25' stop-color='%231e1b4b'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='400' height='400' fill='url(%23g)'/%3E%3Ctext x='200' y='230' font-size='140' text-anchor='middle'%3E%F0%9F%83%8F%3C/text%3E%3C/svg%3E",
-        titleHTML: '조커 게임' }
+      { slide: null, accent: '#a855f7', cardId: 'hub-card-12', popupKey: 'straw' }
     ];
     const ROULETTE_REPEATS = 14;
     const ROULETTE_TARGET_SET = 9;
@@ -3171,7 +3188,7 @@
 
     // ---- Popup controls (PC side) ----
     const offlineGamesData = {
-      race1: { title: '복불복 미니 Race', subtitle: '누구도 모르는 복불복 RACE에서 살아남아라!', cardId: 'hub-card-9' },
+      race1: { title: '조커 게임', subtitle: '진행자가 맘대로 정한 게임에서 승리하라!', cardId: 'hub-card-9' },
       race2: { title: '바퀴벌레 Race', subtitle: '어디로 튈지 모르는 바퀴벌레 RACE에서 우승하라!', cardId: 'hub-card-10' },
       pingpong: { title: '지맘대로 통통 탁구공 빙고', cardId: 'hub-card-11' },
       straw: { title: '지멋대로 이리저리 물병에 빨대꽂기', cardId: 'hub-card-12' }
@@ -3254,6 +3271,9 @@
       const offlinePopup = document.getElementById('offline-game-popup');
       if (offlinePopup && !offlinePopup.classList.contains('hidden')) {
         closeOfflineGamePopup();
+        // Resume the loop at "spin the roulette" — the intro music only ever plays once,
+        // right when the file first opens, never again on repeat cycles.
+        introSmartPointerStage = 1;
         return;
       }
 
@@ -3273,27 +3293,24 @@
         smartPointerReturnedToLobby = false;
 
         if (introSmartPointerStage === 0) {
-          openBuzzerPopup();
+          playIntroBGM();
           introSmartPointerStage = 1;
         } else if (introSmartPointerStage === 1) {
-          closeBuzzerPopup();
+          stopIntroBGM();
+          const btn = document.getElementById('roulette-btn');
+          if (btn) btn.click(); // starts the roulette
           introSmartPointerStage = 2;
         } else if (introSmartPointerStage === 2) {
           const btn = document.getElementById('roulette-btn');
-          if (btn) btn.click(); // starts the roulette
+          if (btn) btn.click(); // stops the roulette
           introSmartPointerStage = 3;
         } else if (introSmartPointerStage === 3) {
-          const btn = document.getElementById('roulette-btn');
-          if (btn) btn.click(); // stops the roulette
-          introSmartPointerStage = 4;
-        } else if (introSmartPointerStage === 4) {
           if (rouletteSelected && !rouletteSpinning) {
             if (rouletteSelected.slide) {
               goToSlide(rouletteSelected.slide);
             } else if (rouletteSelected.popupKey) {
               openOfflineGamePopup(rouletteSelected.popupKey);
             }
-            // Joker (no slide, no popupKey) already showed its own popup when the roulette stopped.
             // The next press is now caught by the universal offline-popup-close check above, if applicable.
             introSmartPointerStage = 0;
           }
@@ -3317,6 +3334,9 @@
           // We just auto-closed a finished problem set; the next press closes the lobby itself.
           smartPointerReturnedToLobby = false;
           goToSlide('intro');
+          // Resume the loop at "spin the roulette" — the intro music only ever plays once,
+          // right when the file first opens, never again on repeat cycles.
+          introSmartPointerStage = 1;
         } else {
           lobbyOpeners[activeSlideId]();
         }
@@ -3927,6 +3947,9 @@
       renderTeams();
       rouletteInit();
       goToSlide('intro');
+
+      // Intro BGM plays exactly once per file-open (not on every return to intro).
+      playIntroBGM();
     }
   </script>
   <script>
@@ -3936,11 +3959,11 @@
     const G2_NEW_IMG_3 = "assets/0866ac760dd57128ca4262b2b64a1769.jpg";
     const G2_NEW_IMG_4 = "assets/abe32f01ac407eaf23c9dc2275a65228.jpg";
 const g2RoundsData = {
-      1: { title: "1번 문제", image: "assets/3dc40dedd4506fe611be76485b783763.png", answer: "파인애플 + 코끼리 + 안경 + 손목시계 + 마이크", revealImage: "assets/df4b307168f722d2c6fe9bf6d9c9e193.jpg" },
-      2: { title: "2번 문제", image: "assets/2bca55221d62c118f3f3d75402b4ea1c.png", answer: "식빵 + 선풍기 + 립스틱 + 초밥(김밥) + 개구리", revealImage: "assets/17370e4566f5c54c20f729a19524457d.jpg" },
+      1: { title: "1번 문제", image: "assets/68f8eb4c93849fbab0570137a0c99719.jpg", answer: "파인애플 + 코끼리 + 안경 + 손목시계 + 마이크", revealImage: "assets/df4b307168f722d2c6fe9bf6d9c9e193.jpg" },
+      2: { title: "2번 문제", image: "assets/ac7731f9d68c7215c6a6dfaae1e858c7.jpg", answer: "식빵 + 선풍기 + 립스틱 + 초밥(김밥) + 개구리", revealImage: "assets/17370e4566f5c54c20f729a19524457d.jpg" },
       3: { title: "3번 문제", image: "assets/7908d8ce07e6157c4e7b09ec744361b4.png", answer: "여성 인물사진 + 반투명 사각 프레임" , revealImage: G2_NEW_IMG_1, hideAnswerText: true },
       4: { title: "4번 문제", image: "assets/e63e10d6f6d1e4fef7ed8a8814293483.png", answer: "남성 인물사진 + 사각 프레임(카드)" , revealImage: G2_NEW_IMG_2, hideAnswerText: true },
-      5: { title: "5번 문제", image: "assets/714c6b950fcae59a3ddb7d401c540bbe.png", answer: "해바라기 + 태극기 + 오토바이 + 밤 + 망치", revealImage: "assets/27b71603bb7c5fd2067901096d902391.jpg" }
+      5: { title: "5번 문제", image: "assets/faf3f9c19fb8fd9fd9249ab1f039e4c7.jpg", answer: "해바라기 + 태극기 + 오토바이 + 밤 + 망치", revealImage: "assets/27b71603bb7c5fd2067901096d902391.jpg" }
     ,
       6: { title: "6번 문제", image: "assets/df0f814de8eaa7163cc67565ca4f7741.jpg", answer: "경찰차 + 헤어드라이기 + 계란후라이 + 기린 + 오징어", revealImage: "assets/f763bc3b7f60c5906e8694f6b71e3a78.jpg" },
       7: { title: "7번 문제", image: "assets/31753951eb965482ffa496ea97e628c7.jpg", answer: "네잎클로버 + 피자 + 밥솥 + 기타 + 참외", revealImage: "assets/c45df1bca732a631c0f9b3790de5fff2.jpg" },
@@ -4081,14 +4104,14 @@ const g2RoundsData = {
 
   <script>
     /* ================= GAME 3: 맞다맞다 그거지? (조각 지우기 / 포스터 공개) ================= */
-    const G3_IMG_1 = "assets/bd2d40bd2fe25576890dfe48bdd20079.png";
-    const G3_IMG_2 = "assets/ce0c3431fad73ed0bb4f58eefef6fcf9.png";
-    const G3_IMG_3 = "assets/213258af99dc13f6e03f1bc0dfcaaabb.png";
-    const G3_IMG_4 = "assets/50003bfd9995e73f90fdb048a5077d03.png";
-    const G3_IMG_5 = "assets/d5290ea4eadcd6e4ee1466299185303e.png";
-    const G3_IMG_6 = "assets/390a97a77d4b5493aa09e97ca6ab03c4.png";
-    const G3_IMG_7 = "assets/327b82ebc47f035f7f3852914b1f534f.png";
-    const G3_IMG_8 = "assets/9195e2d3589946aa42cae2a3e26aa256.png";
+    const G3_IMG_1 = "assets/8d6bca50a1d0fb0b5656ae269d27e344.jpg";
+    const G3_IMG_2 = "assets/fe8dc3f8cc14d05b5c598f9053fa8461.jpg";
+    const G3_IMG_3 = "assets/612418e485643a151e77cc015c6b17cb.jpg";
+    const G3_IMG_4 = "assets/6888c30d131beb6788a9ad275955304c.jpg";
+    const G3_IMG_5 = "assets/892e46b2485c3345cc2b67d5785b9062.jpg";
+    const G3_IMG_6 = "assets/4d0be883a8d4da3a865320a5979fa3df.jpg";
+    const G3_IMG_7 = "assets/ed33d214e42ea138d22e6c9fa7088406.jpg";
+    const G3_IMG_8 = "assets/6f3857fbe3918751f6cd95e42f21e095.jpg";
         const G3_IMG_9 = "assets/1d98a91e24b859dc5c48549c28c46844.jpg";
     const G3_IMG_10 = "assets/aa9b7c8605eefd97155191b4a3e1ea3d.jpg";
     const G3_IMG_11 = "assets/85d46cdc7cab6e71953e4b4cb213dd69.jpg";
@@ -4342,9 +4365,9 @@ const g3RoundsData = {
 
   <script>
     /* ================= GAME 5: 이게이게틀렸어! (틀린그림찾기, 60초 카운트다운) ================= */
-    const G5_IMG_1 = "assets/3b2a71684adac437b8e734c6ff43bcdf.png";
-    const G5_IMG_2 = "assets/e69eb59335982fc797219a0ce26a0e72.png";
-    const G5_IMG_3 = "assets/c8de865496161af78a0141baaf122be3.png";
+    const G5_IMG_1 = "assets/7124a4a3885642415777b42133555d7d.jpg";
+    const G5_IMG_2 = "assets/97db66346bc82bd0f710952863959dd0.jpg";
+    const G5_IMG_3 = "assets/6eb026fcc75320198b3f4c20205452a1.jpg";
 
     const g5RoundsData = {
       1: { title: '1번 문제', subtitle: '연습', image: G5_IMG_1, diffs: [
@@ -4567,6 +4590,54 @@ const g3RoundsData = {
 
     const g6BlobUrlCache = {};
 
+    // ---- Forced volume boost for specific rounds (their source video audio is quiet) ----
+    // Routes the <video> element's audio through the Web Audio API so it can be amplified
+    // past the native 1.0 ceiling of HTMLMediaElement.volume. A limiter-style compressor
+    // sits after the gain stage purely as a safety net against harsh clipping on the
+    // boosted rounds; at unity gain (every other round) it stays effectively silent/transparent.
+    const G6_VOLUME_BOOST_ROUNDS = { 3: 2.6, 6: 2.6 };
+    let g6AudioCtx = null;
+    let g6GainNode = null;
+    let g6MediaSource = null;
+
+    function g6EnsureAudioGraph() {
+      if (g6MediaSource) return true;
+      const video = document.getElementById('g6-video');
+      if (!video) return false;
+      try {
+        const Ctx = window.AudioContext || window.webkitAudioContext;
+        g6AudioCtx = new Ctx();
+        g6MediaSource = g6AudioCtx.createMediaElementSource(video);
+        g6GainNode = g6AudioCtx.createGain();
+        const limiter = g6AudioCtx.createDynamicsCompressor();
+        limiter.threshold.value = -1;
+        limiter.knee.value = 0;
+        limiter.ratio.value = 20;
+        limiter.attack.value = 0.001;
+        limiter.release.value = 0.1;
+        g6GainNode.gain.value = 1;
+        g6MediaSource.connect(g6GainNode);
+        g6GainNode.connect(limiter);
+        limiter.connect(g6AudioCtx.destination);
+        return true;
+      } catch (e) {
+        // Web Audio unavailable/blocked for some reason — fall back to native volume only.
+        g6AudioCtx = null; g6GainNode = null; g6MediaSource = null;
+        return false;
+      }
+    }
+
+    function g6ApplyVolumeBoost(round) {
+      const ok = g6EnsureAudioGraph();
+      if (!ok) return;
+      if (g6AudioCtx && g6AudioCtx.state === 'suspended') {
+        g6AudioCtx.resume().catch(() => {});
+      }
+      if (g6GainNode) {
+        g6GainNode.gain.value = G6_VOLUME_BOOST_ROUNDS[round] || 1;
+      }
+    }
+
     // Large base64 data URIs are slow/unreliable for <video> in some browsers;
     // converting once to a Blob URL is faster and more robust to load and play.
     function g6GetVideoSrc(round) {
@@ -4663,6 +4734,7 @@ const g3RoundsData = {
       video.src = g6GetVideoSrc(g6CurrentRound);
       video.currentTime = 0;
       video.load();
+      g6ApplyVolumeBoost(g6CurrentRound);
 
       document.getElementById('g6-seek').value = 0;
       document.getElementById('g6-time-display').textContent = '00:00 / 00:00';
