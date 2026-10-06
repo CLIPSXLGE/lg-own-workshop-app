@@ -218,6 +218,57 @@
       100% { transform: scale(1) rotate(0deg); opacity: 1; }
     }
     .animate-joker-pop { animation: joker-pop-in 0.5s cubic-bezier(0.34,1.56,0.64,1) both; }
+    /* Game 6 (리듬맞춰 또박또박!): the source videos letterbox their 문제 제시 영역 (the
+       word/answer grid) into a small, vertically-centered band. On rounds where that band
+       reads too small, zoom the whole video in around its center so the grid fills the
+       screen; the title/caption text above and below gets cropped off by the player's
+       own overflow-hidden frame, which is the intended effect here. */
+    #g6-video.g6-video-zoomed { transform: scale(2.1); transform-origin: center center; }
+    .joker-problem-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      aspect-ratio: 1 / 1;
+      background: linear-gradient(160deg, #3b0764, #1e1b4b);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 1rem;
+      color: #e9d5ff;
+      font-weight: 800;
+      transition: transform .15s, box-shadow .15s;
+      cursor: pointer;
+    }
+    .joker-problem-box:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(192,38,211,0.3); }
+    .joker-problem-box:active { transform: scale(0.95); }
+    .joker-problem-box-num { font-size: 1.75rem; line-height: 1; }
+    .joker-problem-box-label { font-size: 0.7rem; opacity: 0.8; }
+    @keyframes joker-reveal-pop-in {
+      0% { opacity: 0; transform: scale(0.3) rotate(-6deg); }
+      55% { opacity: 1; transform: scale(1.15) rotate(2deg); }
+      80% { transform: scale(0.96) rotate(-1deg); }
+      100% { opacity: 1; transform: scale(1) rotate(0deg); }
+    }
+    .animate-joker-reveal { animation: joker-reveal-pop-in 0.55s cubic-bezier(0.34,1.56,0.64,1) both; }
+    .quote-problem-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      aspect-ratio: 1 / 1;
+      background: linear-gradient(160deg, #0c4a6e, #1e1b4b);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 1rem;
+      color: #bae6fd;
+      font-weight: 800;
+      transition: transform .15s, box-shadow .15s;
+      cursor: pointer;
+    }
+    .quote-problem-box:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(2,132,199,0.3); }
+    .quote-problem-box:active { transform: scale(0.95); }
+    .quote-problem-box-num { font-size: 1.4rem; line-height: 1; }
+    .quote-problem-box-label { font-size: 0.65rem; opacity: 0.8; }
     @keyframes offline-blink {
       0%, 100% { opacity: 1; }
       50% { opacity: 0.15; }
@@ -665,6 +716,55 @@
         if (bgmLoop && bgmLoop.state === "started") bgmLoop.stop(0);
       } catch (e) {}
     }
+
+    // ---- Gentle, cheerful background loop for the joker / quote popups while a problem is open ----
+    let popupBgmSynth, popupBgmBass, popupBgmLoop;
+    let popupBgmStep = 0;
+    // 32 eighth-note steps (2 bars of 4/4 x 2): bouncy C-major pentatonic melody, null = rest
+    const POPUP_BGM_MELODY = [
+      "E5", null, "G5", "E5", "C5", null, "D5", "E5",
+      "G5", null, "A5", "G5", "E5", null, "D5", null,
+      "C5", null, "E5", "G5", "A5", null, "G5", "E5",
+      "D5", "E5", "G5", null, "E5", null, null, null
+    ];
+    const POPUP_BGM_BASS = { 0: "C3", 8: "A2", 16: "F2", 24: "G2" };
+
+    function startPopupBGM() {
+      if (!soundEnabled) return;
+      if (!audioInitialized) initAudio();
+      try {
+        if (!popupBgmSynth) {
+          popupBgmSynth = new Tone.Synth({
+            oscillator: { type: "triangle" },
+            envelope: { attack: 0.01, decay: 0.18, sustain: 0.05, release: 0.3 },
+            volume: -26
+          }).toDestination();
+          popupBgmBass = new Tone.Synth({
+            oscillator: { type: "sine" },
+            envelope: { attack: 0.01, decay: 0.3, sustain: 0.2, release: 0.4 },
+            volume: -26
+          }).toDestination();
+          popupBgmLoop = new Tone.Loop((time) => {
+            const i = popupBgmStep % POPUP_BGM_MELODY.length;
+            const note = POPUP_BGM_MELODY[i];
+            if (note) popupBgmSynth.triggerAttackRelease(note, "8n", time, 0.8);
+            if (POPUP_BGM_BASS[i]) popupBgmBass.triggerAttackRelease(POPUP_BGM_BASS[i], "2n", time, 0.8);
+            popupBgmStep++;
+          }, "8n");
+        }
+        if (popupBgmLoop.state === "started") return; // already playing
+        popupBgmStep = 0;
+        Tone.Transport.bpm.value = 112;
+        if (Tone.Transport.state !== "started") Tone.Transport.start();
+        popupBgmLoop.start(0);
+      } catch (e) {}
+    }
+
+    function stopPopupBGM() {
+      try {
+        if (popupBgmLoop && popupBgmLoop.state === "started") popupBgmLoop.stop(0);
+      } catch (e) {}
+    }
   </script>
 
   <!-- Global Buzzer Winner Overlay (shared by every game's buzzer widget) -->
@@ -746,6 +846,176 @@
     </div>
   </div>
 
+
+  <!-- Joker Game Popup: 막힘없이 줄줄이 말해요 (8-problem lightning name-chain game) -->
+  <div id="joker-game-popup" class="hidden fixed inset-0 z-[998] flex items-center justify-center bg-slate-950/85 p-4">
+    <div class="relative w-full max-w-3xl bg-slate-900 border border-slate-800 rounded-3xl shadow-2xl max-h-[92vh] overflow-y-auto">
+      <!-- Always-visible top bar: close (X) button on the right at all times; the
+           back/prev/next controls only appear once a problem is selected, letting the
+           host jump directly between problems without going back to the grid each time. -->
+      <div id="joker-problem-header" class="w-full flex justify-between items-center bg-slate-950/80 border-b border-slate-800 px-4 py-3 rounded-t-3xl">
+        <div id="joker-header-left" class="hidden flex items-center gap-3">
+          <button onclick="jokerBackToGrid()" class="p-2 bg-slate-800 hover:bg-slate-700 rounded-lg text-sm text-slate-300 transition" title="목록으로">
+            <i class="fa-solid fa-arrow-left"></i>
+          </button>
+          <span id="joker-header-badge" class="text-sm font-bold text-slate-100">문제 1</span>
+        </div>
+        <div class="flex items-center gap-2 ml-auto">
+          <div id="joker-header-nav" class="hidden flex items-center gap-2">
+            <button onclick="jokerPrevProblem()" class="p-2 bg-slate-800 hover:bg-slate-700 rounded-lg text-xs text-slate-300 transition">이전 단계</button>
+            <button onclick="jokerNextProblem()" class="p-2 bg-slate-800 hover:bg-slate-700 rounded-lg text-xs text-slate-300 transition">다음 단계</button>
+          </div>
+          <button onclick="closeJokerGamePopup()" class="w-8 h-8 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-200 text-lg flex items-center justify-center transition" title="닫기">
+            ×
+          </button>
+        </div>
+      </div>
+
+      <!-- VIEW 1: grid of 8 mystery problem boxes -->
+      <div id="joker-view-grid" class="p-6 md:p-10 flex flex-col items-center gap-6">
+        <div class="text-center">
+          <div class="text-4xl mb-1">🃏</div>
+          <h3 class="text-2xl font-black text-white">막힘없이 줄줄이 말해요</h3>
+        </div>
+        <div class="grid grid-cols-4 gap-3 md:gap-4 w-full">
+          <button onclick="jokerSelectProblem(1)" class="joker-problem-box"><span class="joker-problem-box-num">1</span><span class="joker-problem-box-label">문제 1</span></button>
+          <button onclick="jokerSelectProblem(2)" class="joker-problem-box"><span class="joker-problem-box-num">2</span><span class="joker-problem-box-label">문제 2</span></button>
+          <button onclick="jokerSelectProblem(3)" class="joker-problem-box"><span class="joker-problem-box-num">3</span><span class="joker-problem-box-label">문제 3</span></button>
+          <button onclick="jokerSelectProblem(4)" class="joker-problem-box"><span class="joker-problem-box-num">4</span><span class="joker-problem-box-label">문제 4</span></button>
+          <button onclick="jokerSelectProblem(5)" class="joker-problem-box"><span class="joker-problem-box-num">5</span><span class="joker-problem-box-label">문제 5</span></button>
+          <button onclick="jokerSelectProblem(6)" class="joker-problem-box"><span class="joker-problem-box-num">6</span><span class="joker-problem-box-label">문제 6</span></button>
+          <button onclick="jokerSelectProblem(7)" class="joker-problem-box"><span class="joker-problem-box-num">7</span><span class="joker-problem-box-label">문제 7</span></button>
+          <button onclick="jokerSelectProblem(8)" class="joker-problem-box"><span class="joker-problem-box-num">8</span><span class="joker-problem-box-label">문제 8</span></button>
+        </div>
+      </div>
+
+      <!-- VIEW 2: start screen (time-limit setting) shown after a box is picked -->
+      <div id="joker-view-start" class="hidden p-6 md:p-10 flex flex-col items-center gap-6 text-center">
+        <h3 class="text-xl font-extrabold text-slate-100">준비되셨나요?</h3>
+        <p class="text-sm text-slate-400 max-w-sm leading-relaxed">시작하기를 누르면 3초 뒤 제시어가 공개됩니다. 공개된 제한시간 안에 팀원들이 돌아가며 막힘없이 모두 말해야 성공!</p>
+
+        <div class="flex items-center gap-3 bg-slate-950/60 border border-slate-800 rounded-xl px-4 py-3">
+          <span class="text-xs font-bold text-slate-400 whitespace-nowrap">제한시간</span>
+          <input type="range" id="joker-timelimit-slider" min="5" max="15" step="1" value="10" oninput="jokerSetTimeLimit(this.value)" class="accent-fuchsia-500 h-1.5 w-40 bg-slate-700 rounded-lg cursor-pointer">
+          <span id="joker-timelimit-val" class="text-sm font-bold text-fuchsia-400 bg-slate-900 px-2 py-0.5 rounded border border-slate-800 whitespace-nowrap">10초</span>
+        </div>
+
+        <div class="flex gap-3">
+          <button onclick="jokerBackToGrid()" class="px-5 py-3 bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold rounded-xl active:scale-95 transition">목록으로</button>
+          <button onclick="jokerStartCountdown()" class="px-8 py-3 bg-gradient-to-r from-fuchsia-600 to-purple-600 hover:brightness-110 text-white font-black rounded-xl shadow-lg shadow-fuchsia-500/30 active:scale-95 transition">시작하기</button>
+        </div>
+      </div>
+
+      <!-- VIEW 3: countdown -> prompt reveal + timer, over a themed background -->
+      <div id="joker-view-play" class="hidden relative w-full aspect-[4/3] md:aspect-[16/10] overflow-hidden rounded-b-3xl">
+        <div id="joker-play-bg" class="absolute inset-0 bg-cover bg-center"></div>
+        <div class="absolute inset-0 bg-gradient-to-b from-black/50 via-black/30 to-black/80"></div>
+
+        <div id="joker-countdown-overlay" class="absolute inset-0 flex flex-col items-center justify-center gap-3 z-10">
+          <div class="text-slate-100 font-black tracking-widest uppercase" style="font-size:clamp(1.25rem,3.2vw,2rem);text-shadow:0 2px 12px rgba(0,0,0,.9)">곧 공개됩니다!</div>
+          <div id="joker-countdown-number" class="font-black text-white text-glow leading-none" style="font-size:clamp(9rem,26vw,15rem);text-shadow:0 4px 24px rgba(0,0,0,.9)">3</div>
+        </div>
+
+        <div id="joker-reveal-layer" class="hidden absolute inset-0 flex flex-col items-center justify-center gap-4 p-6 z-10 text-center" style="background:radial-gradient(ellipse at center, rgba(0,0,0,.90) 0%, rgba(0,0,0,.80) 50%, rgba(0,0,0,.55) 100%), linear-gradient(to bottom, rgba(0,0,0,.35), rgba(0,0,0,.85))">
+          <div id="joker-prompt-text" class="font-black text-white drop-shadow-lg leading-tight" style="font-size:clamp(2.5rem,7vw,4.5rem);text-shadow:0 3px 18px rgba(0,0,0,.95), 0 0 2px rgba(0,0,0,1)"></div>
+          <button id="joker-timer-start-btn" onclick="jokerStartSpeakingTimer()" class="px-8 py-3 bg-gradient-to-r from-amber-500 to-orange-500 hover:brightness-110 text-white font-black rounded-xl shadow-lg shadow-amber-500/30 active:scale-95 transition">시작</button>
+          <div id="joker-timer-wrap" class="hidden flex flex-col items-center gap-1">
+            <div id="joker-timer-number" class="font-black text-amber-400 text-glow leading-none" style="font-size:clamp(5.5rem,15vw,8.5rem);text-shadow:0 3px 18px rgba(0,0,0,.9)"></div>
+            <div class="font-bold text-slate-100 tracking-widest uppercase" style="font-size:clamp(.9rem,2vw,1.25rem)">남은 시간</div>
+          </div>
+        </div>
+
+        <div id="joker-result-layer" class="hidden absolute inset-0 flex flex-col items-center justify-center gap-5 p-6 z-20 bg-black/70 text-center">
+          <div class="text-2xl font-black text-white">시간 종료!</div>
+          <p class="text-sm text-slate-300">팀원 전원이 막힘없이 다 말했다면 성공입니다.</p>
+          <div class="flex gap-3">
+            <button onclick="jokerBackToGrid()" class="px-5 py-3 bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold rounded-xl active:scale-95 transition">목록으로</button>
+            <button onclick="jokerReplaySame()" class="px-6 py-3 bg-fuchsia-600 hover:bg-fuchsia-500 text-white font-black rounded-xl active:scale-95 transition">다시 하기</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quote Game Popup: 그건 거기 대사! 내가 젤 잘한다. (15-question movie-quote guessing game) -->
+  <div id="quote-game-popup" class="hidden fixed inset-0 z-[998] flex items-center justify-center bg-slate-950/85 p-4">
+    <div id="quote-popup-box" class="relative w-full max-w-3xl bg-slate-900 border border-slate-800 rounded-3xl shadow-2xl max-h-[92vh] overflow-y-auto" style="transition:max-width .2s">
+      <!-- Always-visible top bar: close (X) button on the right at all times; the
+           back/prev/next controls only appear once a problem is selected. -->
+      <div id="quote-problem-header" class="w-full flex justify-between items-center bg-slate-950/80 border-b border-slate-800 px-4 py-3 rounded-t-3xl">
+        <div id="quote-header-left" class="hidden flex items-center gap-3">
+          <button onclick="quoteBackToGrid()" class="p-2 bg-slate-800 hover:bg-slate-700 rounded-lg text-sm text-slate-300 transition" title="목록으로">
+            <i class="fa-solid fa-arrow-left"></i>
+          </button>
+          <span id="quote-header-badge" class="text-sm font-bold text-slate-100">문제 1</span>
+        </div>
+        <div class="flex items-center gap-2 ml-auto">
+          <div id="quote-header-nav" class="hidden flex items-center gap-2">
+            <button onclick="quotePrevProblem()" class="p-2 bg-slate-800 hover:bg-slate-700 rounded-lg text-xs text-slate-300 transition">이전문제</button>
+            <button onclick="quoteNextProblem()" class="p-2 bg-slate-800 hover:bg-slate-700 rounded-lg text-xs text-slate-300 transition">다음문제</button>
+          </div>
+          <button onclick="closeQuoteGamePopup()" class="w-8 h-8 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-200 text-lg flex items-center justify-center transition" title="닫기">
+            ×
+          </button>
+        </div>
+      </div>
+
+      <!-- VIEW 1: grid of 15 problem boxes -->
+      <div id="quote-view-grid" class="p-6 md:p-10 flex flex-col items-center gap-6">
+        <div class="text-center">
+          <div class="text-4xl mb-1">🎬</div>
+          <h3 class="text-2xl font-black text-white">그건 거기 대사!<br>내가 젤 잘한다.</h3>
+        </div>
+        <div class="grid grid-cols-5 gap-3 md:gap-4 w-full">
+          <button onclick="quoteSelectProblem(1)" class="quote-problem-box"><span class="quote-problem-box-num">1</span><span class="quote-problem-box-label">문제 1</span></button>
+          <button onclick="quoteSelectProblem(2)" class="quote-problem-box"><span class="quote-problem-box-num">2</span><span class="quote-problem-box-label">문제 2</span></button>
+          <button onclick="quoteSelectProblem(3)" class="quote-problem-box"><span class="quote-problem-box-num">3</span><span class="quote-problem-box-label">문제 3</span></button>
+          <button onclick="quoteSelectProblem(4)" class="quote-problem-box"><span class="quote-problem-box-num">4</span><span class="quote-problem-box-label">문제 4</span></button>
+          <button onclick="quoteSelectProblem(5)" class="quote-problem-box"><span class="quote-problem-box-num">5</span><span class="quote-problem-box-label">문제 5</span></button>
+          <button onclick="quoteSelectProblem(6)" class="quote-problem-box"><span class="quote-problem-box-num">6</span><span class="quote-problem-box-label">문제 6</span></button>
+          <button onclick="quoteSelectProblem(7)" class="quote-problem-box"><span class="quote-problem-box-num">7</span><span class="quote-problem-box-label">문제 7</span></button>
+          <button onclick="quoteSelectProblem(8)" class="quote-problem-box"><span class="quote-problem-box-num">8</span><span class="quote-problem-box-label">문제 8</span></button>
+          <button onclick="quoteSelectProblem(9)" class="quote-problem-box"><span class="quote-problem-box-num">9</span><span class="quote-problem-box-label">문제 9</span></button>
+          <button onclick="quoteSelectProblem(10)" class="quote-problem-box"><span class="quote-problem-box-num">10</span><span class="quote-problem-box-label">문제 10</span></button>
+          <button onclick="quoteSelectProblem(11)" class="quote-problem-box"><span class="quote-problem-box-num">11</span><span class="quote-problem-box-label">문제 11</span></button>
+          <button onclick="quoteSelectProblem(12)" class="quote-problem-box"><span class="quote-problem-box-num">12</span><span class="quote-problem-box-label">문제 12</span></button>
+          <button onclick="quoteSelectProblem(13)" class="quote-problem-box"><span class="quote-problem-box-num">13</span><span class="quote-problem-box-label">문제 13</span></button>
+        </div>
+      </div>
+
+      <!-- VIEW 2: start screen for the selected problem -->
+      <div id="quote-view-start" class="hidden p-6 md:p-10 flex flex-col items-center gap-6 text-center">
+        <h3 class="text-xl font-extrabold text-slate-100">준비되셨나요?</h3>
+        <p class="text-sm text-slate-400 max-w-sm">시작하기를 누르면 영화 속 대사가 들려옵니다.<br>어떤 영화의 대사인지 팀원들과 맞혀보세요!</p>
+        <button onclick="quoteStartClip()" class="px-8 py-3 bg-gradient-to-r from-sky-600 to-indigo-600 hover:brightness-110 text-white font-black rounded-xl shadow-lg shadow-sky-500/30 active:scale-95 transition">시작하기</button>
+      </div>
+
+      <!-- VIEW 3: movie quote is playing -->
+      <div id="quote-view-play" class="hidden p-6 md:p-10 flex flex-col items-center gap-6 text-center">
+        <div class="text-5xl animate-pulse">🎙️</div>
+        <h3 class="text-xl font-extrabold text-slate-100">영화 대사를 들어보세요!</h3>
+        <p class="text-sm text-slate-400">어떤 영화의 대사일까요?</p>
+        <audio id="quote-audio" preload="none"></audio>
+        <div class="flex gap-3">
+          <button onclick="quoteReplayClip()" class="px-5 py-3 bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold rounded-xl active:scale-95 transition flex items-center gap-2">
+            <i class="fa-solid fa-rotate-right"></i> 다시 듣기
+          </button>
+          <button onclick="quoteRevealAnswer()" class="px-6 py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-black rounded-xl active:scale-95 transition">정답 확인</button>
+        </div>
+      </div>
+
+      <!-- VIEW 4: answer reveal -->
+      <div id="quote-view-answer" class="hidden p-4 md:p-6 flex flex-col items-center gap-4 text-center">
+        <img id="quote-answer-img" src="" alt="정답 화면" class="rounded-2xl border-2 border-slate-800 shadow-xl" style="aspect-ratio:16/9;object-fit:contain;width:min(100%, calc((92vh - 230px) * 1.7778))">
+        <div id="quote-answer-title" class="text-2xl font-black text-white"></div>
+        <div class="flex gap-3">
+          <button onclick="quoteBackToGrid()" class="px-5 py-3 bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold rounded-xl active:scale-95 transition">목록으로</button>
+          <button onclick="quoteNextProblem()" class="px-6 py-3 bg-sky-600 hover:bg-sky-500 text-white font-black rounded-xl active:scale-95 transition">다음 문제</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Joker Roulette Outcome Popup -->
   <div id="joker-popup" class="hidden fixed inset-0 z-[999] flex items-center justify-center pointer-events-none">
     <div id="joker-confetti-layer" class="absolute inset-0 overflow-hidden"></div>
@@ -756,7 +1026,7 @@
     </div>
   </div>
 
-  <audio id="intro-bgm-audio" loop preload="auto" src="assets/5f953dda9ab8ceefd144b0ed4643a56e.bin"></audio>
+  <audio id="intro-bgm-audio" loop preload="auto" src="assets/5f953dda9ab8ceefd144b0ed4643a56e.m4a"></audio>
 
   <main class="flex-grow container mx-auto px-4 py-3 flex flex-col justify-center items-center z-10 max-w-7xl">
     <!-- SLIDE 1: INTRO HUB (4 GAME SELECTION) -->
@@ -769,7 +1039,7 @@
           하나된 마음으로 <span class="text-red-500 animate-pulse">원팀</span> 워밍업 Challenge
         </h1>
         <p class="text-white text-xs md:text-base font-medium leading-snug whitespace-nowrap">
-          카드를 선택하면 바로 해당 게임으로 이동합니다. 12가지 게임 중 하나를 골라보세요!
+          카드를 선택하면 바로 해당 게임으로 이동합니다. 13가지 게임 중 하나를 골라보세요!
         </p>
       </div>
 
@@ -788,7 +1058,7 @@
         </div>
       </div>
 
-      <!-- 12 Game Cards Grid (4 per row) -->
+      <!-- 13 Game Cards Grid (4 per row) -->
       <div class="grid grid-cols-4 gap-2 md:gap-3 w-full max-w-3xl mx-auto mt-6">
 
         <!-- CARD 1: 마게마게 얼마게? -->
@@ -879,15 +1149,12 @@
           </div>
         </div>
 
-        <!-- CARD 9: 조커 게임 (구 복불복 미니 Race, offline) -->
-        <div id="hub-card-9" onclick="openOfflineGamePopup('race1')" class="game-hub-card aspect-[4/3]">
-          <div class="hub-bg" style="background-image: url('assets/00c935122f101d40cdb85c39c122bc50.jpg')"></div>
+        <!-- CARD 9: 조커 게임 (구 복불복 미니 Race) - now a real in-browser 8-problem speed-talking game -->
+        <div id="hub-card-9" onclick="openJokerGamePopup()" class="game-hub-card aspect-[4/3]">
+          <div class="hub-bg" style="background-image: url('assets/3d6f99c49ccdd3991e27453299a1df0d.jpg')"></div>
           <div class="hub-overlay"></div>
-          <span class="hub-card-tag offline-badge offline-badge-top offline-badge-lg text-slate-200 border-slate-400/40 bg-slate-900/70">
-            <span class="offline-badge-dot"></span>오프라인
-          </span>
           <div class="hub-card-content">
-            <h3 class="hub-card-title">조커 게임</h3>
+            <h3 class="hub-card-title">막힘없이<br>줄줄이 말해요</h3>
           </div>
         </div>
 
@@ -927,6 +1194,14 @@
           </div>
         </div>
 
+        <!-- CARD 13: 그건 거기 대사! 내가 젤 잘한다. (movie-quote guessing game) -->
+        <div id="hub-card-13" onclick="openQuoteGamePopup()" class="game-hub-card aspect-[4/3]">
+          <div id="hub-card-13-bg" class="hub-bg"></div>
+          <div class="hub-overlay"></div>
+          <div class="hub-card-content">
+            <h3 class="hub-card-title">그건 거기 대사!<br>내가 젤 잘한다.</h3>
+          </div>
+        </div>
       </div>
 
       <!-- Lightning Buzzer Button -->
@@ -2421,6 +2696,7 @@
         soundBtn.innerHTML = '<i class="fa-solid fa-volume-xmark"></i>';
         soundBtn.classList.replace('text-slate-300', 'text-slate-500');
         stopBGM();
+        stopPopupBGM();
       }
     }
 
@@ -2877,26 +3153,51 @@
       { slide: 'g3-lobby', accent: '#f43f5e', cardId: 'hub-card-3' },
       { slide: 'g4-lobby', accent: '#14b8a6', cardId: 'hub-card-4' },
       { slide: 'g5-lobby', accent: '#f59e0b', cardId: 'hub-card-5' },
-      { slide: null, accent: '#c026d3', cardId: 'hub-card-9', popupKey: 'race1' },
+      { slide: null, accent: '#c026d3', cardId: 'hub-card-9', popupKey: 'jokerGame' },
       { slide: null, accent: '#a855f7', cardId: 'hub-card-10', popupKey: 'race2' },
       { slide: null, accent: '#a855f7', cardId: 'hub-card-11', popupKey: 'pingpong' },
-      { slide: null, accent: '#a855f7', cardId: 'hub-card-12', popupKey: 'straw' }
+      { slide: null, accent: '#a855f7', cardId: 'hub-card-12', popupKey: 'straw' },
+      { slide: null, accent: '#0ea5e9', cardId: 'hub-card-13', popupKey: 'quoteGame' }
     ];
     const ROULETTE_REPEATS = 14;
     const ROULETTE_TARGET_SET = 9;
     let rouletteSpinning = false;
     let rouletteSelected = null;
+    // Tracks which rouletteGames indices have already been drawn, so the same game
+    // doesn't repeat until every game has come up once (then the pool resets).
+    let rouletteUsedIndices = new Set();
 
-    let rouletteTickLoop;
+    let rouletteTickLoop, rouletteSpinSynth;
+    // Cheerful bouncy pentatonic arpeggio (C major pentatonic) used while the wheel spins
+    const ROULETTE_SPIN_NOTES = ["C5", "E5", "G5", "A5", "G5", "E5", "D5", "G5", "C6", "A5", "G5", "E5"];
+    const ROULETTE_DECEL_NOTES = ["C5", "D5", "E5", "G5", "A5", "C6", "D6", "E6"];
+    let rouletteSpinStep = 0;
+    let rouletteDecelStep = 0;
+
+    function ensureRouletteSynth() {
+      if (!rouletteSpinSynth) {
+        rouletteSpinSynth = new Tone.Synth({
+          oscillator: { type: "square" },
+          envelope: { attack: 0.002, decay: 0.09, sustain: 0.0, release: 0.05 },
+          volume: -20
+        }).toDestination();
+      }
+    }
+
     function startRouletteSound() {
       if (!soundEnabled) return;
       if (!audioInitialized) initAudio();
       try {
+        ensureRouletteSynth();
+        rouletteSpinStep = 0;
+        rouletteDecelStep = 0;
         if (!rouletteTickLoop) {
           rouletteTickLoop = new Tone.Loop((time) => {
-            metalSynth.triggerAttackRelease(0.03, time, 0.3);
+            const note = ROULETTE_SPIN_NOTES[rouletteSpinStep++ % ROULETTE_SPIN_NOTES.length];
+            rouletteSpinSynth.triggerAttackRelease(note, "32n", time, 0.9);
           }, "16n");
         }
+        Tone.Transport.bpm.value = 150;
         if (Tone.Transport.state !== "started") Tone.Transport.start();
         if (rouletteTickLoop.state !== "started") rouletteTickLoop.start(0);
       } catch (e) {}
@@ -2972,6 +3273,12 @@
       if (!rouletteSpinning) return;
       const track = document.getElementById('roulette-track');
 
+      // Swap the ambient spin loop for per-cell deceleration ticks (below) right as
+      // the wheel starts slowing down. The whirr keeps going but fades out over the
+      // deceleration and is cut for good in rouletteFinish when the wheel stops.
+      if (rouletteTickLoop && rouletteTickLoop.state === "started") { try { rouletteTickLoop.stop(0); } catch (e) {} }
+      rouletteDecelStep = 0;
+
       const computedTransform = getComputedStyle(track).transform;
       let currentY = 0;
       if (computedTransform && computedTransform !== 'none') {
@@ -2987,7 +3294,16 @@
       const viewport = document.getElementById('roulette-viewport');
       const markerY = viewport.clientHeight / 2;
 
-      const targetIndex = Math.floor(Math.random() * rouletteGames.length);
+      // Pick only from games not already drawn this cycle; once every game has come
+      // up once, the exclusion list resets so the roulette can cycle through again.
+      let availableIndices = rouletteGames.map((_, i) => i).filter(i => !rouletteUsedIndices.has(i));
+      if (availableIndices.length === 0) {
+        rouletteUsedIndices.clear();
+        availableIndices = rouletteGames.map((_, i) => i);
+      }
+      const targetIndex = availableIndices[Math.floor(Math.random() * availableIndices.length)];
+      rouletteUsedIndices.add(targetIndex);
+
       const cellCenterOffset = cellStep / 2;
       const cellCenterInTrack = ROULETTE_TARGET_SET * setHeight + targetIndex * cellStep + cellCenterOffset;
       const targetY = markerY - cellCenterInTrack;
@@ -2995,16 +3311,27 @@
       const startY = currentY;
       const duration = 3200;
       const startTime = performance.now();
+      let lastCellsCrossed = 0;
 
       function animateStep(now) {
         const t = Math.min(1, (now - startTime) / duration);
         const eased = 1 - Math.pow(1 - t, 3);
         const y = startY + (targetY - startY) * eased;
         track.style.transform = `translateY(${y}px)`;
+
+        // A tick each time the track crosses a new cell boundary — since the easing
+        // decelerates, these naturally come fast at first and slow down near the end,
+        // like a real spinning wheel winding down.
+        const cellsCrossed = Math.floor(Math.abs(y - startY) / cellStep);
+        if (cellsCrossed > lastCellsCrossed) {
+          lastCellsCrossed = cellsCrossed;
+          playRouletteTick();
+        }
+
         if (t < 1) {
           requestAnimationFrame(animateStep);
         } else {
-          rouletteFinish(targetIndex);
+          rouletteFinish(targetIndex); // already plays the landing chime
         }
       }
       requestAnimationFrame(animateStep);
@@ -3012,6 +3339,16 @@
       rouletteSpinning = false;
       document.getElementById('roulette-btn-text').textContent = '뽑는 중...';
       document.getElementById('roulette-btn').disabled = true;
+    }
+
+    function playRouletteTick() {
+      if (!soundEnabled) return;
+      if (!audioInitialized) initAudio();
+      try {
+        ensureRouletteSynth();
+        const note = ROULETTE_DECEL_NOTES[rouletteDecelStep++ % ROULETTE_DECEL_NOTES.length];
+        rouletteSpinSynth.triggerAttackRelease(note, "32n", Tone.now(), 0.9);
+      } catch (e) {}
     }
 
     function rouletteFinish(index) {
@@ -3188,7 +3525,6 @@
 
     // ---- Popup controls (PC side) ----
     const offlineGamesData = {
-      race1: { title: '조커 게임', subtitle: '진행자가 맘대로 정한 게임에서 승리하라!', cardId: 'hub-card-9' },
       race2: { title: '바퀴벌레 Race', subtitle: '어디로 튈지 모르는 바퀴벌레 RACE에서 우승하라!', cardId: 'hub-card-10' },
       pingpong: { title: '지맘대로 통통 탁구공 빙고', cardId: 'hub-card-11' },
       straw: { title: '지멋대로 이리저리 물병에 빨대꽂기', cardId: 'hub-card-12' }
@@ -3217,6 +3553,411 @@
 
     function closeOfflineGamePopup() {
       document.getElementById('offline-game-popup').classList.add('hidden');
+    }
+
+    // ---- Joker Game: 막힘없이 줄줄이 말해요 (8-problem lightning name-chain game) ----
+    const jokerGameData = {
+      1: { label: '영화 제목<br>말하기', bg: "data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='800'%20height='600'%3E%0A%3Cdefs%3E%0A%3ClinearGradient%20id='g'%20x1='0'%20y1='0'%20x2='1'%20y2='1'%3E%0A%3Cstop%20offset='0%'%20stop-color='%237f1d1d'/%3E%0A%3Cstop%20offset='100%'%20stop-color='%231c1917'/%3E%0A%3C/linearGradient%3E%0A%3CradialGradient%20id='glow'%20cx='50%'%20cy='38%'%20r='55%'%3E%0A%3Cstop%20offset='0%'%20stop-color='%23f87171'%20stop-opacity='0.55'/%3E%0A%3Cstop%20offset='100%'%20stop-color='%23f87171'%20stop-opacity='0'/%3E%0A%3C/radialGradient%3E%0A%3C/defs%3E%0A%3Crect%20width='800'%20height='600'%20fill='url%28%23g%29'/%3E%0A%3Crect%20width='800'%20height='600'%20fill='url%28%23glow%29'/%3E%0A%3Ctext%20x='400'%20y='330'%20font-size='220'%20text-anchor='middle'%20dominant-baseline='middle'%3E%F0%9F%8E%AC%3C/text%3E%0A%3C/svg%3E" },
+      2: { label: '중국집 음식이름<br>말하기', bg: "data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='800'%20height='600'%3E%0A%3Cdefs%3E%0A%3ClinearGradient%20id='g'%20x1='0'%20y1='0'%20x2='1'%20y2='1'%3E%0A%3Cstop%20offset='0%'%20stop-color='%23991b1b'/%3E%0A%3Cstop%20offset='100%'%20stop-color='%2378350f'/%3E%0A%3C/linearGradient%3E%0A%3CradialGradient%20id='glow'%20cx='50%'%20cy='38%'%20r='55%'%3E%0A%3Cstop%20offset='0%'%20stop-color='%23fbbf24'%20stop-opacity='0.55'/%3E%0A%3Cstop%20offset='100%'%20stop-color='%23fbbf24'%20stop-opacity='0'/%3E%0A%3C/radialGradient%3E%0A%3C/defs%3E%0A%3Crect%20width='800'%20height='600'%20fill='url%28%23g%29'/%3E%0A%3Crect%20width='800'%20height='600'%20fill='url%28%23glow%29'/%3E%0A%3Ctext%20x='400'%20y='330'%20font-size='220'%20text-anchor='middle'%20dominant-baseline='middle'%3E%F0%9F%A5%9F%3C/text%3E%0A%3C/svg%3E" },
+      3: { label: '치킨 브랜드<br>말하기', bg: "data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='800'%20height='600'%3E%0A%3Cdefs%3E%0A%3ClinearGradient%20id='g'%20x1='0'%20y1='0'%20x2='1'%20y2='1'%3E%0A%3Cstop%20offset='0%'%20stop-color='%2392400e'/%3E%0A%3Cstop%20offset='100%'%20stop-color='%23451a03'/%3E%0A%3C/linearGradient%3E%0A%3CradialGradient%20id='glow'%20cx='50%'%20cy='38%'%20r='55%'%3E%0A%3Cstop%20offset='0%'%20stop-color='%23fde68a'%20stop-opacity='0.55'/%3E%0A%3Cstop%20offset='100%'%20stop-color='%23fde68a'%20stop-opacity='0'/%3E%0A%3C/radialGradient%3E%0A%3C/defs%3E%0A%3Crect%20width='800'%20height='600'%20fill='url%28%23g%29'/%3E%0A%3Crect%20width='800'%20height='600'%20fill='url%28%23glow%29'/%3E%0A%3Ctext%20x='400'%20y='330'%20font-size='220'%20text-anchor='middle'%20dominant-baseline='middle'%3E%F0%9F%8D%97%3C/text%3E%0A%3C/svg%3E" },
+      4: { label: '영화 명대사 말하기<br><span class="text-2xl md:text-4xl font-bold opacity-90">(2명 성대모사까지 하면 더블점수 부여)</span>', bg: "data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='800'%20height='600'%3E%0A%3Cdefs%3E%0A%3ClinearGradient%20id='g'%20x1='0'%20y1='0'%20x2='1'%20y2='1'%3E%0A%3Cstop%20offset='0%'%20stop-color='%234c1d95'/%3E%0A%3Cstop%20offset='100%'%20stop-color='%231e1b4b'/%3E%0A%3C/linearGradient%3E%0A%3CradialGradient%20id='glow'%20cx='50%'%20cy='38%'%20r='55%'%3E%0A%3Cstop%20offset='0%'%20stop-color='%23c4b5fd'%20stop-opacity='0.55'/%3E%0A%3Cstop%20offset='100%'%20stop-color='%23c4b5fd'%20stop-opacity='0'/%3E%0A%3C/radialGradient%3E%0A%3C/defs%3E%0A%3Crect%20width='800'%20height='600'%20fill='url%28%23g%29'/%3E%0A%3Crect%20width='800'%20height='600'%20fill='url%28%23glow%29'/%3E%0A%3Ctext%20x='400'%20y='330'%20font-size='220'%20text-anchor='middle'%20dominant-baseline='middle'%3E%F0%9F%8E%A5%3C/text%3E%0A%3C/svg%3E" },
+      5: { label: '아이돌 이름<br>말하기', bg: "data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='800'%20height='600'%3E%0A%3Cdefs%3E%0A%3ClinearGradient%20id='g'%20x1='0'%20y1='0'%20x2='1'%20y2='1'%3E%0A%3Cstop%20offset='0%'%20stop-color='%239d174d'/%3E%0A%3Cstop%20offset='100%'%20stop-color='%23500724'/%3E%0A%3C/linearGradient%3E%0A%3CradialGradient%20id='glow'%20cx='50%'%20cy='38%'%20r='55%'%3E%0A%3Cstop%20offset='0%'%20stop-color='%23f9a8d4'%20stop-opacity='0.55'/%3E%0A%3Cstop%20offset='100%'%20stop-color='%23f9a8d4'%20stop-opacity='0'/%3E%0A%3C/radialGradient%3E%0A%3C/defs%3E%0A%3Crect%20width='800'%20height='600'%20fill='url%28%23g%29'/%3E%0A%3Crect%20width='800'%20height='600'%20fill='url%28%23glow%29'/%3E%0A%3Ctext%20x='400'%20y='330'%20font-size='220'%20text-anchor='middle'%20dominant-baseline='middle'%3E%F0%9F%8E%A4%3C/text%3E%0A%3C/svg%3E" },
+      6: { label: '현직 센터장 이름<br>말하기', bg: "data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='800'%20height='600'%3E%0A%3Cdefs%3E%0A%3ClinearGradient%20id='g'%20x1='0'%20y1='0'%20x2='1'%20y2='1'%3E%0A%3Cstop%20offset='0%'%20stop-color='%231e3a8a'/%3E%0A%3Cstop%20offset='100%'%20stop-color='%230f172a'/%3E%0A%3C/linearGradient%3E%0A%3CradialGradient%20id='glow'%20cx='50%'%20cy='38%'%20r='55%'%3E%0A%3Cstop%20offset='0%'%20stop-color='%2393c5fd'%20stop-opacity='0.55'/%3E%0A%3Cstop%20offset='100%'%20stop-color='%2393c5fd'%20stop-opacity='0'/%3E%0A%3C/radialGradient%3E%0A%3C/defs%3E%0A%3Crect%20width='800'%20height='600'%20fill='url%28%23g%29'/%3E%0A%3Crect%20width='800'%20height='600'%20fill='url%28%23glow%29'/%3E%0A%3Ctext%20x='400'%20y='330'%20font-size='220'%20text-anchor='middle'%20dominant-baseline='middle'%3E%F0%9F%A7%91%E2%80%8D%F0%9F%92%BC%3C/text%3E%0A%3C/svg%3E" },
+      7: { label: '현재 같은 팀원 이름<br>말하기', bg: "data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='800'%20height='600'%3E%0A%3Cdefs%3E%0A%3ClinearGradient%20id='g'%20x1='0'%20y1='0'%20x2='1'%20y2='1'%3E%0A%3Cstop%20offset='0%'%20stop-color='%23065f46'/%3E%0A%3Cstop%20offset='100%'%20stop-color='%23022c22'/%3E%0A%3C/linearGradient%3E%0A%3CradialGradient%20id='glow'%20cx='50%'%20cy='38%'%20r='55%'%3E%0A%3Cstop%20offset='0%'%20stop-color='%236ee7b7'%20stop-opacity='0.55'/%3E%0A%3Cstop%20offset='100%'%20stop-color='%236ee7b7'%20stop-opacity='0'/%3E%0A%3C/radialGradient%3E%0A%3C/defs%3E%0A%3Crect%20width='800'%20height='600'%20fill='url%28%23g%29'/%3E%0A%3Crect%20width='800'%20height='600'%20fill='url%28%23glow%29'/%3E%0A%3Ctext%20x='400'%20y='330'%20font-size='220'%20text-anchor='middle'%20dominant-baseline='middle'%3E%F0%9F%A4%9D%3C/text%3E%0A%3C/svg%3E" },
+      8: { label: '영화 히어로 이름<br>말하기', bg: "data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='800'%20height='600'%3E%0A%3Cdefs%3E%0A%3ClinearGradient%20id='g'%20x1='0'%20y1='0'%20x2='1'%20y2='1'%3E%0A%3Cstop%20offset='0%'%20stop-color='%231e1b4b'/%3E%0A%3Cstop%20offset='100%'%20stop-color='%23000000'/%3E%0A%3C/linearGradient%3E%0A%3CradialGradient%20id='glow'%20cx='50%'%20cy='38%'%20r='55%'%3E%0A%3Cstop%20offset='0%'%20stop-color='%23818cf8'%20stop-opacity='0.55'/%3E%0A%3Cstop%20offset='100%'%20stop-color='%23818cf8'%20stop-opacity='0'/%3E%0A%3C/radialGradient%3E%0A%3C/defs%3E%0A%3Crect%20width='800'%20height='600'%20fill='url%28%23g%29'/%3E%0A%3Crect%20width='800'%20height='600'%20fill='url%28%23glow%29'/%3E%0A%3Ctext%20x='400'%20y='330'%20font-size='220'%20text-anchor='middle'%20dominant-baseline='middle'%3E%F0%9F%A6%B8%3C/text%3E%0A%3C/svg%3E" },
+    };
+
+    let jokerCurrentProblem = null;
+    let jokerTimeLimit = 10;
+    let jokerCountdownInterval = null;
+    let jokerTimerInterval = null;
+    let jokerAwaitingTimerStart = false;
+
+    function openJokerGamePopup() {
+      document.getElementById('joker-game-popup').classList.remove('hidden');
+      jokerShowGrid();
+    }
+
+    function closeJokerGamePopup() {
+      smartPointerGamePending = false;
+      stopPopupBGM();
+      jokerClearTimers();
+      document.getElementById('joker-game-popup').classList.add('hidden');
+    }
+
+    function jokerClearTimers() {
+      if (jokerCountdownInterval) { clearInterval(jokerCountdownInterval); jokerCountdownInterval = null; }
+      if (jokerTimerInterval) { clearInterval(jokerTimerInterval); jokerTimerInterval = null; }
+      jokerAwaitingTimerStart = false;
+    }
+
+    function jokerShowGrid() {
+      stopPopupBGM();
+      jokerClearTimers();
+      jokerCurrentProblem = null;
+      document.getElementById('joker-view-grid').classList.remove('hidden');
+      document.getElementById('joker-view-start').classList.add('hidden');
+      document.getElementById('joker-view-play').classList.add('hidden');
+      document.getElementById('joker-result-layer').classList.add('hidden');
+      document.getElementById('joker-header-left').classList.add('hidden');
+      document.getElementById('joker-header-nav').classList.add('hidden');
+    }
+
+    function jokerBackToGrid() {
+      jokerShowGrid();
+    }
+
+    function jokerSelectProblem(n) {
+      jokerCurrentProblem = n;
+      document.getElementById('joker-view-grid').classList.add('hidden');
+      document.getElementById('joker-view-play').classList.add('hidden');
+      document.getElementById('joker-view-start').classList.remove('hidden');
+      document.getElementById('joker-header-left').classList.remove('hidden');
+      document.getElementById('joker-header-nav').classList.remove('hidden');
+      document.getElementById('joker-header-badge').textContent = `문제 ${n}`;
+      const slider = document.getElementById('joker-timelimit-slider');
+      slider.value = jokerTimeLimit;
+      document.getElementById('joker-timelimit-val').textContent = `${jokerTimeLimit}초`;
+      if (soundEnabled) playChimeSound();
+      startPopupBGM();
+    }
+
+    function jokerPrevProblem() {
+      if (jokerCurrentProblem == null) return;
+      if (jokerCurrentProblem > 1) {
+        jokerSelectProblem(jokerCurrentProblem - 1);
+      }
+    }
+
+    function jokerNextProblem() {
+      if (jokerCurrentProblem == null) return;
+      if (jokerCurrentProblem < 8) {
+        jokerSelectProblem(jokerCurrentProblem + 1);
+      } else {
+        jokerBackToGrid();
+      }
+    }
+
+    function jokerSetTimeLimit(val) {
+      jokerTimeLimit = Math.max(5, Math.min(15, parseInt(val, 10) || 10));
+      document.getElementById('joker-timelimit-val').textContent = `${jokerTimeLimit}초`;
+    }
+
+    function jokerStartCountdown() {
+      if (jokerCurrentProblem == null) return;
+      const data = jokerGameData[jokerCurrentProblem];
+      if (!data) return;
+
+      document.getElementById('joker-view-start').classList.add('hidden');
+      document.getElementById('joker-view-play').classList.remove('hidden');
+      document.getElementById('joker-play-bg').style.backgroundImage = `url("${data.bg}")`;
+
+      document.getElementById('joker-countdown-overlay').classList.remove('hidden');
+      document.getElementById('joker-reveal-layer').classList.add('hidden');
+      document.getElementById('joker-result-layer').classList.add('hidden');
+
+      let count = 3;
+      const countEl = document.getElementById('joker-countdown-number');
+      countEl.textContent = count;
+      if (soundEnabled) playTickSound();
+
+      jokerClearTimers();
+      jokerCountdownInterval = setInterval(() => {
+        count--;
+        if (count > 0) {
+          countEl.textContent = count;
+          if (soundEnabled) playTickSound();
+        } else {
+          clearInterval(jokerCountdownInterval);
+          jokerCountdownInterval = null;
+          jokerRevealPrompt();
+        }
+      }, 1000);
+    }
+
+    function jokerRevealPrompt() {
+      const data = jokerGameData[jokerCurrentProblem];
+      if (!data) return;
+      document.getElementById('joker-countdown-overlay').classList.add('hidden');
+
+      const revealLayer = document.getElementById('joker-reveal-layer');
+      revealLayer.classList.remove('hidden');
+
+      const promptEl = document.getElementById('joker-prompt-text');
+      promptEl.innerHTML = data.label;
+      promptEl.classList.remove('animate-joker-reveal');
+      void promptEl.offsetWidth; // restart the pop-in animation every time
+      promptEl.classList.add('animate-joker-reveal');
+
+      if (soundEnabled) playChimeSound();
+
+      // Show the prompt and wait for the host to press "시작" (or the smart pointer's
+      // "다음" button) before the speaking countdown actually begins.
+      jokerAwaitingTimerStart = true;
+      document.getElementById('joker-timer-start-btn').classList.remove('hidden');
+      document.getElementById('joker-timer-wrap').classList.add('hidden');
+    }
+
+    function jokerStartSpeakingTimer() {
+      if (!jokerAwaitingTimerStart) return;
+      jokerAwaitingTimerStart = false;
+      document.getElementById('joker-timer-start-btn').classList.add('hidden');
+      document.getElementById('joker-timer-wrap').classList.remove('hidden');
+
+      let remaining = jokerTimeLimit;
+      const timerEl = document.getElementById('joker-timer-number');
+      timerEl.textContent = remaining;
+
+      jokerTimerInterval = setInterval(() => {
+        remaining--;
+        if (remaining > 0) {
+          timerEl.textContent = remaining;
+          if (remaining <= 3 && soundEnabled) playTickSound();
+        } else {
+          clearInterval(jokerTimerInterval);
+          jokerTimerInterval = null;
+          jokerShowResult();
+        }
+      }, 1000);
+    }
+
+    function jokerShowResult() {
+      document.getElementById('joker-reveal-layer').classList.add('hidden');
+      document.getElementById('joker-result-layer').classList.remove('hidden');
+      if (soundEnabled) playJokerTimeUpSound();
+    }
+
+    function jokerReplaySame() {
+      document.getElementById('joker-result-layer').classList.add('hidden');
+      jokerStartCountdown();
+    }
+
+    function playJokerTimeUpSound() {
+      if (!audioInitialized) initAudio();
+      try {
+        const now = Tone.now();
+        const noise = new Tone.NoiseSynth({
+          noise: { type: 'brown' },
+          envelope: { attack: 0.001, decay: 0.3, sustain: 0, release: 0.1 }
+        }).toDestination();
+        noise.volume.value = -6;
+        noise.triggerAttackRelease('0.3', now);
+        const thud = new Tone.MembraneSynth({ octaves: 5, pitchDecay: 0.06 }).toDestination();
+        thud.volume.value = -4;
+        thud.triggerAttackRelease('C2', '0.3', now);
+        setTimeout(() => { try { noise.dispose(); thud.dispose(); } catch (e) {} }, 800);
+      } catch (e) {}
+    }
+
+        const quoteGameData = {
+      1: {
+        answer: "극한직업",
+        audio: "assets/30303a7b55d09c6e84581a0c9c988083.m4a",
+        answerImg: "assets/49c6ef1885a765e83bc6f1bfe03435cb.jpg"
+      },
+      2: {
+        answer: "기생충",
+        audio: "assets/4694ef41bc30ec04505ee368e3fe9a73.m4a",
+        answerImg: "assets/27916656f47a1c78acdf60063f263a41.jpg"
+      },
+      3: {
+        answer: "엑시트",
+        audio: "assets/67de7e1c25614805e2a389a7ccefbc1b.m4a",
+        answerImg: "assets/2cc351e634179163cba712353b25af7d.jpg"
+      },
+      4: {
+        answer: "베테랑",
+        audio: "assets/24c48f34dff7998119b101d0d1fe1de1.m4a",
+        answerImg: "assets/819b6123d3121feac5783196db0aca0d.jpg"
+      },
+      5: {
+        answer: "범죄도시",
+        audio: "assets/5f06c68f4c7a193726927c00a81228d8.m4a",
+        answerImg: "assets/3d8f25b47dcd7a2f106fec35b1b84f9d.jpg"
+      },
+      6: {
+        answer: "내부자들",
+        audio: "assets/fd02fc5b5ba1bdaa9b8d0cb5b1a9ef22.m4a",
+        answerImg: "assets/eb44f3438e0082f11b636e39344e917f.jpg"
+      },
+      7: {
+        answer: "7번방의 선물",
+        audio: "assets/fb620879793a3fdae6edd9ebd16a5cc2.m4a",
+        answerImg: "assets/bb200df4639747394b0a4aa88f38446a.jpg"
+      },
+      8: {
+        answer: "도둑들",
+        audio: "assets/c22f76bad71ee95a4500f561db93ceca.m4a",
+        answerImg: "assets/4483096c75438dc826c3761c52dd0df6.jpg"
+      },
+      9: {
+        answer: "범죄와의 전쟁",
+        audio: "assets/a68929d19a490e6dd4c9e08cb0d1744c.m4a",
+        answerImg: "assets/c876184f3c16ee501994a8a21a879ea0.jpg"
+      },
+      10: {
+        answer: "써니",
+        audio: "assets/2319a5232f435ec460de71d9c02ff6d4.m4a",
+        answerImg: "assets/c33efac28175aa9ac40b6d4efca7a5f2.jpg"
+      },
+      11: {
+        answer: "신세계",
+        audio: "assets/e5278ad79291bcccb6e23f9c258f2198.m4a",
+        answerImg: "assets/14ab0cb67693e2fdadb93ac344ae879d.jpg"
+      },
+      12: {
+        answer: "부당거래",
+        audio: "assets/abcabcb20795c96c5e07f682e8372aec.m4a",
+        answerImg: "assets/cb08b7e9464f9eff7502a5f851c02e8f.jpg"
+      },
+      13: {
+        answer: "해바라기",
+        audio: "assets/d797f98795630f65d34d1149d6783228.m4a",
+        answerImg: "assets/53c171a5004bd5341e0dc8d4fdaf09b4.jpg"
+      },
+    };
+
+    /* ================= QUOTE GAME: 그건 거기 대사! 내가 젤 잘한다. ================= */
+    let quoteCurrentProblem = null;
+
+    function openQuoteGamePopup() {
+      document.getElementById('quote-game-popup').classList.remove('hidden');
+      quoteShowGrid();
+    }
+
+    function closeQuoteGamePopup() {
+      quoteSetWide(false);
+      smartPointerGamePending = false;
+      stopPopupBGM();
+      quoteStopAudio();
+      document.getElementById('quote-game-popup').classList.add('hidden');
+    }
+
+    // Movie-quote clips are recorded quietly (avg ~ -20 dB), and <audio>.volume can't go above 1.
+    // Route the element through Web Audio: gain boost + a limiter so loud peaks don't distort.
+    let quoteBoostCtx = null;
+    function quoteEnsureBoost() {
+      const audio = document.getElementById('quote-audio');
+      audio.volume = 1;
+      try {
+        if (!quoteBoostCtx) {
+          const Ctx = window.AudioContext || window.webkitAudioContext;
+          if (!Ctx) return;
+          quoteBoostCtx = new Ctx();
+          const src = quoteBoostCtx.createMediaElementSource(audio);
+          const gain = quoteBoostCtx.createGain();
+          gain.gain.value = 4; // about +12 dB
+          const limiter = quoteBoostCtx.createDynamicsCompressor();
+          limiter.threshold.value = -6;
+          limiter.knee.value = 0;
+          limiter.ratio.value = 20;
+          limiter.attack.value = 0.002;
+          limiter.release.value = 0.15;
+          src.connect(gain);
+          gain.connect(limiter);
+          limiter.connect(quoteBoostCtx.destination);
+        }
+        if (quoteBoostCtx.state === 'suspended') quoteBoostCtx.resume();
+      } catch (e) {}
+    }
+
+    // The answer view uses a wider popup so the movie still can be shown large.
+    function quoteSetWide(on) {
+      const box = document.getElementById('quote-popup-box');
+      if (box) box.style.maxWidth = on ? '64rem' : '';
+    }
+
+    function quoteStopAudio() {
+      const audio = document.getElementById('quote-audio');
+      if (audio) { audio.pause(); audio.currentTime = 0; }
+    }
+
+    function quoteShowGrid() {
+      quoteSetWide(false);
+      stopPopupBGM();
+      quoteStopAudio();
+      quoteCurrentProblem = null;
+      document.getElementById('quote-view-grid').classList.remove('hidden');
+      document.getElementById('quote-view-start').classList.add('hidden');
+      document.getElementById('quote-view-play').classList.add('hidden');
+      document.getElementById('quote-view-answer').classList.add('hidden');
+      document.getElementById('quote-header-left').classList.add('hidden');
+      document.getElementById('quote-header-nav').classList.add('hidden');
+    }
+
+    function quoteBackToGrid() {
+      quoteShowGrid();
+    }
+
+    function quoteSelectProblem(n) {
+      quoteSetWide(false);
+      startPopupBGM();
+      quoteStopAudio();
+      quoteCurrentProblem = n;
+      document.getElementById('quote-view-grid').classList.add('hidden');
+      document.getElementById('quote-view-play').classList.add('hidden');
+      document.getElementById('quote-view-answer').classList.add('hidden');
+      document.getElementById('quote-view-start').classList.remove('hidden');
+      document.getElementById('quote-header-left').classList.remove('hidden');
+      document.getElementById('quote-header-nav').classList.remove('hidden');
+      document.getElementById('quote-header-badge').textContent = `문제 ${n}`;
+    }
+
+    function quotePrevProblem() {
+      if (quoteCurrentProblem == null) return;
+      if (quoteCurrentProblem > 1) {
+        quoteSelectProblem(quoteCurrentProblem - 1);
+      }
+    }
+
+    function quoteNextProblem() {
+      if (quoteCurrentProblem == null) return;
+      if (quoteCurrentProblem < 13) {
+        quoteSelectProblem(quoteCurrentProblem + 1);
+      } else {
+        quoteBackToGrid();
+      }
+    }
+
+    function quoteStartClip() {
+      if (quoteCurrentProblem == null) return;
+      const data = quoteGameData[quoteCurrentProblem];
+      if (!data) return;
+
+      document.getElementById('quote-view-start').classList.add('hidden');
+      document.getElementById('quote-view-answer').classList.add('hidden');
+      document.getElementById('quote-view-play').classList.remove('hidden');
+
+      const audio = document.getElementById('quote-audio');
+      stopPopupBGM(); // keep the movie line clearly audible
+      quoteSetWide(false);
+      quoteEnsureBoost();
+      audio.src = data.audio;
+      audio.currentTime = 0;
+      audio.play().catch(() => {});
+    }
+
+    function quoteReplayClip() {
+      const audio = document.getElementById('quote-audio');
+      if (!audio || !audio.src) return;
+      quoteEnsureBoost();
+      audio.currentTime = 0;
+      audio.play().catch(() => {});
+    }
+
+    function quoteRevealAnswer() {
+      if (quoteCurrentProblem == null) return;
+      const data = quoteGameData[quoteCurrentProblem];
+      if (!data) return;
+      quoteStopAudio();
+
+      document.getElementById('quote-view-play').classList.add('hidden');
+      document.getElementById('quote-view-answer').classList.remove('hidden');
+      document.getElementById('quote-answer-img').src = data.answerImg;
+      document.getElementById('quote-answer-title').textContent = `정답: ${data.answer}`;
+      quoteSetWide(true);
+      if (soundEnabled) playChimeSound();
+      startPopupBGM();
     }
 
     function openBuzzerPopup() {
@@ -3263,9 +4004,77 @@
       return el ? el.innerHTML : '';
     }
 
+    // True right after the joker/quote popup is opened by the smart pointer, until the next
+    // press auto-opens problem 1.
+    let smartPointerGamePending = false;
+
     function smartPointerNext() {
       const activeTag = document.activeElement ? document.activeElement.tagName : '';
       if (activeTag === 'INPUT' || activeTag === 'TEXTAREA') return;
+
+      // If the joker game popup is open (however it was opened), the next press navigates
+      // between problem boxes when one is selected, or closes the popup when on the grid.
+      const jokerPopup = document.getElementById('joker-game-popup');
+      if (jokerPopup && !jokerPopup.classList.contains('hidden')) {
+        const jokerOnGrid = !document.getElementById('joker-view-grid').classList.contains('hidden');
+        const jokerOnStart = !document.getElementById('joker-view-start').classList.contains('hidden');
+        const jokerOnResult = !document.getElementById('joker-result-layer').classList.contains('hidden');
+        const jokerTotal = Object.keys(jokerGameData).length;
+        if (jokerAwaitingTimerStart) {
+          // 제시어 revealed, waiting for "시작" -> start the speaking timer.
+          jokerStartSpeakingTimer();
+        } else if (jokerOnGrid) {
+          if (smartPointerGamePending) {
+            // First press after the popup was opened by the smart pointer: open problem 1.
+            smartPointerGamePending = false;
+            jokerSelectProblem(1);
+          } else {
+            closeJokerGamePopup();
+            introSmartPointerStage = 1;
+          }
+        } else if (jokerOnStart) {
+          jokerStartCountdown();
+        } else if (jokerOnResult) {
+          if (jokerCurrentProblem >= jokerTotal) {
+            // Last problem finished -> close the popup and return to the roulette loop.
+            closeJokerGamePopup();
+            introSmartPointerStage = 1;
+          } else {
+            jokerNextProblem();
+          }
+        }
+        // else: countdown / speaking timer is running — wait for it to finish.
+        return;
+      }
+
+      // If the quote game popup is open, the next press advances through its own
+      // start -> play -> answer flow, or navigates/closes like the joker popup.
+      const quotePopup = document.getElementById('quote-game-popup');
+      if (quotePopup && !quotePopup.classList.contains('hidden')) {
+        const quoteOnGrid = !document.getElementById('quote-view-grid').classList.contains('hidden');
+        const quoteOnStart = !document.getElementById('quote-view-start').classList.contains('hidden');
+        const quoteOnPlay = !document.getElementById('quote-view-play').classList.contains('hidden');
+        if (quoteOnGrid) {
+          if (smartPointerGamePending) {
+            smartPointerGamePending = false;
+            quoteSelectProblem(1);
+          } else {
+            closeQuoteGamePopup();
+            introSmartPointerStage = 1;
+          }
+        } else if (quoteOnStart) {
+          quoteStartClip();
+        } else if (quoteOnPlay) {
+          quoteRevealAnswer();
+        } else if (quoteCurrentProblem >= Object.keys(quoteGameData).length) {
+          // Answer of the last problem shown -> close the popup and return to the roulette loop.
+          closeQuoteGamePopup();
+          introSmartPointerStage = 1;
+        } else {
+          quoteNextProblem();
+        }
+        return;
+      }
 
       // If an offline-game popup is open (however it was opened), the next press always closes it.
       const offlinePopup = document.getElementById('offline-game-popup');
@@ -3308,10 +4117,16 @@
           if (rouletteSelected && !rouletteSpinning) {
             if (rouletteSelected.slide) {
               goToSlide(rouletteSelected.slide);
+            } else if (rouletteSelected.popupKey === 'jokerGame') {
+              openJokerGamePopup();
+              smartPointerGamePending = true;
+            } else if (rouletteSelected.popupKey === 'quoteGame') {
+              openQuoteGamePopup();
+              smartPointerGamePending = true;
             } else if (rouletteSelected.popupKey) {
               openOfflineGamePopup(rouletteSelected.popupKey);
             }
-            // The next press is now caught by the universal offline-popup-close check above, if applicable.
+            // The next press is now caught by the universal offline/joker popup-close check above, if applicable.
             introSmartPointerStage = 0;
           }
           // otherwise the deceleration animation is still playing; wait for the next press
@@ -3950,6 +4765,13 @@
 
       // Intro BGM plays exactly once per file-open (not on every return to intro).
       playIntroBGM();
+
+      // Quote-game hub card thumbnail reuses one of Game 3's movie posters
+      // (no need to embed the image a second time).
+      const quoteCardBg = document.getElementById('hub-card-13-bg');
+      if (quoteCardBg && typeof G3_IMG_6 !== 'undefined') {
+        quoteCardBg.style.backgroundImage = `url(${G3_IMG_6})`;
+      }
     }
   </script>
   <script>
@@ -4596,6 +5418,9 @@ const g3RoundsData = {
     // sits after the gain stage purely as a safety net against harsh clipping on the
     // boosted rounds; at unity gain (every other round) it stays effectively silent/transparent.
     const G6_VOLUME_BOOST_ROUNDS = { 3: 2.6, 6: 2.6 };
+    // Rounds whose source video keeps its 문제 제시 영역 (word/answer grid) small and
+    // centered — zoom the video in on these rounds so the grid reads clearly.
+    const G6_ZOOM_ROUNDS = { 4: true, 5: true, 6: true };
     let g6AudioCtx = null;
     let g6GainNode = null;
     let g6MediaSource = null;
@@ -4735,6 +5560,7 @@ const g3RoundsData = {
       video.currentTime = 0;
       video.load();
       g6ApplyVolumeBoost(g6CurrentRound);
+      video.classList.toggle('g6-video-zoomed', !!G6_ZOOM_ROUNDS[g6CurrentRound]);
 
       document.getElementById('g6-seek').value = 0;
       document.getElementById('g6-time-display').textContent = '00:00 / 00:00';
