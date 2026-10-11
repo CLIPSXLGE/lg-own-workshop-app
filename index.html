@@ -762,11 +762,11 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
     --img-rvcar5: url('https://images.unsplash.com/photo-1543068298-386e90d0d86c?w=500&q=75&auto=format&fit=crop');
     --img-rvcar6: url('https://images.unsplash.com/photo-1613538712291-9e0946e93a2e?w=500&q=75&auto=format&fit=crop');
     --img-pzbg: url('assets/93ee555bae3f1a6547a0d7a0c146a646.jpg');
-    --img-balloon1: url('assets/f097e0ceecf3009b5133fa7a82c5b2ed.png');
-    --img-balloon2: url('assets/d82b59bba5f9b78638c6ec7def89efa6.png');
-    --img-balloon3: url('assets/0ac73438eccd1a5f6680070d5a1dc6d1.png');
-    --img-balloon4: url('assets/884f1d0c3117ad2c4db20f82dae141b8.png');
-    --img-balloon5: url('assets/1f6c9a602589d496ddac7417a43aeef5.png');
+    --img-balloon1: url('assets/89540c6ea10edfffb1ed61cb7d2c4bc4.png');
+    --img-balloon2: url('assets/52cadb300a0750c09a04a01481a1e7a2.png');
+    --img-balloon3: url('assets/79822d1cff015c619b5350f9bdbe0650.png');
+    --img-balloon4: url('assets/4a4a2a476e847b4f8f62cb5014dbebe6.png');
+    --img-balloon5: url('assets/bb95b6b1ef28eda1acc47c981b649abc.png');
     --img-mainrace-bg: url('assets/9e40710be708d70fa769cda1ca50c968.jpg');
     --img-prep-bg: url('assets/0f9ce051fe19db6c95d550e58a8eee1c.jpg');
     --img-rcb-popup-bg: url('assets/832172d0d270e8c44d6463124ca3afe4.jpg');
@@ -1292,6 +1292,444 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
     font-size:clamp(29px, 3.8vw, 49.5px); color:#fff; text-shadow:0 3px 16px rgba(0,0,0,0.7);
   }
   .rv-hero{ color:#ff8f8f; }
+  /* ---- '우리들의 드라이빙 스타일' 페이지: 그랑프리 대회 방식 안내 페이지의 바탕이미지 + 그라데이션 + 좌우 파노라마 효과 ---- */
+  .ds-page{ /* .circuitview-page 와 동일한 배경/그라데이션/파노라마(circuitviewPan) 사용 + 제목은 상단 배치 */
+    justify-content:flex-start; padding-top:clamp(36px, 8vh, 90px); box-sizing:border-box; }
+  /* ---- '드라이빙 스타일별 Race' 페이지: 그랑프리 출격 준비 페이지의 바탕이미지 + 그라데이션 + 줌인/아웃 파노라마(prepPagePan) ---- */
+  /* ---- 'CC&S조직을 함께 만들어 갑시다.' 페이지의 바탕이미지 + 그라데이션 + 좌/우 파노라마 ---- */
+  .dsc-page{
+    position:relative; min-height:calc(100vh - 57px); overflow:hidden; box-sizing:border-box;
+    display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center;
+    background-image:
+      linear-gradient(to bottom,
+        rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.62) 16%,
+        rgba(0,0,0,0.42) 30%, rgba(0,0,0,0.35) 50%, rgba(0,0,0,0.42) 68%,
+        rgba(0,0,0,0.78) 85%, rgba(0,0,0,0.94) 100%),
+      var(--img-ccs-highfive);
+    background-repeat:no-repeat, no-repeat;
+    background-position:center, 0% 32%;
+    background-size:100% 100%, 150% auto;
+    background-size:100% 100%, cover;
+    animation:dscPan 16s ease-in-out infinite alternate;
+  }
+  @keyframes dscPan{
+    0%{ background-position:center, 0% 32%; background-size:100% 100%, auto 135%; }
+    100%{ background-position:center, 100% 32%; background-size:100% 100%, auto 135%; }
+  }
+  .dsc-title{
+    position:relative; z-index:2; padding:0 6vw; margin:0;
+    font-family:'Noto Sans KR','Racing Sans One',sans-serif; font-weight:900; line-height:1.55; letter-spacing:0.5px;
+    font-size:clamp(28px, 3.5vw, 54px); color:#fff; text-shadow:0 4px 22px rgba(0,0,0,0.85);
+  }
+  .dsc-title .dsc-line{ display:block; }
+  .dsc-title .dsc-line + .dsc-line{ margin-top:14px; }
+  .dsc-title .dsc-accent{ color:#ff8f8f; }
+  .dsc-title .dsc-green{ color:#3ddc71; }
+  .ds2-page{
+    position:relative; min-height:calc(100vh - 57px); overflow:hidden; box-sizing:border-box;
+    display:flex; flex-direction:column; align-items:center; justify-content:flex-start;
+    padding-top:clamp(36px, 8vh, 90px);
+    background-image:
+      linear-gradient(180deg, rgba(6,6,7,0.55) 0%, rgba(6,6,7,0.4) 40%, rgba(6,6,7,0.75) 100%),
+      var(--img-finishline-new);
+    background-repeat: no-repeat, no-repeat;
+    background-position: center, center;
+    background-size: 100% 100%, 135% 108%;
+    animation: prepPagePan 13s ease-in-out infinite alternate;
+  }
+  #page-driving-style2 .ds-header .pill{ font-size:15px; padding:6px 18px; }
+  #page-driving-style2 .ds-header h1{ font-size:clamp(24px, 2.7vw, 42px); }
+  #page-driving-style2 .ds2-cards{ padding-top:clamp(44px,11vh,120px); }
+  #page-driving-style2 .ds2-card{ height:clamp(240px, 44vh, 470px); }
+  .ds2-cards{ position:relative; z-index:2; display:flex; gap:2vw; justify-content:center; align-items:stretch; width:100%; box-sizing:border-box; padding:clamp(24px,6vh,70px) 4vw 0; }
+  .ds2-card{
+    position:relative; flex:1 1 0; max-width:21vw; height:clamp(190px, 34vh, 360px); border:0; border-radius:20px; overflow:hidden; cursor:pointer; text-decoration:none; color:#fff; padding:0;
+    display:flex; flex-direction:column; justify-content:flex-end; align-items:flex-start; text-align:left; font-family:inherit;
+    background-image:linear-gradient(180deg, rgba(0,0,0,0.05) 25%, rgba(0,0,0,0.55) 62%, rgba(0,0,0,0.92) 100%), var(--ds2-bg);
+    background-size:cover; background-position:center; box-shadow:0 18px 50px -8px rgba(0,0,0,0.8), inset 0 0 0 2px rgba(255,255,255,0.18);
+    transition:transform .25s ease, box-shadow .25s ease;
+  }
+  .ds2-card:hover{ transform:translateY(-8px) scale(1.02); box-shadow:0 26px 60px -8px rgba(0,0,0,0.9), inset 0 0 0 2px rgba(255,255,255,0.5); }
+  .ds2-card-title{ display:block; width:100%; box-sizing:border-box; text-align:center; padding:0 18px 20px; font-weight:900; font-size:clamp(17px,1.7vw,28px); line-height:1.25; text-shadow:0 3px 14px rgba(0,0,0,0.9); word-break:keep-all; }
+  .ds2-card-tag{ position:absolute; top:18px; left:18px; font-size:12px; font-weight:900; letter-spacing:0.12em; background:#e0233f; padding:4px 12px; border-radius:999px; }
+  .ds2-card-play{ position:absolute; top:42%; left:50%; transform:translate(-50%,-50%); width:54px; height:54px; border-radius:50%; background:rgba(224,35,63,0.92); display:flex; align-items:center; justify-content:center; font-size:22px; padding-left:5px; box-shadow:0 8px 26px rgba(0,0,0,0.6); }
+  .ds2-pop{ position:fixed; inset:0; z-index:12000; display:none; align-items:center; justify-content:center; background:rgba(0,0,0,0.8); backdrop-filter:blur(4px); }
+  .ds2-pop.show{ display:flex; }
+  .ds2-pop-box{ position:relative; width:min(86vw, 1280px); aspect-ratio:16/9; max-height:88vh; background:#000; border-radius:16px; box-shadow:0 24px 80px rgba(0,0,0,0.85); }
+  .ds2-pop-box video{ width:100%; height:100%; border-radius:16px; background:#000; display:block; }
+  .ds2-pop-empty{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center; text-align:center; color:#cfcfd6; font-weight:700; font-size:clamp(14px,1.4vw,22px); line-height:1.7; pointer-events:none; }
+  .ds2-pop-page{ background:linear-gradient(160deg,#16161b,#0b0b0e); border:1px solid rgba(255,255,255,0.16); }
+  .ds2-pop-page-body{ position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:16px; color:#fff; }
+  .ds2-pop-page-title{ font-weight:900; font-size:clamp(26px,3vw,48px); }
+  .ds2-pop-close{ position:absolute; top:-14px; right:-14px; z-index:3; width:44px; height:44px; border-radius:50%; border:2px solid #fff; background:#e0233f; color:#fff; font-size:22px; font-weight:900; cursor:pointer; box-shadow:0 6px 18px rgba(0,0,0,0.6); }
+  .ds2-pop-close:hover{ background:#ff3b57; }
+  .ds-mbti-btn{ margin-top:10px; font:900 clamp(14px,1.25vw,19px) 'Noto Sans KR',sans-serif; color:#fff; background:linear-gradient(135deg,#e0233f,#a8142c); border:2px solid rgba(255,255,255,0.75); border-radius:16px; padding:7px 24px; cursor:pointer; box-shadow:0 8px 22px rgba(0,0,0,0.55); transition:transform .2s; }
+  .ds-mbti-btn:hover{ transform:translateY(-2px) scale(1.03); }
+  #page-driving-style .ds-stage{ width:min(94vw, calc((100vh - 335px) * 2.12)) !important; }
+  .ds-mbti-pop{ position:fixed; inset:0; z-index:12000; display:none; align-items:center; justify-content:center; background:rgba(0,0,0,0.8); backdrop-filter:blur(4px); }
+  .ds-mbti-pop.show{ display:flex; }
+  .ds-mbti-box{ position:relative; width:min(92vw, 1000px); max-height:94vh; }
+  .ds-mbti-paper{ background:#fff; color:#111; border-radius:16px; padding:clamp(18px,3.2vh,34px) clamp(22px,3vw,44px); max-height:94vh; overflow:auto; box-shadow:0 24px 80px rgba(0,0,0,0.85); font-family:'Noto Sans KR',sans-serif; box-sizing:border-box; }
+  .ds-mbti-box{ width:min(95vw, 1280px) !important; }
+  .mb-body{ display:flex; gap:clamp(14px,2vw,28px); align-items:flex-start; }
+  .mb-iceberg{ position:relative; flex:0 0 clamp(190px,25%,300px); border-radius:12px; overflow:hidden; box-shadow:0 8px 24px rgba(0,0,0,0.35); line-height:0; }
+  .mb-iceberg img{ width:100%; height:auto; display:block; }
+  .mb-ice-l{ position:absolute; left:50%; transform:translateX(-50%); font:900 clamp(22px,2.6vw,38px) 'Noto Sans KR',sans-serif; letter-spacing:.04em; color:#fff; text-shadow:0 2px 10px rgba(0,0,0,.75),0 0 18px rgba(0,0,0,.5); line-height:1; }
+  .mb-ice-d{ top:21%; color:#c8102e; text-shadow:0 0 8px #fff,0 0 14px #fff,0 2px 6px rgba(255,255,255,.8); }
+  .mb-ice-m{ top:56%; }
+  .mb-ice-cap{ position:absolute; left:50%; transform:translateX(-50%); font:700 clamp(10px,.95vw,13px) 'Noto Sans KR',sans-serif; color:#fff; text-shadow:0 1px 6px rgba(0,0,0,.8); white-space:nowrap; line-height:1; }
+  .mb-ice-cd{ top:7%; color:#fff; text-shadow:0 1px 6px rgba(0,0,0,.9); }
+  .mb-ice-cm{ top:65%; }
+  .mb-main{ flex:1 1 auto; min-width:0; }
+  .mb-title{ margin:0; font-size:clamp(24px,3vw,40px); font-weight:900; letter-spacing:-0.02em; }
+  .mb-bar{ width:54px; height:4px; background:#c8102e; margin:10px 0 12px; }
+  .mb-sub{ font-size:clamp(12px,1.1vw,15px); font-weight:700; color:#333; margin-bottom:clamp(10px,2vh,20px); }
+  .mb-lead{ font-size:clamp(15px,1.55vw,21px); font-weight:800; line-height:1.55; margin:0 0 10px 14px; word-break:keep-all; }
+  .mb-g{ color:#0f8a4b; } .mb-r{ color:#c8102e; }
+  .mb-note{ font-size:clamp(11px,1vw,14px); font-weight:600; line-height:1.6; color:#222; margin:0 0 clamp(10px,2vh,18px) 14px; }
+  .mb-table{ width:100%; border-collapse:collapse; font-size:clamp(12px,1.15vw,16px); font-weight:600; }
+  .mb-table th{ background:#1b1b1f; color:#fff; text-align:left; padding:10px 14px; font-weight:900; }
+  .mb-table th:first-child, .mb-table td:first-child{ width:17%; }
+  .mb-table td{ padding:clamp(7px,1.3vh,14px) 14px; border-bottom:1px solid #d9d9de; line-height:1.45; vertical-align:middle; }
+  .mb-table td:first-child{ font-weight:800; }
+  .mb-table tbody tr:nth-child(even) td{ background:#f4f4f7; }
+  .mb-sec{ font-size:clamp(12px,1.1vw,15px); font-weight:900; margin:clamp(12px,2.2vh,22px) 0 8px; }
+  .mb-disc{ display:grid; grid-template-columns:repeat(4,1fr); gap:10px; }
+  .mb-d{ border-top:4px solid var(--mbc); background:#f6f6f8; padding:8px 12px 10px; display:flex; flex-direction:column; gap:3px; font-size:clamp(11px,1vw,14px); font-weight:600; line-height:1.4; }
+  .mb-d .mb-k{ font-size:clamp(16px,1.6vw,22px); font-weight:900; color:var(--mbc); }
+  .mb-d b{ font-size:clamp(14px,1.4vw,19px); font-weight:900; color:var(--mbc); }
+  .mb-d-D{ --mbc:#a8142c; } .mb-d-I{ --mbc:#b86a1c; } .mb-d-S{ --mbc:#0e6b6b; } .mb-d-C{ --mbc:#14589c; }
+  #page-driving-style-ccs .dsc-page{ justify-content:center; padding-top:clamp(10px,2vh,24px); padding-bottom:clamp(10px,2vh,24px); }
+  #page-driving-style-ccs .dsc-title{ font-size:clamp(20px, 2.5vw, 38px); line-height:1.5; }
+  .dsc-cards{ position:relative; z-index:2; display:flex; gap:1.8vw; justify-content:center; align-items:stretch; width:100%; box-sizing:border-box; padding:clamp(44px,10vh,110px) 5vw 0; margin-top:0; padding-bottom:0; }
+  .dsc-card{ position:relative; flex:1 1 0; max-width:20vw; height:clamp(260px, 47vh, 500px); border:0; padding:0; border-radius:20px; overflow:hidden; cursor:pointer; background:#000; box-shadow:0 18px 50px -8px rgba(0,0,0,0.85), inset 0 0 0 2px rgba(255,255,255,0.2); transition:transform .25s, box-shadow .25s; }
+  .dsc-card:hover{ transform:translateY(-8px) scale(1.02); }
+  .dsc-card img{ width:100%; height:100%; object-fit:cover; display:block; }
+  .dsc-card::after{ content:''; position:absolute; inset:0; background:linear-gradient(180deg,rgba(0,0,0,0) 60%,rgba(0,0,0,0.8) 100%); pointer-events:none; }
+  .dsc-card[data-idx="1"] img{ object-fit:contain; background:#03233f; }
+  .dsc-msg{ position:relative; z-index:2; margin-top:clamp(14px,3vh,34px); padding:clamp(8px,1.4vh,16px) clamp(20px,2.6vw,44px); border-radius:18px; background:rgba(0,0,0,0.5); border:1px solid rgba(255,255,255,0.22); box-shadow:0 10px 30px rgba(0,0,0,0.5); font-family:'Noto Sans KR',sans-serif; font-weight:800; color:#fff; font-size:clamp(15px,1.7vw,27px); line-height:1.6; text-shadow:0 2px 10px rgba(0,0,0,0.8); word-break:keep-all; }
+  .dsc-msg-line{ display:block; }
+  .dsc-msg-hl{ color:#ff8f8f; font-weight:900; }
+  .dsc-msg-hl2{ color:#ffd43b; font-weight:900; }
+  .dsc-card.active{ box-shadow:0 0 0 4px #ffd43b, 0 18px 50px -8px rgba(0,0,0,0.85); }
+  .dsc-card-cap{ position:absolute; left:0; right:0; bottom:0; z-index:2; padding:0 18px 20px; text-align:center; color:#fff; font:900 clamp(17px,1.7vw,28px)/1.25 'Noto Sans KR',sans-serif; text-shadow:0 2px 10px rgba(0,0,0,0.9); }
+  .dsc-pop{ position:fixed; inset:0; z-index:12000; display:none; align-items:center; justify-content:center; background:rgba(0,0,0,0.82); backdrop-filter:blur(4px); }
+  .dsc-pop.show{ display:flex; }
+  .dsc-pop-box{ position:relative; display:flex; flex-direction:column; align-items:center; }
+  .dsc-pop-msg{ display:none; margin:0 0 clamp(10px,2vh,22px); text-align:center; border:0; box-shadow:none; background:transparent; font-size:clamp(20px,2.4vw,38px); }
+  .dsc-pop-box.with-msg .dsc-pop-msg{ display:block; }
+  .dsc-pop-box.with-msg img{ max-height:62vh; }
+  .dsc-pop-box img{ display:block; max-width:88vw; max-height:90vh; width:auto; height:auto; border-radius:14px; box-shadow:0 24px 80px rgba(0,0,0,0.9); animation:dscPopIn .35s ease; }
+  @keyframes dscPopIn{ from{ transform:scale(0.85); opacity:0; } to{ transform:scale(1); opacity:1; } }
+  .dsq-pop{ position:fixed; inset:0; z-index:12100; display:none; align-items:center; justify-content:center; background:rgba(0,0,0,0.72); backdrop-filter:blur(3px); }
+  .dsq-pop.show{ display:flex; }
+  .dsq-stage{ position:relative; width:min(86vw,1000px); height:min(84vh,720px); perspective:2000px; }
+  .dsq-flip{ position:absolute; inset:0; transform-style:preserve-3d; transition:transform .8s cubic-bezier(.4,.1,.2,1); }
+  .dsq-face{ position:absolute; inset:0; backface-visibility:hidden; -webkit-backface-visibility:hidden; border-radius:22px; overflow:hidden; background:#000; display:flex; align-items:center; justify-content:center; box-shadow:0 24px 80px rgba(0,0,0,0.9); }
+  .dsq-back{ transform:rotateY(180deg); }
+  .dsq-photo{ position:relative; height:100%; aspect-ratio:801/827; }
+  .dsq-photo > img{ width:100%; height:100%; display:block; }
+  .dsq-cover{ position:absolute; left:8%; top:36%; width:84%; height:41%; background:#000; border-radius:4%/8%; display:flex; align-items:center; justify-content:center; text-align:center; color:#ffe600; font:900 clamp(18px,2.9vw,40px)/1.35 'Noto Sans KR',sans-serif; transition:opacity .8s ease; }
+  .dsq-cover.gone{ opacity:0; pointer-events:none; }
+  .dsq-q{ position:relative; width:100%; height:100%; }
+  .dsq-qtext{ position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:22px; padding:0 6%; text-align:center; background:#000; transition:opacity .6s ease; }
+  .dsq-qline{ color:#ffe600; font:900 clamp(24px,3.6vw,52px)/1.4 'Noto Sans KR',sans-serif; word-break:keep-all; }
+  .dsq-qopt{ color:#fff; font:900 clamp(20px,2.8vw,40px) 'Noto Sans KR',sans-serif; }
+  .dsq-qopt b{ color:#ff6b81; margin:0 .4em; }
+  .dsq-qimg{ position:absolute; inset:0; width:100%; height:100%; object-fit:contain; opacity:0; transition:opacity .6s ease; }
+  .dsq-q.show-img .dsq-qtext{ opacity:0; }
+  .dsq-q.show-img .dsq-qimg{ opacity:1; }
+  .wh-open-btn{ color:#ff3b4e !important; font-family:inherit; cursor:pointer; }
+  .rv-side-btn.rv-red{ color:#ff3b4e; }
+  .rv-side-btn.rv-red .dot-blink{ color:#ff3b4e; }
+  .awards-side-buttons .rv-side-btn + .rv-side-btn{ margin-left:12px; }
+  .wh-pop{ position:fixed; inset:0; z-index:12200; display:none; flex-direction:column; align-items:center; justify-content:center; overflow:hidden;
+    background-image:linear-gradient(180deg, rgba(8,4,20,0.78) 0%, rgba(10,6,26,0.55) 38%, rgba(6,4,16,0.82) 100%), radial-gradient(ellipse at center, rgba(0,0,0,0) 35%, rgba(0,0,0,0.65) 100%), url("assets/6834881c75e9528ea043870acdbfd46b.jpg");
+    background-size:100% 100%, 100% 100%, cover; background-position:center; }
+  .wh-pop.show{ display:flex; animation:whFade .4s ease; }
+  @keyframes whFade{ from{ opacity:0; } to{ opacity:1; } }
+  .wh-close{ position:absolute; top:18px; right:22px; z-index:5; width:46px; height:46px; border-radius:50%; border:2px solid #fff; background:#e0233f; color:#fff; font-size:22px; font-weight:900; cursor:pointer; box-shadow:0 6px 18px rgba(0,0,0,0.6); }
+  .wh-title{ margin:0 0 6px; font:900 clamp(24px,3.2vw,46px) 'Noto Sans KR',sans-serif; color:#ffe27a; text-shadow:0 0 18px rgba(255,190,40,0.8), 0 4px 14px rgba(0,0,0,0.9); letter-spacing:0.04em; }
+  .wh-stage{ position:relative; width:min(72vh, 78vw); height:min(72vh, 78vw); margin-top:2vh; }
+  .wh-glow{ position:absolute; inset:-6%; border-radius:50%; pointer-events:none; opacity:0.0; background:radial-gradient(circle, rgba(255,230,120,0.0) 55%, rgba(255,210,70,0.75) 70%, rgba(255,120,40,0) 78%); transition:opacity .5s; }
+  .wh-stage.win .wh-glow{ opacity:1; animation:whGlowPulse .7s ease-in-out infinite alternate; }
+  @keyframes whGlowPulse{ from{ transform:scale(0.97); filter:brightness(1); } to{ transform:scale(1.06); filter:brightness(1.5); } }
+  .wh-bulbs{ position:absolute; inset:0; pointer-events:none; }
+  .wh-bulb{ position:absolute; width:2.8%; height:2.8%; margin:-1.4% 0 0 -1.4%; border-radius:50%; background:#fff6c8; box-shadow:0 0 10px 3px rgba(255,220,100,0.9); animation:whBulb 1s steps(1) infinite; }
+  .wh-bulb:nth-child(odd){ animation-delay:.5s; }
+  @keyframes whBulb{ 0%{ opacity:1; } 50%{ opacity:0.25; box-shadow:0 0 3px 0 rgba(255,220,100,0.4); } }
+  .wh-stage.spin .wh-bulb{ animation-duration:.35s; }
+  .wh-stage.win .wh-bulb{ animation:whBulbWin .22s linear infinite alternate; background:#fff; }
+  @keyframes whBulbWin{ from{ opacity:1; box-shadow:0 0 18px 8px rgba(255,240,150,1); } to{ opacity:.55; box-shadow:0 0 8px 2px rgba(255,120,60,0.9); } }
+  .wh-disc{ position:absolute; left:5.5%; top:5.5%; width:89%; height:89%; border-radius:50%; box-shadow:0 0 0 8px #3a2a0a, 0 0 0 14px #e8b83a, 0 18px 50px rgba(0,0,0,0.8); will-change:transform; }
+  .wh-pointer{ position:absolute; left:50%; top:-1.5%; width:9%; height:11%; transform:translateX(-50%); z-index:4; background:linear-gradient(180deg,#ff5a6e,#b3122d); clip-path:polygon(50% 100%, 0 12%, 15% 0, 85% 0, 100% 12%); filter:drop-shadow(0 4px 6px rgba(0,0,0,0.7)); }
+  .wh-hub{ position:absolute; left:50%; top:50%; width:17%; height:17%; transform:translate(-50%,-50%); z-index:3; border-radius:50%; border:4px solid #fff3c0; cursor:pointer; background:radial-gradient(circle at 35% 30%, #fff1a8, #e8a317 60%, #9a6205); color:#5a2d00; font:900 clamp(14px,2vw,28px) 'Racing Sans One','Noto Sans KR',sans-serif; box-shadow:0 6px 18px rgba(0,0,0,0.7), inset 0 -6px 10px rgba(0,0,0,0.25); }
+  .wh-result{ position:absolute; left:50%; top:50%; z-index:6; width:58%; transform:translate(-50%,-50%) scale(0.2); opacity:0; pointer-events:none; text-align:center; padding:3.5% 3% 3%; border-radius:26px; background:linear-gradient(160deg,rgba(35,20,70,0.96),rgba(10,6,30,0.97)); border:4px solid #ffd43b; box-shadow:0 0 50px 12px rgba(255,200,60,0.75), 0 20px 60px rgba(0,0,0,0.8); transition:transform .55s cubic-bezier(.2,1.4,.4,1), opacity .35s; }
+  .wh-result.show{ transform:translate(-50%,-50%) scale(1); opacity:1; }
+  .wh-result-badge{ font:900 clamp(12px,1.5vw,22px) 'Noto Sans KR',sans-serif; color:#ffd43b; letter-spacing:0.08em; margin-bottom:2%; }
+  .wh-result img{ display:block; margin:0 auto; max-width:78%; max-height:20vh; object-fit:contain; border-radius:14px; }
+  .wh-result-label{ margin-top:3%; font:900 clamp(18px,2.6vw,38px) 'Noto Sans KR',sans-serif; color:#fff; word-break:keep-all; text-shadow:0 0 14px rgba(255,200,60,0.8); }
+  .wh-result.lose{ border-color:#8a8a99; box-shadow:0 0 30px 6px rgba(120,120,150,0.5), 0 20px 60px rgba(0,0,0,0.8); }
+  .wh-result.lose .wh-result-badge{ color:#aab; }
+  .wh-fw{ position:absolute !important; left:50%; top:55%; z-index:7; }
+  .wh-hint{ margin-top:2.2vh; color:#e8e0ff; font:700 clamp(12px,1.2vw,17px) 'Noto Sans KR',sans-serif; text-shadow:0 2px 8px #000; background:rgba(0,0,0,0.45); padding:6px 18px; border-radius:999px; }
+  /* ================= 동족 RACE 1 : DISC 게임 허브 ================= */
+  #dsRace1Pop{ z-index:12050; }
+  .g1-box{ position:relative; width:min(95vw,1260px); height:min(92vh,840px); display:flex; flex-direction:column; border-radius:22px; color:#fff; font-family:'Noto Sans KR',sans-serif;
+    background:radial-gradient(ellipse at 20% 0%, rgba(224,35,63,0.22), transparent 55%), radial-gradient(ellipse at 100% 100%, rgba(47,140,255,0.2), transparent 55%), linear-gradient(160deg,#17171d,#0a0a0e);
+    border:1px solid rgba(255,255,255,0.16); box-shadow:0 30px 90px rgba(0,0,0,0.9); }
+  .g1-box .ds2-pop-close{ top:-14px; right:-14px; }
+  .g1-head{ display:flex; align-items:center; gap:14px; padding:16px 26px 12px; border-bottom:1px solid rgba(255,255,255,0.1); flex:0 0 auto; }
+  .g1-title{ font-weight:900; font-size:clamp(20px,2.2vw,30px); letter-spacing:-0.01em; }
+  .g1-title small{ margin-left:10px; font-size:0.5em; font-weight:800; letter-spacing:0.14em; color:#ff8f8f; }
+  .g1-back{ margin-left:auto; margin-right:26px; border:1.5px solid rgba(255,255,255,0.6); background:rgba(255,255,255,0.08); color:#fff; border-radius:999px; padding:7px 18px; font:800 14px 'Noto Sans KR',sans-serif; cursor:pointer; display:none; }
+  .g1-back:hover{ background:rgba(255,255,255,0.2); }
+  .g1-box.ingame .g1-back{ display:inline-block; }
+  .g1-body{ flex:1 1 auto; overflow:auto; padding:18px 26px 22px; }
+  .g1-hub-sub{ font-size:14px; font-weight:700; color:#c9c9d6; margin:0 0 14px; }
+  .g1-body.hub{ display:flex; flex-direction:column; }
+  .g1-body.hub .g1-grid{ flex:1 1 auto; grid-auto-rows:1fr; }
+  .g1-body.hub .g1-card-desc{ font-size:clamp(13px,1.1vw,15px); }
+  .g1-body.hub .g1-card-name{ font-size:clamp(18px,1.8vw,25px); }
+  .g1-body.hub .g1-card-emoji{ font-size:38px; }
+  .g1-grid{ display:grid; grid-template-columns:repeat(5,1fr); gap:12px; }
+  .g1-body.hub .g1-grid{ flex:0 0 auto; grid-auto-rows:auto; }
+  .g1-box:not(.ingame){ height:auto; max-height:92vh; }
+  .g1-body.hub{ padding:22px 26px 26px; }
+  .g1-grid .g1-card{ align-items:center; justify-content:flex-start; padding-top:clamp(44px,8vh,70px) !important; text-align:center; gap:10px; min-height:clamp(200px,34vh,320px); padding:16px 10px; }
+  .g1-grid .g1-card-no{ top:10px; right:12px; font-size:24px; }
+  .g1-grid .g1-card-emoji{ font-size:clamp(36px,3.6vw,54px); }
+  .g1-grid .g1-card-name{ padding-right:0; font-size:clamp(15px,1.45vw,21px); word-break:keep-all; }
+  .g1-grid .g1-card-tag{ font-size:clamp(11px,.95vw,13.5px); word-break:keep-all; }
+  .g1-card{ position:relative; text-align:left; border:1.5px solid rgba(255,255,255,0.18); border-radius:18px; padding:16px 18px 16px; color:#fff; cursor:pointer; font-family:inherit;
+    background:linear-gradient(160deg,rgba(255,255,255,0.09),rgba(255,255,255,0.02)); transition:transform .2s, border-color .2s, box-shadow .2s; display:flex; flex-direction:column; gap:6px; min-height:150px; }
+  .g1-card:hover{ transform:translateY(-5px); border-color:var(--gc,#fff); box-shadow:0 14px 34px -8px var(--gc,#000); }
+  .g1-card-no{ position:absolute; top:12px; right:16px; font:900 30px 'Racing Sans One','Noto Sans KR',sans-serif; color:var(--gc); opacity:0.9; }
+  .g1-card-emoji{ font-size:30px; }
+  .g1-card-name{ font-weight:900; font-size:clamp(16px,1.5vw,21px); line-height:1.3; padding-right:30px; }
+  .g1-card-tag{ font-size:12.5px; font-weight:800; color:var(--gc); letter-spacing:0.02em; }
+  .g1-card-desc{ font-size:13px; line-height:1.5; color:#d3d3de; font-weight:600; word-break:keep-all; }
+  .g1-card-meta{ margin-top:auto; display:flex; flex-wrap:wrap; gap:6px; padding-top:6px; }
+  .g1-chip{ font-size:11.5px; font-weight:800; padding:3px 10px; border-radius:999px; background:rgba(255,255,255,0.12); color:#eee; }
+  .g1-flow{ grid-column:span 1; display:flex; flex-direction:column; justify-content:center; gap:8px; border-radius:18px; padding:16px 18px; background:linear-gradient(160deg,rgba(255,212,59,0.16),rgba(255,212,59,0.04)); border:1.5px dashed rgba(255,212,59,0.6); }
+  .g1-flow b{ color:#ffd43b; font-size:15px; font-weight:900; }
+  .g1-flow div{ font-size:13px; font-weight:700; line-height:1.55; color:#f1ecd0; word-break:keep-all; }
+  .g1-two{ display:grid; grid-template-columns:1.05fr 1fr; gap:18px; align-items:start; }
+  .g1-panel{ border-radius:18px; padding:16px 18px; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.14); }
+  .g1-panel h3{ margin:0 0 10px; font-size:16px; font-weight:900; color:#ffd43b; }
+  .g1-body .g1-twrap{ gap:clamp(22px,5vh,46px); }
+  .g1-body .g1-twrap .g1-say-big{ font-size:clamp(24px,2.8vw,40px); }
+  .g1-body .g1-twrap .g1-say-big span{ display:block; margin-top:8px; font-size:clamp(30px,3.7vw,54px); }
+  .g1-reacts{ display:grid; grid-template-columns:repeat(4,1fr); gap:14px; }
+  .g1-reacts.on .g1-react2{ animation:g1RIn .5s ease both; }
+  .g1-reacts.on .g1-react2:nth-child(2){ animation-delay:.08s; } .g1-reacts.on .g1-react2:nth-child(3){ animation-delay:.16s; } .g1-reacts.on .g1-react2:nth-child(4){ animation-delay:.24s; }
+  @keyframes g1RIn{ from{ opacity:0; transform:translateY(18px) scale(.96); } to{ opacity:1; transform:none; } }
+  .g1-react2.seq{ animation:g1RSeq .6s ease both; animation-delay:var(--d); }
+  @keyframes g1RSeq{ from{ opacity:0; transform:translateY(22px) scale(.94); } to{ opacity:1; transform:none; } }
+  .g1-react2{ border:2px solid var(--tc); border-radius:18px; padding:16px 16px 20px; background:linear-gradient(160deg,rgba(255,255,255,0.09),rgba(255,255,255,0.02)); min-height:clamp(170px,28vh,260px); display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; gap:12px; box-shadow:0 0 22px -8px var(--tc); }
+  .g1-r2-h{ display:flex; align-items:baseline; justify-content:center; gap:8px; font-weight:900; font-size:clamp(16px,1.6vw,22px); color:var(--tc); }
+  .g1-r2-h b{ font:900 clamp(30px,3vw,44px) 'Racing Sans One','Noto Sans KR',sans-serif; }
+  .g1-r2-t{ font-weight:800; font-size:clamp(20px,2vw,29px); line-height:1.55; word-break:keep-all; }
+  .g1-body .g1-opt{ font-size:clamp(20px,2.2vw,31px); padding:clamp(14px,2.2vh,22px) 24px; gap:16px; }
+  .g1-body .g1-opt i{ font-size:clamp(26px,2.6vw,38px); }
+  .g1-body .g1-qresult{ padding:clamp(20px,3vh,34px) clamp(22px,3vw,44px); }
+  .g1-body .g1-qresult h3{ font-size:clamp(22px,2.4vw,34px); margin-bottom:12px; }
+  .g1-body .g1-qresult .g1-result-top{ font-size:clamp(30px,3.6vw,52px); margin:10px 0 14px; }
+  .g1-body .g1-qresult .g1-bars{ gap:14px; }
+  .g1-body .g1-qresult .g1-bar{ grid-template-columns:clamp(150px,15vw,230px) 1fr 48px; font-size:clamp(18px,1.9vw,27px); }
+  .g1-body .g1-qresult .g1-bar-track{ height:30px; }
+  .g1-body .g1-qresult .g1-explain{ margin-top:20px; padding:clamp(16px,2.6vh,26px) clamp(18px,2.4vw,34px); font-size:clamp(21px,2.4vw,35px); line-height:1.6; border-radius:16px; }
+  .g1-body .g1-qresult .g1-explain span{ font-size:clamp(14px,1.3vw,18px) !important; }
+  .g1-body.qz{ display:flex; flex-direction:column; }
+  .g1-body.qz .g1-qwrap{ margin:auto 0; display:flex; flex-direction:column; gap:clamp(28px,6vh,56px); }
+  .g1-body.qz .g1-opts{ display:flex; flex-direction:column; }
+  .g1-body .g1-say-big{ font-size:clamp(26px,3.1vw,46px); text-align:center; padding:clamp(20px,3.4vh,34px) 28px; line-height:1.45; color:#fff; border:2px solid #ffd43b; background:linear-gradient(135deg,rgba(255,212,59,0.18),rgba(224,35,63,0.14)); box-shadow:0 0 34px rgba(255,212,59,0.3), inset 0 0 24px rgba(255,255,255,0.05); text-shadow:0 3px 14px rgba(0,0,0,0.6); }
+  .g1-mtimer{ display:flex; justify-content:flex-end; margin-bottom:12px; }
+  .g1-mtimer .g1-timer{ margin-top:0; gap:12px; flex-wrap:nowrap; }
+  .g1-mtimer .g1-time{ font-size:clamp(30px,3.2vw,46px); min-width:2.8em; }
+  .g1-mhead{ display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap; margin-bottom:8px; }
+  .g1-mhead h3{ margin:0 !important; font-size:clamp(18px,1.8vw,26px) !important; }
+  .g1-mpanel{ width:100%; box-sizing:border-box; padding:18px 26px 20px; }
+  .g1-body .g1-mission-big{ font-size:clamp(30px,3.7vw,54px); line-height:1.4; min-height:2.6em; justify-content:center; text-align:center; color:#fff; text-shadow:0 0 26px rgba(255,212,59,0.45), 0 3px 12px rgba(0,0,0,0.6); }
+  .g1-dpanel{ width:100%; box-sizing:border-box; margin-top:16px; padding:18px 26px 22px; }
+  .g1-dpanel h3{ font-size:clamp(18px,1.8vw,26px); }
+  .g1-body .g1-qs-big{ font-size:clamp(18px,1.85vw,27px); line-height:1.75; }
+  .g1-mission{ font-weight:900; font-size:clamp(20px,2.3vw,32px); line-height:1.4; min-height:3.1em; display:flex; align-items:center; word-break:keep-all; }
+  .g1-mission.rolling{ color:#9aa; filter:blur(0.6px); }
+  .g1-btn{ border:0; border-radius:999px; padding:10px 20px; font:900 14.5px 'Noto Sans KR',sans-serif; color:#fff; cursor:pointer; background:linear-gradient(135deg,#e0233f,#a8142c); box-shadow:0 6px 16px rgba(0,0,0,0.5); transition:transform .15s, filter .15s; }
+  .g1-btn:hover{ transform:translateY(-2px); filter:brightness(1.12); }
+  .g1-btn.alt{ background:linear-gradient(135deg,#3a3a48,#22222c); border:1.5px solid rgba(255,255,255,0.35); }
+  .g1-btn.gold{ background:linear-gradient(135deg,#ffd43b,#f5a800); color:#3a2400; }
+  .g1-btn:disabled{ opacity:0.4; cursor:default; transform:none; }
+  .g1-row{ display:flex; flex-wrap:wrap; gap:8px; margin-top:12px; align-items:center; }
+  .g1-timer{ margin-top:14px; display:flex; align-items:center; gap:14px; flex-wrap:wrap; }
+  .g1-time{ font:900 clamp(40px,5vw,68px) 'Racing Sans One','Noto Sans KR',monospace; letter-spacing:0.04em; color:#fff; text-shadow:0 0 20px rgba(255,255,255,0.25); min-width:3.4em; }
+  .g1-time.low{ color:#ff5a6e; animation:g1Blink .5s steps(1) infinite; }
+  .g1-time.done{ color:#ffd43b; animation:g1Blink .35s steps(1) infinite; }
+  @keyframes g1Blink{ 50%{ opacity:0.35; } }
+  .g1-types{ display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  .g1-type{ border-radius:14px; padding:10px 12px; background:rgba(0,0,0,0.35); border-left:6px solid var(--tc); }
+  .g1-type b{ font-size:15px; font-weight:900; color:var(--tc); }
+  .g1-type div{ font-size:12.5px; font-weight:600; line-height:1.5; color:#dcdce6; margin-top:3px; word-break:keep-all; }
+  .g1-type label{ display:flex; gap:8px; align-items:center; font-size:12px; font-weight:800; margin-top:6px; color:#fff; cursor:pointer; }
+  .g1-type input{ accent-color:var(--tc); width:16px; height:16px; }
+  .g1-qs{ margin:8px 0 0; padding-left:20px; font-size:13.5px; font-weight:700; line-height:1.7; color:#f0f0f8; word-break:keep-all; }
+  .g1-prog{ display:flex; align-items:center; gap:12px; margin-bottom:12px; font-weight:800; font-size:14px; color:#cfcfdc; }
+  .g1-prog-bar{ flex:1; height:8px; border-radius:99px; background:rgba(255,255,255,0.14); overflow:hidden; }
+  .g1-prog-bar i{ display:block; height:100%; background:linear-gradient(90deg,#e0233f,#ffd43b); transition:width .4s; }
+  .g1-say{ font-weight:900; font-size:clamp(19px,2.1vw,30px); line-height:1.4; padding:14px 20px; border-radius:18px; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.18); word-break:keep-all; }
+  .g1-say span{ color:#ffd43b; }
+  .g1-bubble{ position:relative; margin:16px 0 14px 28px; padding:16px 22px; border-radius:20px; font-weight:800; font-size:clamp(17px,1.8vw,25px); line-height:1.5; background:#fff; color:#15151a; word-break:keep-all; }
+  .g1-bubble::before{ content:''; position:absolute; left:26px; top:-14px; border:10px solid transparent; border-bottom-color:#fff; border-top:0; }
+  .g1-bubble small{ display:block; font-size:12px; font-weight:800; color:#777; margin-bottom:4px; }
+  .g1-choices{ display:grid; grid-template-columns:repeat(4,1fr); gap:10px; }
+  .g1-ch{ border:2px solid var(--tc); border-radius:16px; padding:12px 8px; background:rgba(0,0,0,0.35); color:#fff; font:900 15px 'Noto Sans KR',sans-serif; cursor:pointer; text-align:center; transition:transform .15s, background .15s; }
+  .g1-ch b{ display:block; font:900 28px 'Racing Sans One','Noto Sans KR',sans-serif; color:var(--tc); }
+  .g1-ch:hover:not(:disabled){ transform:translateY(-3px); background:rgba(255,255,255,0.1); }
+  .g1-ch.right{ background:var(--tc); color:#111; box-shadow:0 0 22px var(--tc); }
+  .g1-ch.right b{ color:#111; }
+  .g1-ch.wrong{ opacity:0.4; }
+  .g1-ch.picked-wrong{ outline:3px solid #ff5a6e; }
+  .g1-reveal{ margin-top:14px; display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  .g1-react{ border-radius:12px; padding:9px 12px; background:rgba(0,0,0,0.35); border-left:5px solid var(--tc); font-size:13.5px; font-weight:700; line-height:1.45; word-break:keep-all; }
+  .g1-react b{ color:var(--tc); margin-right:6px; }
+  .g1-react.hit{ background:rgba(255,255,255,0.14); }
+  .g1-explain{ margin-top:12px; padding:10px 16px; border-radius:12px; background:rgba(255,212,59,0.14); border:1px solid rgba(255,212,59,0.5); font-size:14px; font-weight:800; line-height:1.5; color:#fff4c2; word-break:keep-all; }
+  .g1-opt{ display:flex; gap:12px; align-items:flex-start; text-align:left; width:100%; margin-bottom:10px; padding:13px 18px; border-radius:16px; border:1.5px solid rgba(255,255,255,0.25); background:rgba(255,255,255,0.07); color:#fff; font:800 clamp(14px,1.45vw,19px)/1.45 'Noto Sans KR',sans-serif; cursor:pointer; word-break:keep-all; transition:transform .15s, background .15s; }
+  .g1-opt:hover{ transform:translateX(5px); background:rgba(255,255,255,0.16); }
+  .g1-opt i{ font:900 20px 'Racing Sans One',sans-serif; font-style:normal; color:#ffd43b; flex:0 0 auto; }
+  .g1-opt.chosen{ border-color:#ffd43b; background:rgba(255,212,59,0.2); }
+  .g1-bars{ display:flex; flex-direction:column; gap:10px; margin:12px 0 4px; }
+  .g1-bar{ display:grid; grid-template-columns:110px 1fr 40px; gap:10px; align-items:center; font-weight:900; font-size:15px; }
+  .g1-bar-track{ height:22px; border-radius:99px; background:rgba(255,255,255,0.12); overflow:hidden; }
+  .g1-bar-track i{ display:block; height:100%; width:0; background:var(--tc); border-radius:99px; transition:width 1.1s cubic-bezier(.2,.9,.3,1); box-shadow:0 0 14px var(--tc); }
+  .g1-result-top{ font-weight:900; font-size:clamp(20px,2.4vw,32px); margin:6px 0; }
+  .g1-three{ display:grid; grid-template-columns:1fr 1fr 1.1fr; gap:14px; }
+  .g1-sitpanel{ width:100%; box-sizing:border-box; text-align:center; padding:18px 26px 22px; display:flex; flex-direction:column; align-items:center; gap:12px; }
+  .g1-sit-h{ margin:0; font-size:13px; font-weight:900; letter-spacing:0.1em; color:#ffd43b; }
+  .g1-body .g1-sit-big{ font-weight:900; font-size:clamp(28px,3.4vw,50px); line-height:1.45; min-height:2.9em; display:flex; align-items:center; justify-content:center; word-break:keep-all; color:#fff; text-shadow:0 0 26px rgba(255,212,59,0.45), 0 3px 12px rgba(0,0,0,0.6); }
+  .g1-rtypes{ display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-top:16px; }
+  .g1-rtype{ border:2px solid var(--tc); border-radius:18px; padding:14px 16px; min-height:clamp(190px,32vh,300px); color:#fff; font-family:inherit; cursor:pointer; background:linear-gradient(160deg,rgba(255,255,255,0.09),rgba(255,255,255,0.02)); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px; text-align:center; transition:transform .15s, box-shadow .2s, background .2s; }
+  .g1-rtype:hover{ transform:translateY(-4px); box-shadow:0 12px 30px -8px var(--tc); }
+  .g1-rtype.on{ background:linear-gradient(160deg,rgba(255,255,255,0.14),rgba(255,255,255,0.04)); box-shadow:0 0 28px -4px var(--tc); }
+  .g1-rt-big{ font:900 clamp(40px,4.6vw,68px) 'Racing Sans One','Noto Sans KR',sans-serif; line-height:1; color:var(--tc); }
+  .g1-rt-name{ font-weight:900; font-size:clamp(18px,1.9vw,27px); color:var(--tc); }
+  .g1-rt-hint{ font-size:12px; font-weight:700; color:#aab; }
+  .g1-rt-k{ font-weight:900; font-size:clamp(20px,2vw,28px); color:var(--tc); }
+  .g1-rt-tip{ font-weight:800; font-size:clamp(19px,2vw,28px); line-height:1.55; word-break:keep-all; }
+  .g1-slot{ border-radius:18px; padding:16px 18px; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.14); text-align:center; min-height:170px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; }
+  .g1-slot h4{ margin:0; font-size:13px; font-weight:900; letter-spacing:0.1em; color:#ffd43b; }
+  .g1-slot-main{ font-weight:900; font-size:clamp(17px,1.8vw,25px); line-height:1.4; word-break:keep-all; }
+  .g1-slot-big{ font:900 clamp(46px,5.5vw,80px) 'Racing Sans One','Noto Sans KR',sans-serif; line-height:1; }
+  .g1-score{ display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-top:14px; }
+  .g1-score div{ border-radius:14px; padding:8px 10px; background:rgba(0,0,0,0.35); border-top:5px solid var(--tc); text-align:center; font-weight:900; }
+  .g1-score div span{ display:block; font-size:26px; font-family:'Racing Sans One','Noto Sans KR',sans-serif; }
+  .g1-score button{ border:0; border-radius:8px; width:30px; height:26px; margin:0 3px; cursor:pointer; font-weight:900; background:rgba(255,255,255,0.18); color:#fff; }
+  .g1-rmpanel{ display:flex; flex-direction:column; align-items:center; text-align:center; gap:clamp(12px,2.4vh,24px); padding:20px 26px 26px; }
+  .g1-rmpanel h3{ margin:0 !important; font-size:clamp(18px,1.8vw,26px) !important; }
+  .g1-body .g1-rmpanel .g1-mission-big{ min-height:2.4em; }
+  .g1-btn.g1-rbig{ font-size:clamp(17px,1.6vw,23px) !important; padding:12px 30px !important; }
+  .g1-body .g1-track{ margin:clamp(80px,12vh,110px) 30px 20px; }
+  .g1-rmpanel-sm{ padding:12px 24px 16px; gap:8px; }
+  .g1-body .g1-rmpanel-sm .g1-mission-big{ min-height:0; font-size:clamp(22px,2.6vw,38px); }
+  .g1-stn-role{ position:absolute; top:calc(100% + 14px); left:50%; transform:translateX(-50%); width:clamp(360px,32vw,500px); text-align:center; color:#fff; font-family:'Noto Sans KR',sans-serif; line-height:1.5; word-break:keep-all; animation:g1Fade .5s ease both; }
+  @keyframes g1Fade{ from{ opacity:0; } to{ opacity:1; } }
+  .g1-stn-role.r0{ left:0; transform:none; text-align:left; }
+  .g1-stn-role.r3{ left:auto; right:0; transform:none; text-align:right; }
+  .g1-stn-role b{ display:block; font-size:clamp(18px,1.8vw,26px); font-weight:900; color:var(--tc); margin-bottom:4px; }
+  .g1-stn-role span{ display:block; font-size:clamp(16px,1.55vw,22px); font-weight:800; }
+  .g1-body .g1-stn.passed{ background:#262630; }
+  .g1-body .g1-stn.on{ z-index:3; transform:none; border-width:6px; }
+  .g1-body .g1-car{ z-index:6; transform:translateX(-50%) scaleX(-1); }
+  .g1-finpop{ position:absolute; inset:0; z-index:20; display:flex; align-items:center; justify-content:center; background:rgba(0,0,0,0.72); backdrop-filter:blur(3px); border-radius:22px; animation:g1RIn .4s ease both; }
+  .g1-finbox{ width:min(88%,980px); text-align:center; padding:clamp(24px,4vh,44px) clamp(24px,3vw,48px); border-radius:24px; background:linear-gradient(135deg,rgba(255,212,59,0.26),rgba(224,35,63,0.2)),#14141a; border:2.5px solid #ffd43b; box-shadow:0 0 60px rgba(255,212,59,0.35); }
+  .g1-finbox{ position:relative; }
+  .g1-fin-x{ top:12px !important; right:12px !important; z-index:5; }
+  .g1-fin-flag{ font:900 clamp(28px,3.4vw,50px) 'Racing Sans One','Noto Sans KR',sans-serif; color:#ffd43b; text-shadow:0 0 30px rgba(255,212,59,0.55); }
+  .g1-fin-top{ margin-top:10px; font-weight:900; font-size:clamp(22px,2.6vw,38px); color:#fff; }
+  .g1-fin-mission{ margin:clamp(16px,3vh,30px) 0; font-weight:900; font-size:clamp(28px,3.3vw,48px); line-height:1.4; color:#fff; text-shadow:0 0 24px rgba(255,212,59,0.5); word-break:keep-all; }
+  .g1-fin-h{ font-weight:900; font-size:clamp(20px,2.2vw,32px); color:#ffd43b; margin-bottom:6px; }
+  .g1-fin-qs{ display:inline-block; text-align:left; margin:0; padding-left:1.3em; font-weight:800; font-size:clamp(18px,1.9vw,28px); line-height:1.75; color:#fff; word-break:keep-all; }
+  .g1-track{ position:relative; display:flex; justify-content:space-between; align-items:center; margin:18px 30px 10px; padding:0 4px; }
+  .g1-track::before{ content:''; position:absolute; left:6%; right:6%; top:50%; height:8px; transform:translateY(-50%); background:repeating-linear-gradient(90deg,#fff 0 14px,#444 14px 28px); border-radius:4px; opacity:0.5; }
+  .g1-stn{ position:relative; z-index:1; width:clamp(96px,8.4vw,124px); height:clamp(96px,8.4vw,124px); border-radius:50%; display:flex; flex-direction:column; align-items:center; justify-content:center; font:900 clamp(34px,3.2vw,48px) 'Racing Sans One','Noto Sans KR',sans-serif; background:#15151b; border:4px solid var(--tc); color:var(--tc); transition:transform .4s, background .4s, color .4s; }
+  .g1-stn small{ font:800 clamp(12px,1.05vw,15px) 'Noto Sans KR',sans-serif; }
+  .g1-stn.on{ background:var(--tc); color:#111; transform:scale(1.18); box-shadow:0 0 28px var(--tc); }
+  .g1-stn.passed{ background:rgba(255,255,255,0.12); }
+  .g1-car{ position:absolute; top:clamp(-146px,-11.4vw,-114px); font-size:clamp(96px,9vw,140px); line-height:1; transition:left .8s cubic-bezier(.4,.1,.2,1); transform:translateX(-50%); z-index:2; filter:drop-shadow(0 6px 6px rgba(0,0,0,0.6)); }
+  .g1-leg{ margin-top:6px; padding:14px 18px; border-radius:16px; background:rgba(0,0,0,0.35); border-left:7px solid var(--tc); }
+  .g1-leg b{ font-size:18px; color:var(--tc); font-weight:900; }
+  .g1-leg div{ margin-top:4px; font-size:14.5px; font-weight:700; line-height:1.6; word-break:keep-all; }
+  .g1-finish{ margin-top:14px; padding:16px 20px; border-radius:18px; background:linear-gradient(135deg,rgba(255,212,59,0.22),rgba(224,35,63,0.14)); border:1.5px solid #ffd43b; }
+  @media (max-width:900px){ .g1-grid{ grid-template-columns:1fr 1fr; } .g1-two,.g1-three{ grid-template-columns:1fr; } }
+  .ds-header{ text-align:center; padding:0 6vw; position:relative; z-index:2; }
+  .ds-header .pill{ font-size:26px; padding:10px 30px; margin-bottom:26px; letter-spacing:1px; }
+  .ds-header h1{
+    font-family:'Racing Sans One','Noto Sans KR',sans-serif; letter-spacing:1px; line-height:1.3;
+    font-size:clamp(34px, 4.6vw, 66px); color:#fff; text-shadow:0 4px 22px rgba(0,0,0,0.8);
+  }
+  /* 본문: 드라이빙 스타일 사분면 이미지를 크게 */
+  #page-driving-style .ds-page{ padding-top:clamp(18px, 3.5vh, 40px); }
+  #page-driving-style .ds-header .pill{ font-size:22px; padding:7px 24px; margin-bottom:12px; }
+  #page-driving-style .ds-header h1{ font-size:clamp(28px, 3.3vw, 48px); white-space:nowrap; }
+  .ds-body{ position:relative; z-index:2; width:100%; flex:1; display:flex; align-items:center; justify-content:center; padding:14px 3vw 22px; box-sizing:border-box; }
+  .ds-diagram{
+    display:block; width:min(94vw, calc((100vh - 220px) * 2.12)); height:auto; max-width:100%;
+    border-radius:18px; border:1px solid rgba(255,255,255,0.14);
+    box-shadow:0 24px 70px -10px rgba(0,0,0,0.85), 0 0 0 4px rgba(0,0,0,0.25);
+  }
+  .ds-stage{ position:relative; container-type:inline-size; width:min(94vw, calc((100vh - 220px) * 2.12)); max-width:100%; }
+  .ds-stage .ds-diagram{ width:100%; }
+  #page-driving-style .ds-body{ flex-direction:column; gap:12px; }
+  #page-driving-style .ds-stage{ width:min(94vw, calc((100vh - 285px) * 2.12)); }
+  .ds-notice{ font-weight:900; font-size:clamp(16px,1.7vw,26px); color:#fff; background:rgba(0,0,0,0.55); border:1px solid rgba(255,255,255,0.25); padding:8px 26px; border-radius:999px; box-shadow:0 8px 24px rgba(0,0,0,0.5); text-align:center; white-space:nowrap; }
+  .ds-notice b{ color:#ffd43b; }
+  .ds-cube-layer{ position:absolute; inset:0; pointer-events:none; }
+  /* ---- DISC 큐빅(큐브): 4개 사분면에 색깔별 상자. 클릭할 때마다 다음 면으로 회전, 각 면은 서로 다른 내용 ---- */
+  .ds-cube-wrap{
+    position:absolute; width:15cqw; height:15cqw; transform:translate(-50%,-50%);
+    perspective:70cqw; pointer-events:auto; cursor:pointer; -webkit-tap-highlight-color:transparent;
+  }
+  .ds-cube{
+    position:relative; width:100%; height:100%; transform-style:preserve-3d;
+    transition:transform 0.9s cubic-bezier(.3,.8,.25,1.05);
+    animation:dsCubeFloat 4.5s ease-in-out infinite alternate;
+  }
+  @keyframes dsCubeFloat{ 0%{ translate:0 -0.6cqw; } 100%{ translate:0 0.6cqw; } }
+  .ds-cube-face{
+    position:absolute; inset:0; box-sizing:border-box; border-radius:1.4cqw;
+    display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center;
+    padding:1.2cqw; color:#fff; backface-visibility:hidden; -webkit-backface-visibility:hidden; overflow:hidden;
+    box-shadow:inset 0 0 0 0.25cqw rgba(255,255,255,0.28), inset 0 -1.4cqw 2.4cqw rgba(0,0,0,0.22), inset 0 1.2cqw 2cqw rgba(255,255,255,0.16);
+    text-shadow:0 0.2cqw 0.6cqw rgba(0,0,0,0.35);
+  }
+  .ds-cube-face .dsf-big{ font-family:'Racing Sans One','Noto Sans KR',sans-serif; font-weight:900; font-size:6.6cqw; line-height:1; }
+  .ds-cube-face .dsf-title{ font-weight:900; font-size:1.5cqw; margin-bottom:0.4cqw; letter-spacing:0.02em; }
+  .ds-cube-face .dsf-text{ font-weight:700; font-size:1.12cqw; line-height:1.45; word-break:keep-all; }
+  .ds-cube-face .dsf-sub{ font-weight:800; font-size:1.6cqw; margin-top:0.4cqw; }
+  .ds-cube-face .dsf-photo{ width:9.6cqw; height:9.6cqw; object-fit:cover; border-radius:50%; box-shadow:0 0 0 0.35cqw rgba(255,255,255,0.9), 0 0.6cqw 1.4cqw rgba(0,0,0,0.4); background:#fff; }
+  .ds-cube-face .dsf-cap{ font-weight:900; font-size:1.7cqw; margin-top:0.9cqw; }
+  .ds-cube-face .dsf-capk{ font-family:'Racing Sans One','Noto Sans KR',sans-serif; font-size:2cqw; }
+  .dsf-front{ transform:translateZ(7.5cqw); }
+  .dsf-right{ transform:rotateY(90deg) translateZ(7.5cqw); }
+  .dsf-back{ transform:rotateY(180deg) translateZ(7.5cqw); }
+  .dsf-left{ transform:rotateY(-90deg) translateZ(7.5cqw); }
+  .dsf-top{ transform:rotateX(90deg) translateZ(7.5cqw); }
+  .dsf-bottom{ transform:rotateX(-90deg) translateZ(7.5cqw); }
+  .ds-cube-wrap .ds-cube-hint{
+    position:absolute; left:50%; bottom:-2.6cqw; transform:translateX(-50%); font-size:1.1cqw; font-weight:800; color:#fff;
+    background:rgba(0,0,0,0.55); padding:0.2cqw 1cqw; border-radius:999px; white-space:nowrap; pointer-events:none;
+  }
+  .dsf-detail-btn{ margin-top:0.9cqw; font:900 1.25cqw 'Noto Sans KR',sans-serif; color:#fff; background:rgba(0,0,0,0.45); border:0.2cqw solid rgba(255,255,255,0.85); border-radius:999px; padding:0.35cqw 1.2cqw; cursor:pointer; pointer-events:auto; }
+  .dsf-detail-btn:hover{ background:rgba(0,0,0,0.7); }
+  .ds-detail-overlay{ position:fixed; inset:0; z-index:12000; display:none; align-items:center; justify-content:center; background:rgba(0,0,0,0.78); backdrop-filter:blur(4px); }
+  .ds-detail-overlay.show{ display:flex; }
+  .ds-detail-box{ position:relative; max-width:92vw; max-height:94vh; }
+  .ds-detail-img{ display:block; max-height:94vh; max-width:92vw; width:auto; height:auto; border-radius:14px; box-shadow:0 20px 70px rgba(0,0,0,0.8); background:#fff; }
+  .ds-detail-close{ position:absolute; top:-14px; right:-14px; width:44px; height:44px; border-radius:50%; border:2px solid #fff; background:#e0233f; color:#fff; font-size:22px; font-weight:900; cursor:pointer; box-shadow:0 6px 18px rgba(0,0,0,0.6); }
+  .ds-detail-close:hover{ background:#ff3b57; }
+  .ds-header h1 .ds-accent{ color:#ff8f8f; }
+  .ds-header h1 .ds-green{ color:#3ddc71; }
 
   /* ---- 서킷 로드뷰 페이지: 가운데 가로라인을 슝~ 지나가는 레이싱카 연출 ---- */
   .rv-flyby-car{
@@ -1352,7 +1790,7 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
     text-align:center; padding:0 4vw 50px;
   }
   .awards-side-buttons{
-    position:absolute; top:14px; left:50%; transform:translateX(-50%); z-index:10;
+    position:relative; z-index:10; margin:0 0 84px;
   }
   .awards-banner{
     position:absolute; top:0; left:0; right:0; height:340px;
@@ -1362,7 +1800,7 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
   .awards-title{
     position:relative; z-index:2;
     font-family:'Racing Sans One',sans-serif; font-size:clamp(27px, 3.4vw, 45px); color:#fff;
-    text-shadow:0 4px 18px rgba(0,0,0,0.8); margin-top:270px; margin-bottom:5%;
+    text-shadow:0 4px 18px rgba(0,0,0,0.8); margin-top:200px; margin-bottom:16px;
     opacity:0; transform:translateY(-16px);
     animation: awardsTitleIn .5s ease-out forwards;
   }
@@ -1475,9 +1913,10 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
     font-family:'Racing Sans One',sans-serif; font-size:21px; font-weight:900; letter-spacing:0.5px; color:var(--gold);
   }
   .wcard-back-photo{
-    width:96px; height:96px; border-radius:50%; background-size:cover; background-position:center;
-    border:3px solid var(--gold); box-shadow:0 8px 22px rgba(0,0,0,0.5); flex:none;
+    width:200px; height:200px; border-radius:50%; background-size:cover; background-position:center;
+    border:4px solid var(--gold); box-shadow:0 8px 22px rgba(0,0,0,0.5); flex:none;
   }
+  #wcardPhoto1{ width:160px; height:160px; margin-top:8px; }
   .wcard-back-name{ font-size:20px; font-weight:900; color:#fff; }
   .wcard-back-sub{ font-size:13.5px; color:var(--gray-dim); line-height:1.5; }
   .wcard-back-members{ font-size:13px; color:var(--gray); line-height:1.6; max-height:80px; overflow-y:auto; }
@@ -1498,11 +1937,11 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
   .wcard-members-inside .rcb-finish-member-photo{ width:84px; height:84px; border-width:3px; }
   .wcard-members-inside .rcb-finish-member-thread{ height:15px; }
   .wcard-reel-wrap{
-    width:96px; height:96px; border-radius:50%; overflow:hidden; position:relative;
-    border:3px solid var(--gold); box-shadow:0 8px 22px rgba(0,0,0,0.5); flex:none;
+    width:200px; height:200px; border-radius:50%; overflow:hidden; position:relative;
+    border:4px solid var(--gold); box-shadow:0 8px 22px rgba(0,0,0,0.5); flex:none;
   }
   .wcard-reel-strip{ position:absolute; left:0; top:0; width:100%; }
-  .wcard-reel-strip .wcard-reel-item{ width:96px; height:96px; background-size:cover; background-position:center; }
+  .wcard-reel-strip .wcard-reel-item{ width:200px; height:200px; background-size:cover; background-position:center; }
   .wcard-back-hint{ font-size:12px; color:var(--gray-dim); }
   .wcard-fireworks-box{ position:absolute; left:50%; top:44%; width:0; height:0; z-index:25; pointer-events:none; }
 
@@ -1655,6 +2094,9 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
   .ceval-bullet.lv-midlow{ background:#c9701f; }
   .ceval-bullet.lv-lo{ background:#b33131; }
   .ceval-level-desc{ color:#555; font-size:11.5px; line-height:1.4; }
+  .ceval-table .ceval-opinion-row td{ text-align:left; background:#fff8e1; padding:12px 14px; border-top:2px solid #a8790a; }
+  .ceval-opinion-label{ font-weight:900; font-size:14px; color:#a8790a; margin-bottom:8px; }
+  .ceval-opinion-text{ width:100%; box-sizing:border-box; min-height:110px; resize:vertical; padding:10px 12px; border:1px solid #cdbd8a; border-radius:8px; font:600 13.5px/1.6 'Noto Sans KR',sans-serif; color:#222; background:#fff; }
   .ceval-score-cell{ font-weight:900; font-size:15px; color:#a8790a; }
   .ceval-activity-list{ text-align:left; font-size:11.5px; color:#444; line-height:1.6; margin:0; padding-left:16px; }
   .ceval-chip-cell{ text-align:left; font-size:11.5px; color:#333; line-height:1.7; }
@@ -1779,6 +2221,8 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
     0%{ background-position: center, 0% 30%; }
     100%{ background-position: center, 100% 30%; }
   }
+  .rv-popup.green-theme.pz-wide{ width:97vw; max-width:1760px; height:98vh; padding:20px 24px 22px 24px; }
+  .rv-popup.green-theme.pz-wide .pz-top{ margin-bottom:14px; }
   .rv-popup.green-theme{
     border-top-color:#3ddc71;
     background: linear-gradient(160deg, rgba(10,22,16,0.98) 0%, rgba(6,10,8,1) 55%, rgba(3,4,4,1) 100%);
@@ -2428,12 +2872,12 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
   .pz-roulette-row .pz-roulette-box{ margin:0 0 18px; }
   .pz-refill-btn{ flex:none; }
   .pz-board-frame{
-    width:100%; flex:1; min-height:0; overflow:hidden;
+    width:100%; flex:1; min-height:0; overflow:visible;
     display:flex; align-items:center; justify-content:center;
   }
-  .pz-board-stage{ position:relative; width:1200px; height:860px; flex:none; }
+  .pz-board-stage{ position:relative; width:1600px; height:860px; flex:none; }
   .pz-grid{
-    position:absolute; inset:0; display:grid; grid-template-columns:repeat(6,1fr);
+    position:absolute; inset:0; display:grid; grid-template-columns:repeat(8,1fr);
     grid-template-rows:repeat(5,1fr); gap:10px;
   }
   .pz-cell{
@@ -2443,11 +2887,12 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
   }
   .pz-cell .pz-cell-icon{ font-size:38px; }
   .pz-cell .pz-cell-label{ font-size:12.5px; color:var(--gray); margin-top:4px; font-weight:700; }
+  #prizeRoot.pz-fancy .pz-cell:not(.revealed) > *{ visibility:hidden; }
   .pz-cell.revealed{ border-color:var(--gold); box-shadow:0 0 0 2px rgba(212,175,55,0.4) inset; }
   .pz-cell img.pz-prize-img{ width:100%; height:100%; object-fit:cover; position:absolute; inset:0; }
   .pz-balloons{ position:absolute; inset:0; }
   .pz-balloon{
-    position:absolute; width:200px; height:165px; margin-left:-100px; margin-top:-82.5px;
+    position:absolute; width:226px; height:187px; margin-left:-113px; margin-top:-93.5px;
     cursor:pointer; background-size:100% 100%; background-position:center; background-repeat:no-repeat;
     animation:pzFloat 3s ease-in-out infinite; transition:opacity .2s ease;
     filter:drop-shadow(0 8px 14px rgba(0,0,0,0.5));
@@ -2477,7 +2922,14 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
     position:fixed; inset:0; z-index:600; display:none;
     align-items:center; justify-content:center; pointer-events:none;
   }
-  .pz-popup-overlay.show{ display:flex; }
+  .pz-popup-overlay.show{ display:flex; pointer-events:auto; }
+  .pz-popup-close{
+    position:absolute; top:26px; right:34px; z-index:20; width:52px; height:52px; border-radius:50%;
+    background:rgba(20,20,24,0.92); color:#fff; border:2px solid rgba(255,255,255,0.55); font-size:26px; font-weight:900;
+    cursor:pointer; display:flex; align-items:center; justify-content:center; line-height:1; padding:0;
+  }
+  .pz-popup-close:hover{ background:rgba(227,6,19,0.85); border-color:#fff; }
+  .pz-popup-overlay.show.pz-fancy{ background:rgba(0,0,0,0.72); }
   .pz-popup{ text-align:center; animation:cellPopInOut 2.3s ease-in-out forwards; }
   .pz-popup .pz-popup-box{
     width:280px; height:280px; border-radius:24px; background:var(--black2);
@@ -2490,6 +2942,38 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
     font-family:'Racing Sans One',sans-serif; font-size:33.5px; color:#fff; margin-top:20px;
     text-shadow:0 4px 16px rgba(0,0,0,0.8);
   }
+  #prizeRoot.pz-fancy .pz-cell .pz-cell-prize-thumb{ position:absolute; left:50%; top:45%; transform:translate(-50%,-50%); width:146px; height:114px; object-fit:contain; border-radius:12px; border:2px solid rgba(255,255,255,0.7); background:#fff; }
+  #prizeRoot.pz-fancy .pz-cell .pz-person-photo{ position:absolute; left:6px; bottom:5px; width:30px !important; height:30px !important; margin:0 !important; }
+  #prizeRoot.pz-fancy .pz-cell .pz-person-name{ position:absolute; left:42px; bottom:12px; font-size:12px !important; text-shadow:0 1px 4px #000; }
+  #prizeRoot.pz-fancy .pz-cell .pz-person-pos{ display:none !important; }
+  .pz-popup.pz-popup-big{ animation:pzWinIn .6s cubic-bezier(.2,.9,.3,1.2) forwards; }
+  @keyframes pzWinIn{ 0%{ transform:scale(0.3); opacity:0; } 100%{ transform:scale(1); opacity:1; } }
+  .pz-win-title{
+    font-family:'Racing Sans One','Noto Sans KR',sans-serif; font-size:52px; font-weight:900; color:var(--gold);
+    text-shadow:0 4px 0 rgba(120,70,0,0.55), 0 8px 26px rgba(0,0,0,0.85), 0 0 34px rgba(255,214,0,0.6);
+    margin-bottom:22px; position:relative; z-index:2;
+  }
+  .pz-win-card{
+    display:flex; align-items:center; justify-content:center; gap:26px; padding:30px 38px; border-radius:28px;
+    width:min(92vw, 1000px); box-sizing:border-box; position:relative; z-index:2;
+    background:linear-gradient(180deg, rgba(24,22,30,0.97), rgba(8,8,10,0.97));
+    border:5px solid var(--gold); box-shadow:0 0 0 8px rgba(212,175,55,0.3), 0 30px 80px rgba(0,0,0,0.8);
+  }
+  .pz-win-person, .pz-win-prize{ display:flex; flex-direction:column; align-items:center; gap:12px; flex:1 1 0; min-width:0; }
+  .pz-win-photo{
+    width:min(30vh, 300px); height:min(30vh, 300px); border-radius:50%; background:#333 center/cover no-repeat;
+    border:6px solid var(--gold); box-shadow:0 14px 40px rgba(0,0,0,0.7);
+  }
+  .pz-win-name{ font-size:40px; font-weight:900; color:#fff; text-shadow:0 4px 16px rgba(0,0,0,0.8); }
+  .pz-win-pos{ font-size:20px; color:var(--gray); margin-top:-6px; min-height:24px; }
+  .pz-win-plus{ font-size:56px; flex:none; filter:drop-shadow(0 6px 16px rgba(0,0,0,0.6)); }
+  .pz-win-prize-img{
+    width:min(40vh, 400px); height:min(30vh, 300px); border-radius:20px; background:#fff; overflow:hidden;
+    border:5px solid var(--gold); display:flex; align-items:center; justify-content:center; box-shadow:0 14px 40px rgba(0,0,0,0.7);
+  }
+  .pz-win-prize-img img{ width:100%; height:100%; object-fit:contain; }
+  .pz-win-prize-icon{ font-size:120px; }
+  .pz-win-prize-label{ font-family:'Racing Sans One','Noto Sans KR',sans-serif; font-size:30px; font-weight:900; color:var(--gold); text-align:center; text-shadow:0 4px 16px rgba(0,0,0,0.8); }
   .pz-popup-fireworks{ position:fixed; inset:0; pointer-events:none; overflow:hidden; z-index:1; }
   .pz-popup .pz-winner-congrats{
     font-family:'Racing Sans One',sans-serif; font-size:26px; color:var(--gold); margin-bottom:16px;
@@ -5460,6 +5944,10 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
     box-shadow:0 4px 14px rgba(0,0,0,0.5);
     transition:background .2s, transform .15s;
   }
+  .bm-rank-assign-btn{ top:8px; left:20px; z-index:30; }
+  #rvPopup > .rcb-finish-celebration{ z-index:60; border-radius:0; }
+  #rvPopup > .rcb-finish-celebration .rcb-finish-panel{ width:60%; max-width:980px; }
+  .bm-celebrate-btn{ top:8px; left:262px; }
   .rcb-rank-assign-btn:hover{ background:rgba(227,6,19,0.35); transform:translateY(-2px); }
   .rcb-rank-assign-box{
     position:relative; background:#0c0c0e; border:2px solid var(--gold); border-radius:20px;
@@ -6082,6 +6570,13 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
     animation: dotBlink 1.2s ease-in-out infinite;
   }
   .rv-mini-car.running .rv-mini-hint{ display:none; }
+  .rv-mini-car.rv-mc-car{ transform:translate(-50%,-100%) scale(var(--mcs,0.5)); transform-origin:50% 100%; }
+  .rv-mc-hint{
+    position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); z-index:80;
+    padding:16px 34px; border-radius:16px; background:rgba(10,10,12,0.82); border:2px solid #ffe600;
+    color:#ffe600; font-family:'Racing Sans One','Noto Sans KR',sans-serif; font-size:34px; font-weight:900;
+    letter-spacing:0.5px; white-space:nowrap; pointer-events:none; animation: dotBlink 1.2s ease-in-out infinite;
+  }
 
   /* 서킷 로드뷰 결승선 폭죽 효과 */
   .rv-finish-fireworks{ position:absolute; width:0; height:0; z-index:25; pointer-events:none; }
@@ -6705,7 +7200,7 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
       </div>
       <div class="overview-panel ov-carousel-item" id="ovItem3" style="background-image:var(--img-ovpanel3);" onclick="event.stopPropagation(); handleOvItemClick(3, event, 'final');">
         <span class="pill solid ov-badge-yellow">Final Race</span>
-        <p>더 멋진 서비스 히어로서의 업과 삶을 살아가기 위한<br>의지력과 에너지 충전 레벨을 극대화할 것인가?</p>
+        <p style="word-break:keep-all; white-space:nowrap; max-width:none;">더 멋진 서비스 히어로서의 업과 삶을<br>살아가기 위한 의지력과 에너지 충전<br>레벨을 극대화할 것인가?</p>
       </div>
     </div>
   </div>
@@ -6934,9 +7429,9 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
     <div class="finish-flag"></div>
     <div class="lap1-buttons">
       <button class="rv-side-btn rv-pink" onclick="openRapInfoPopup(event)"><span class="dot-blink" style="color:var(--red);">●</span> 최고 센터 만들기 레이스 미션</button>
-      <button class="rv-side-btn rv-green" onclick="window.open(document.getElementById('prizeBoardLink').href, '_blank')"><span class="dot-blink">●</span> 경품추첨 보드</button>
       <button class="rv-side-btn rv-gold" onclick="openScoreboardPopup()"><span class="dot-blink">●</span> 팀/구성원 점수판 보기</button>
       <button class="rv-side-btn rv-pink" onclick="openRacingStatusBoard(event)"><span class="dot-blink">●</span> 레이싱 현황 보드</button>
+      <button class="rv-side-btn rv-green" onclick="rcbOpenPrizeRestricted(event)"><span class="dot-blink">●</span> 경품 추첨 보드</button>
     </div>
     <div class="lap1-center">
       <span class="lap1-badge">리허설 RACE Finish</span>
@@ -7270,6 +7765,10 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
       <label>🎖️ 준우승자</label>
       <input type="text" id="rcbRunnerUpInput" class="admin-input" placeholder="준우승자 이름 입력" onchange="saveRcbRankAssign()">
     </div>
+    <div class="rcb-rank-assign-row">
+      <label>🎁 경품 추첨 강제 지정 인원 (여러 명)</label>
+      <textarea id="rcbPrizeExtraInput" class="admin-input" rows="3" placeholder="이름을 쉼표(,) 또는 줄바꿈으로 구분해서 여러 명 입력" onchange="saveRcbRankAssign()" style="resize:vertical;"></textarea>
+    </div>
     <div class="rcb-rank-assign-status" id="rcbRankAssignStatus"></div>
   </div>
 </div>
@@ -7501,9 +8000,9 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
     <div class="finish-flag"></div>
     <div class="lap1-buttons">
       <button class="rv-side-btn rv-pink" onclick="openRapInfoPopup(event)"><span class="dot-blink" style="color:var(--red);">●</span> 최고 센터 만들기 레이스 미션</button>
-      <button class="rv-side-btn rv-green" onclick="window.open(document.getElementById('prizeBoardLink').href, '_blank')"><span class="dot-blink">●</span> 경품추첨 보드</button>
       <button class="rv-side-btn rv-gold" onclick="openScoreboardPopup()"><span class="dot-blink">●</span> 팀/구성원 점수판 보기</button>
       <button class="rv-side-btn rv-pink" onclick="openRacingStatusBoard(event)"><span class="dot-blink">●</span> 레이싱 현황 보드</button>
+      <button class="rv-side-btn rv-green" onclick="rcbOpenPrizeRestricted(event)"><span class="dot-blink">●</span> 경품 추첨 보드</button>
     </div>
     <div class="lap1-center">
       <span class="lap1-badge">리허설 RACE Finish</span>
@@ -7541,17 +8040,33 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
   </div>
 </section>
 
+<!-- ============ 행운추첨 회전판 팝업 ============ -->
+<div class="wh-pop" id="whPop">
+  <button type="button" class="wh-close" onclick="closeWheelPopup()" aria-label="닫기">✕</button>
+  <h2 class="wh-title">🎡 행운추첨 회전판</h2>
+  <div class="wh-stage" id="whStage">
+    <div class="wh-glow" id="whGlow"></div>
+    <div class="wh-bulbs" id="whBulbs"></div>
+    <div class="wh-pointer"></div>
+    <canvas class="wh-disc" id="whDisc" width="900" height="900"></canvas>
+    <button type="button" class="wh-hub" id="whHub" onclick="wheelAct()">GO</button>
+    <div class="wh-result" id="whResult"><div class="wh-result-badge">🎉 CONGRATULATIONS 🎉</div><img id="whResImg" alt=""><div class="wh-result-label" id="whResLabel"></div></div>
+    <div class="wh-fw rv-finish-fireworks" id="whFw"></div>
+  </div>
+</div>
+
 <!-- ============ 그랑프리 우승 특전 안내 팝업 (구 PODIUM GP PAGE) ============ -->
 <div class="rv-popup-overlay" id="awardsPopupOverlay" onclick="if(event.target===this) closeAwardsPopup();">
   <div class="rv-popup" id="awardsPopupBox">
     <button class="rv-popup-close" onclick="closeAwardsPopup()">✕</button>
     <div class="rv-finish-fireworks awards-fireworks" id="awardsFireworks"></div>
     <div class="awards-popup-inner">
-      <div class="awards-side-buttons">
-        <button class="rv-side-btn rv-green" onclick="rcbOpenPrizeFromAwards(event)"><span class="dot-blink">●</span> 행운권 추첨 보드</button>
-      </div>
       <div class="awards-banner"></div>
       <h2 class="awards-title">그랑프리 시상식</h2>
+      <div class="awards-side-buttons">
+        <button class="rv-side-btn rv-green" onclick="rcbOpenPrizeFromAwards(event)"><span class="dot-blink">●</span> 행운권 추첨 보드</button>
+        <button class="rv-side-btn rv-red" onclick="openWheelPopup(event)"><span class="dot-blink">●</span> 행운추첨 회전판</button>
+      </div>
       <div class="awards-row">
         <div class="award-card silver">
           <div class="award-label">1등 컨스트럭터(팀)</div>
@@ -7586,6 +8101,8 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
       </div>
 
       <div id="bmGame" style="display:none;">
+        <button class="rcb-rank-assign-btn bm-rank-assign-btn" onclick="openRcbRankAssignPopup(event)">🏆 1·2·3등 조 / MVP 지정</button>
+        <button class="rcb-rank-assign-btn bm-rank-assign-btn bm-celebrate-btn" onclick="bmShowCelebrationNow(event)">🏁 도착 세레모니</button>
         <div class="bm-game-top">
           <div class="bm-turn-picker" id="bmTurnPicker"></div>
           <div class="bm-center-controls">
@@ -7627,7 +8144,8 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
 
     <div id="prizeRoot" style="display:none;">
       <div class="pz-top">
-        <h2>🎁 행운권 추첨 보드</h2>
+        <h2 id="pzBoardTitle">🎁 행운권 추첨 보드</h2>
+        <button class="pz-assign-open-btn" id="pzAssignOpenBtn" onclick="openRcbRankAssignPopup(event)" style="position:absolute;left:20px;top:18px;padding:8px 14px;border-radius:999px;border:1px solid var(--gold);background:rgba(212,175,55,0.12);color:var(--gold);font-weight:800;font-size:13px;cursor:pointer;">🏆 추첨 대상 지정</button>
       </div>
 
       <div class="pz-roulette-row">
@@ -7909,6 +8427,7 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
 <div class="pz-popup-overlay" id="pzPopupOverlay">
   <div class="pz-popup-fireworks" id="pzPopupFireworks"></div>
   <div class="pz-popup" id="pzPopupInner"></div>
+  <button class="pz-popup-close" id="pzPopupClose" type="button" aria-label="닫기" onclick="event.stopPropagation();closePzWinPopup();">✕</button>
 </div>
 
 
@@ -8206,6 +8725,7 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
   </div>
 </section>
 
+
 <!-- ============ RAP CAROUSEL PAGE ============ -->
 <section class="page" id="page-rap-carousel">
   <div class="rap-carousel-page">
@@ -8217,6 +8737,7 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
       <div class="prep-link-row" style="margin-top:0; margin-bottom:22px;">
         <a id="rapHostLink" class="ccs-ppt-link-btn prep-link-btn js-host-link" href="https://lg-workshop-app.vercel.app/host" target="_blank" rel="noopener"><span class="dot-blink">●</span> 강사 운영 화면 들어가기</a>
         <a id="rapIceBreakLink" href="code_artifact.html" target="_blank" rel="noopener" class="ccs-ppt-link-btn prep-link-btn js-ice-break-link" onclick="event.stopPropagation();"><span class="dot-blink" style="color:var(--red);">●</span> 원팀 워밍업 게임 챌린지</a>
+        <button type="button" class="ccs-ppt-link-btn prep-link-btn wh-open-btn" onclick="event.stopPropagation();openWheelPopup(event)"><span class="dot-blink" style="color:#ff3b4e;">●</span> 행운추첨 회전판</button>
       </div>
       <div class="reveal-on-next">
         <h1 id="rapCarouselTitle">LIGHTS OUT : 출발선에 서다(우리센터의 모습)</h1>
@@ -8314,14 +8835,154 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
 
 
 
+<!-- ============ 우리들의 드라이빙 스타일 (본격 Race 여정 다음 페이지) ============ -->
+<section class="page" id="page-driving-style">
+  <div class="circuitview-page ds-page">
+    <div class="ds-header">
+      <span class="pill solid">일하는 방식</span>
+      <h1><span class="ds-accent">우리들의</span> <span class="ds-green">드라이빙 스타일</span> 알아보기</h1>
+      <button type="button" class="ds-mbti-btn" id="dsMbtiBtn" onclick="dsOpenMbti(event)">DISC vs MBTI 알아보기</button>
+    </div>
+    <div class="ds-mbti-pop" id="dsMbtiPop" onclick="if(event.target===this)dsCloseMbti()">
+      <div class="ds-mbti-box">
+        <button type="button" class="ds2-pop-close" onclick="dsCloseMbti()" aria-label="닫기">✕</button>
+        <div class="ds-mbti-paper">
+          <h2 class="mb-title">MBTI와 DISC, 어떻게 다를까?</h2>
+          <div class="mb-bar"></div>
+          <div class="mb-sub">두 도구가 살펴보는 관점과 활용 방법</div>
+          <div class="mb-body">
+            <div class="mb-iceberg"><img src="assets/f96962b4f3322eabcfed35bba19c4c62.jpg" alt="빙산: 물 위 DISC, 물 아래 MBTI"><span class="mb-ice-l mb-ice-d">DISC</span><span class="mb-ice-l mb-ice-m">MBTI</span><span class="mb-ice-cap mb-ice-cd">겉으로 드러나는 행동</span><span class="mb-ice-cap mb-ice-cm">내면의 선호</span></div>
+            <div class="mb-main">
+          <div class="mb-lead">
+            MBTI는 <b class="mb-g">‘나는 어떤 방식을 편하게 느끼는 사람인가’</b>를 확인하는 진단이라면,<br>
+            DISC는 <b class="mb-r">‘나는 실제 상황에서 어떻게 행동하는가’</b>를 확인하는 진단입니다.
+          </div>
+          <div class="mb-note">
+            ※MBTI는 내 안의 선호를, DISC는 밖으로 드러나는 행동 스타일을 조금 더 많이 봅니다.<br>
+            그래서 같은 사람이라도 MBTI와 DISC 결과가 다르게 나올 수 있습니다.<br>
+            둘 중 하나가 더 정확하다기보다, 사람을 서로 다른 관점에서 이해하는 도구라고 보시면 됩니다.
+          </div>
+          <table class="mb-table">
+            <thead><tr><th>구분</th><th>MBTI</th><th>DISC</th></tr></thead>
+            <tbody>
+              <tr><td>쉽게 말하면</td><td>내가 무엇을 더 편하게 느끼는지<br>알아보는 것</td><td>내가 보통 어떻게 행동하는지<br>알아보는 것</td></tr>
+              <tr><td>주로 보는 것</td><td>생각하고 판단하는<br>선호 방식</td><td>사람들과 있을 때 나타나는<br>행동 방식</td></tr>
+              <tr><td>결과</td><td>16가지 유형</td><td>D · I · S · C 4가지 행동 경향</td></tr>
+              <tr><td>예를 들면</td><td>혼자 있는 게 편한가?<br>사람들과 있는 게 편한가?</td><td>일을 어떻게 해결하는가?<br>사람들과 이야기하며 하는가?</td></tr>
+              <tr><td>활용</td><td>나와 다른 사람을 이해할 때</td><td>소통하고 함께 일하는 방법을 찾을 때</td></tr>
+            </tbody>
+          </table>
+          <div class="mb-sec">DISC 네 가지 행동 경향에 대한 비유</div>
+          <div class="mb-disc">
+            <div class="mb-d mb-d-D"><span class="mb-k">D</span><b>가속페달</b><span>빠르게, 화끈하게<br>밀고 나가기</span></div>
+            <div class="mb-d mb-d-I"><span class="mb-k">I</span><b>확성기</b><span>사람을 움직이고<br>분위기 만들기</span></div>
+            <div class="mb-d mb-d-S"><span class="mb-k">S</span><b>안전벨트</b><span>안정적으로<br>함께 가기</span></div>
+            <div class="mb-d mb-d-C"><span class="mb-k">C</span><b>내비게이션</b><span>확인하고<br>정확하게 가기</span></div>
+          </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ds-body">
+      <div class="ds-notice">본인의 <b>DISC 유형</b>과 같은 유형의 구성원들끼리 모여 주세요.</div>
+      <div class="ds-stage">
+        <img class="ds-diagram" alt="드라이빙 스타일 사분면(주도형·사교형·안정형·신중형)" src="assets/07eee98dea3e50e521fbcf152650e945.jpg">
+    
+        <div class="ds-cube-layer" id="dsCubeLayer"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 드라이빙 스타일 인정과 배려 (CC&S조직 마무리 배경 + 파노라마) ============ -->
+<section class="page" id="page-driving-style-ccs">
+  <div class="dsc-page">
+    <h1 class="dsc-title">
+      <span class="dsc-line">우리는 서로의 <span class="dsc-green">드라이빙 스타일</span>의 <span class="dsc-accent">인정과 배려</span>로</span>
+      <span class="dsc-line"><span class="dsc-accent">하나된 마음</span>으로 더 멋지고 행복한 센터를 만들어 갑니다.</span>
+    </h1>
+    <div class="dsc-cards">
+      <button type="button" class="dsc-card" data-idx="0" onclick="dscOpenCard(0,event)"><img src="assets/1417db927953b7737f38d781b36acdac.jpg" alt="공감 소통"><span class="dsc-card-cap">공감 소통</span></button>
+      <button type="button" class="dsc-card" data-idx="1" onclick="dscOpenCard(1,event)"><img src="assets/9ca77fc14940f52b2de956ed96682f0c.jpg" alt="조하리의 창"><span class="dsc-card-cap">조하리의 창</span></button>
+      <button type="button" class="dsc-card" data-idx="2" onclick="dscOpenCard(2,event)"><img src="assets/45f3399c37f29c55ed11ca1243234c6d.jpg" alt="소중한 사람, 행복"><span class="dsc-card-cap">소중한 사람, 행복</span></button>
+    </div>
+    <div class="dsc-pop" id="dscPop" onclick="if(event.target===this)dscClosePop()">
+      <div class="dsc-pop-box">
+        <button type="button" class="ds2-pop-close" onclick="dscClosePop()" aria-label="닫기">✕</button>
+        <div class="dsc-msg dsc-pop-msg" id="dscPopMsg">
+          <div class="dsc-msg-line">갈등의 상당부분은 서로에 대한 <b class="dsc-msg-hl">이해의 부족</b>으로 발생!</div>
+          <div class="dsc-msg-line">진정한 <b class="dsc-msg-hl2">공감 소통</b>의 시작은 서로에 대한 <b class="dsc-msg-hl2">관심과 이해</b>로부터 시작!</div>
+        </div>
+        <img id="dscPopImg" alt="">
+      </div>
+    </div>
+    <!-- '공감 소통' 카드 다음 영상 팝업 (영상 파일은 이 HTML 과 같은 폴더에 두세요: 상대경로) -->
+    <div class="ds2-pop" id="dscVideoPop" style="z-index:12050" onclick="if(event.target===this)dscCloseVideo()">
+      <div class="ds2-pop-box">
+        <button type="button" class="ds2-pop-close" onclick="dscCloseVideo()" aria-label="닫기">✕</button>
+        <video id="dscVideo" controls playsinline preload="none" src="assets/videos/고요속의 외침.mp4"></video>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 드라이빙 스타일별 Race (우리들의 드라이빙 스타일 다음 페이지) ============ -->
+<section class="page" id="page-driving-style2">
+  <div class="ds2-page">
+    <div class="ds-header">
+      <span class="pill solid">일하는 방식</span>
+      <h1>우리 센터 <span class="ds-accent">같은 유형</span> <span class="ds-green">드라이빙 스타일</span> 레이스</h1>
+    </div>
+    <div class="ds2-cards">
+      <button type="button" class="ds2-card" id="dsCardWhy" onclick="dsOpenWhyVideo(event)" style="--ds2-bg:var(--img-ccs-performance)">
+        <span class="ds2-card-play">▶</span>
+        <span class="ds2-card-tag">VIDEO</span>
+        <span class="ds2-card-title">스타일은 왜 다른가?</span>
+      </button>
+      <button type="button" class="ds2-card" id="dsCardRace1" onclick="dsOpenRace1Popup(event)" style="--ds2-bg:var(--img-ccs-highfive)">
+        <span class="ds2-card-tag">POPUP</span>
+        <span class="ds2-card-title">동족 RACE 1</span>
+      </button>
+      <a class="ds2-card" id="dsRace2Link" href="code_artifact.html" target="_blank" rel="noopener" style="--ds2-bg:var(--img-fd-team)">
+        <span class="ds2-card-tag">LINK</span>
+        <span class="ds2-card-title">동족 RACE 2</span>
+      </a>
+    </div>
+    <!-- '스타일은 왜 다른가?' 영상 팝업: 영상 경로는 관리자 설정(영상 링크 등록) 또는 아래 video 의 src 에 지정 -->
+    <div class="ds2-pop" id="dsWhyPop" onclick="if(event.target===this)dsCloseWhyVideo()">
+      <div class="ds2-pop-box">
+        <button type="button" class="ds2-pop-close" onclick="dsCloseWhyVideo()" aria-label="닫기">✕</button>
+        <video id="dsWhyVideo" controls playsinline preload="none" src="assets/videos/김경일 교수.mp4"></video>
+        <div class="ds2-pop-empty" id="dsWhyEmpty" style="display:none">영상이 아직 등록되지 않았습니다.<br>(관리자 설정 → 영상 링크 → '스타일은 왜 다른가? 영상')</div>
+      </div>
+    </div>
+    <div class="dsq-pop" id="dsqPop">
+      <div class="dsq-stage">
+        <button type="button" class="ds2-pop-close dsq-x" onclick="dsqClose(true)" aria-label="닫기">✕</button>
+        <div class="dsq-flip" id="dsqFlip"><div class="dsq-face" id="dsqF0"></div><div class="dsq-face dsq-back" id="dsqF1"></div></div>
+      </div>
+    </div>
+    <!-- '동족 RACE 1' 팝업: DISC 게임 허브(5가지 게임) -->
+    <div class="ds2-pop" id="dsRace1Pop" onclick="if(event.target===this)dsCloseRace1Popup()">
+      <div class="g1-box" id="g1Box">
+        <button type="button" class="ds2-pop-close" onclick="dsCloseRace1Popup()" aria-label="닫기">✕</button>
+        <div class="g1-head"><div class="g1-title">동족 RACE 1 <small id="g1TitleSub">DISC 게임 허브</small></div><button type="button" class="g1-back" onclick="g1Hub()">← 게임 선택</button></div>
+        <div class="g1-body" id="g1Body"></div>
+        <div class="rv-finish-fireworks" id="g1Fw" style="position:absolute;left:50%;top:62%;z-index:5;"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section class="page" id="page-lap6finish">
   <div class="blank-page lap1-page finish-pan-bg" style="background-image:linear-gradient(180deg, rgba(6,6,7,0.5), rgba(6,6,7,0.85)), var(--img-lap1finish);">
     <div class="finish-flag"></div>
     <div class="lap1-buttons">
       <button class="rv-side-btn rv-pink" onclick="openRapInfoPopup(event)"><span class="dot-blink" style="color:var(--red);">●</span> 최고 센터 만들기 레이스 미션</button>
-      <button class="rv-side-btn rv-green" onclick="window.open(document.getElementById('prizeBoardLink').href, '_blank')"><span class="dot-blink">●</span> 경품추첨 보드</button>
       <button class="rv-side-btn rv-gold" onclick="openScoreboardPopup()"><span class="dot-blink">●</span> 팀/구성원 점수판 보기</button>
       <button class="rv-side-btn rv-pink" onclick="openRacingStatusBoard(event)"><span class="dot-blink">●</span> 레이싱 현황 보드</button>
+      <button class="rv-side-btn rv-green" onclick="rcbOpenPrizeRestricted(event)"><span class="dot-blink">●</span> 경품 추첨 보드</button>
     </div>
     <div class="lap1-center">
       <span class="lap1-badge">본격 RACE Finish</span>
@@ -8461,9 +9122,9 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
     <div class="finish-flag"></div>
     <div class="lap1-buttons">
       <button class="rv-side-btn rv-pink" onclick="openRapInfoPopup(event)"><span class="dot-blink" style="color:var(--red);">●</span> 최고 센터 만들기 레이스 미션</button>
-      <button class="rv-side-btn rv-green" onclick="window.open(document.getElementById('prizeBoardLink').href, '_blank')"><span class="dot-blink">●</span> 경품추첨 보드</button>
       <button class="rv-side-btn rv-gold" onclick="openScoreboardPopup()"><span class="dot-blink">●</span> 팀/구성원 점수판 보기</button>
       <button class="rv-side-btn rv-pink" onclick="openRacingStatusBoard(event)"><span class="dot-blink">●</span> 레이싱 현황 보드</button>
+      <button class="rv-side-btn rv-green" onclick="rcbOpenPrizeRestricted(event)"><span class="dot-blink">●</span> 경품 추첨 보드</button>
     </div>
     <div class="lap1-center">
       <span class="lap1-badge">Final RACE Finish</span>
@@ -8484,7 +9145,10 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
     <div class="reveal-dim-overlay" id="dimOverlayClosing1"></div>
     <div style="position:relative; z-index:2; display:flex; flex-direction:column; align-items:center;">
       <div class="final-story-text reveal-on-next">
-        <button class="rv-side-btn rv-pink" style="margin-bottom:22px;" onclick="championOpenMissionManually(event)"><span class="dot-blink" style="color:var(--red);">●</span> 최고 센터 만들기 레이스 미션</button>
+        <div style="display:flex; gap:12px; align-items:center; justify-content:center; flex-wrap:wrap; margin-bottom:22px;">
+          <button class="rv-side-btn rv-pink" onclick="championOpenMissionManually(event)"><span class="dot-blink" style="color:var(--red);">●</span> 최고 센터 만들기 레이스 미션</button>
+          <button class="rv-side-btn rv-green" onclick="openRacingStatusBoard(event)"><span class="dot-blink">●</span> 레이싱 현황 보드</button>
+        </div>
         <span class="fs-line">2026년 우리센터</span>
         <span class="fs-line fs-gold">최고의 센터로 만들기 그랑프리 레이스</span>
         <span class="fs-line fs-red">챔피언은 누구?</span>
@@ -8559,6 +9223,7 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
     <div class="awards-banner"></div>
     <button class="winner-reveal-close" onclick="closeWinnerReveal()">✕</button>
     <h2 class="awards-title">그랑프리 시상식</h2>
+    <div class="winner-prize-btn-row" style="display:flex;justify-content:center;margin:6px 0 14px;position:relative;z-index:5;"><button class="rv-side-btn rv-green" onclick="event.stopPropagation();closeWinnerReveal();rcbOpenPrizeRestricted(event)"><span class="dot-blink">●</span> 경품 추첨 보드</button></div>
     <div class="awards-row">
       <div class="wcard-flip-outer gold" id="wcardOuter2" onclick="flipWinnerCard(2)">
         <div class="wcard-flip-inner">
@@ -8604,7 +9269,6 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
             <div class="wcard-back-photo" id="wcardPhoto3"></div>
             <div class="wcard-back-name" id="wcardName3">-</div>
             <div class="wcard-back-title-role" id="wcardRole3"></div>
-            <div class="wcard-coin-badge" id="wcardCoin3">🪙 0개</div>
           </div>
         </div>
       </div>
@@ -9011,6 +9675,11 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
   function showPage(id){
     scheduleHide2();
     const prevId = currentPageId();
+    if((id === 'driving-style-ccs' || prevId === 'driving-style-ccs') && typeof dscReset === 'function'){ dscReset(); }
+    if(id === 'driving-style' && prevId !== 'driving-style' && typeof dsResetSeq === 'function'){ dsResetSeq(); }
+    if(prevId === 'driving-style2' && id !== 'driving-style2'){ if(typeof dsCloseWhyVideo === 'function') dsCloseWhyVideo(); if(typeof dsqReset === 'function') dsqReset(); ds2AfterQuiz = false; ds2Started = false; if(typeof dsCloseRace1Popup === 'function') dsCloseRace1Popup(); }
+    if(prevId === 'driving-style' && id !== 'driving-style' && typeof dsCloseMbti === 'function'){ dsCloseMbti(); }
+    if(prevId === 'driving-style' && id !== 'driving-style' && typeof dsCloseDetail === 'function'){ dsCloseDetail(); }
     if(prevId === 'mission' && id !== 'mission'){
       const v = document.getElementById('missionVideoBg');
       if(v){
@@ -9594,6 +10263,8 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
   window.addEventListener('load', function(){ populateCenterNameList(); });
   function startMiniCar2(e){
     if(e){ e.stopPropagation(); }
+    if(rvMCState === 'ready'){ rvMCBeginCountdown(); return; }
+    if(rvMCState !== 'idle') return;
     if(rvMiniCar2Running) return;
     rvMiniCar2Running = true;
     const carEl = document.getElementById('rvMiniCar2');
@@ -9667,6 +10338,304 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
       requestAnimationFrame(frame);
     }
     requestAnimationFrame(frame);
+  }
+
+  /* ===== '최강 센터 그랑프리 운영방식 안내' 팝업: 편성된 모든 조의 차량이 한꺼번에 출발하는 레이스 ===== */
+  let rvMCState = 'idle'; // idle | ready | countdown | running | done
+  let rvMCars = [];
+  let rvMCTimer = null;
+  const rvAutoPickCache = {};
+  function rvShuffle(arr){ const a = arr.slice(); for(let i = a.length - 1; i > 0; i--){ const j = Math.floor(Math.random() * (i + 1)); const t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
+  // 선택된 센터의 편성된 모든 조 목록(편성 전이면 명단의 조 목록, 그것도 없으면 샘플 4개조)
+  function rvCircuitTeams(){
+    if(typeof bmTeams !== 'undefined' && bmTeams && bmTeams.length) return bmTeams;
+    try{
+      const data = (typeof SEAT_DATA_BY_CENTER !== 'undefined' && currentSeatCenter) ? SEAT_DATA_BY_CENTER[currentSeatCenter] : null;
+      if(data && data.teams){
+        const keys = Object.keys(data.teams);
+        if(keys.length){
+          const key = '__virt__' + currentSeatCenter;
+          if(!rvAutoPickCache[key] || rvAutoPickCache[key].length !== keys.length){
+            rvAutoPickCache[key] = keys.map(function(k, i){ return { formId: null, teamKey: k, name: k, spun: false, car: null, color: BM_COLORS[i % BM_COLORS.length] }; });
+          }
+          return rvAutoPickCache[key];
+        }
+      }
+    } catch(err){}
+    return getRcbRaceTeams();
+  }
+  // 센터장 > 실장/계장 > 반장 > (그 외) 구성원 임의 선정
+  function rvPickRandomLeader(team, name){
+    const ck = (currentSeatCenter || '') + '|' + name + '|leader';
+    if(rvAutoPickCache[ck]) return rvAutoPickCache[ck];
+    let pick = null;
+    try{
+      const data = (typeof SEAT_DATA_BY_CENTER !== 'undefined' && currentSeatCenter) ? SEAT_DATA_BY_CENTER[currentSeatCenter] : null;
+      if(data && data.teams){
+        const key = (typeof resolveSeatTeamKeyForTeam === 'function') ? resolveSeatTeamKeyForTeam(team, name) : null;
+        let roster = (key && data.teams[key]) ? data.teams[key].slice() : [];
+        if(!roster.length) roster = Object.keys(data.teams).reduce(function(a, k){ return a.concat(data.teams[k]); }, []);
+        const has = function(m, w){ return ((m.position || '') + ' ' + (m.title || '')).indexOf(w) > -1; };
+        const tiers = [
+          function(m){ return has(m, '센터장'); },
+          function(m){ return has(m, '실장') || has(m, '계장'); },
+          function(m){ return has(m, '반장'); }
+        ];
+        for(let t = 0; t < tiers.length && !pick; t++){
+          const c = roster.filter(tiers[t]);
+          if(c.length) pick = c[Math.floor(Math.random() * c.length)];
+        }
+        if(!pick && roster.length) pick = roster[Math.floor(Math.random() * roster.length)];
+        if(!pick && data.head && data.head.name) pick = data.head;
+      }
+    } catch(err){}
+    rvAutoPickCache[ck] = pick || { name: name || 'TEAM' };
+    return rvAutoPickCache[ck];
+  }
+  function rvResolveCarAndLeader(teams){
+    const used = {};
+    teams.forEach(function(t){ if(t.spun && t.car !== null && t.car !== undefined) used[t.car % BM_CAR_IMAGES.length] = true; });
+    const free = rvShuffle(BM_CAR_IMAGES.map(function(_, i){ return i; }).filter(function(i){ return !used[i]; }));
+    return teams.map(function(team, i){
+      const name = (team.formId !== null && team.formId !== undefined) ? resolveRcbTeamName(team, i) : (team.name || ((i + 1) + '조'));
+      let car;
+      if(team.spun && team.car !== null && team.car !== undefined) car = team.car;
+      else {
+        const ck = (currentSeatCenter || '') + '|' + name + '|car';
+        if(rvAutoPickCache[ck] === undefined) rvAutoPickCache[ck] = free.length ? free.shift() : Math.floor(Math.random() * BM_CAR_IMAGES.length);
+        car = rvAutoPickCache[ck];
+      }
+      let person = resolvePrepDesignatedLeader(team);
+      if(!person) person = rvPickRandomLeader(team, name);
+      return { team: team, name: name, car: car, person: person };
+    });
+  }
+  function rvClearMultiCars(){
+    clearInterval(rvMCTimer); rvMCTimer = null;
+    document.querySelectorAll('#stage2 .rv-mc-car, #stage2 .tr-countdown, #stage2 .rv-mc-hint').forEach(function(el){ el.remove(); });
+    rvMCars = [];
+    const single = document.getElementById('rvMiniCar2');
+    if(single) single.style.display = '';
+    rvMCState = 'idle';
+  }
+  function rvBuildMultiCars(){
+    rvClearMultiCars();
+    const stage = document.getElementById('stage2');
+    const pathEl = document.getElementById('racepath2');
+    if(!stage || !pathEl) return;
+    const info = rvResolveCarAndLeader(rvCircuitTeams());
+    const n = info.length;
+    if(!n) return;
+    const single = document.getElementById('rvMiniCar2');
+    if(single) single.style.display = 'none';
+    const total = pathEl.getTotalLength();
+    // FINISH 지점: 경로 후반부에서 결승선과 가장 가까운 지점
+    let finishLen = total, best = 1e9;
+    for(let L = total * 0.5; L <= total; L += 2){
+      const pt = pathEl.getPointAtLength(L);
+      const d = Math.hypot(pt.x - RV_FINISH_PT2[0], pt.y - RV_FINISH_PT2[1]);
+      if(d < best){ best = d; finishLen = L; }
+    }
+    const scale = n <= 3 ? 0.8 : n <= 5 ? 0.66 : n <= 7 ? 0.55 : 0.46;
+    const lane = Math.min(18, 90 / n);
+    const gridGap = Math.min(70, 520 / n);
+    info.forEach(function(inf, i){
+      const el = document.createElement('div');
+      el.className = 'rv-mini-car rv-mc-car';
+      el.style.setProperty('--mcs', scale);
+      el.style.zIndex = 30 + i;
+      el.innerHTML =
+        '<div class="rv-mini-signboard" style="border-color:' + inf.team.color + ';">' +
+          '<div class="rv-mini-head-photo"></div>' +
+          '<div class="rv-mini-signboard-info"><span class="rv-mini-flag" style="background:' + inf.team.color + ';">' + inf.name + '</span></div>' +
+        '</div>' +
+        '<div class="rv-mini-flagpole"></div>' +
+        '<div class="rv-mini-car-img" style="background-image:' + carCss(inf.car) + ';"></div>';
+      el.onclick = function(ev){ ev.stopPropagation(); startMiniCar2(); };
+      stage.appendChild(el);
+      const head = el.querySelector('.rv-mini-head-photo');
+      const person = inf.person || {};
+      head.style.backgroundImage = "url('" + makeFaceAvatar(person.name || inf.name, person.photo, currentSeatCenter) + "')";
+      if(typeof applyFacePhotoBackground === 'function') applyFacePhotoBackground(head, person.name || inf.name, person.photo, currentSeatCenter);
+      head.title = (person.name || '') + (person.position ? ' · ' + person.position : '');
+      const T = 15 + Math.random() * 5; // 완주 목표 시간(초): 조마다 무작위 → 속도 차이
+      rvMCars.push({
+        info: inf, el: el, img: el.querySelector('.rv-mini-car-img'),
+        grid: (n - 1 - i) * gridGap, laneOff: (i - (n - 1) / 2) * lane,
+        baseSpeed: finishLen / T, w: 0.8 + Math.random() * 1.2, phase: Math.random() * 6.28, amp: 0.18 + Math.random() * 0.14,
+        progress: 0, done: false, finishTime: null, lastSmoke: 0, finishLen: finishLen
+      });
+    });
+    rvMCState = 'ready';
+    rvMCPlace(0);
+    const hint = document.createElement('div');
+    hint.className = 'rv-mc-hint';
+    hint.textContent = "▶ 스마트 포인터 '다음' 을 누르면 출발합니다";
+    stage.appendChild(hint);
+  }
+  // 모든 차량을 현재 progress 위치로 배치(+도로 곡률 따라 회전, 차선 오프셋)
+  function rvMCPlace(ts){
+    const pathEl = document.getElementById('racepath2');
+    const stage = document.getElementById('stage2');
+    if(!pathEl) return;
+    const total = pathEl.getTotalLength();
+    const order = rvMCars.slice().sort(function(a, b){ return (b.progress + b.grid) - (a.progress + a.grid); });
+    order.forEach(function(c, rank){ c.el.style.zIndex = 60 - rank; });
+    rvMCars.forEach(function(c){
+      const L = Math.min(total - 4, c.grid + c.progress);
+      const pt = pathEl.getPointAtLength(L);
+      const pt2 = pathEl.getPointAtLength(Math.min(total, L + 3));
+      let dx = pt2.x - pt.x, dy = pt2.y - pt.y;
+      const len = Math.hypot(dx, dy) || 1;
+      const nx = -dy / len, ny = dx / len;
+      const x = pt.x + nx * c.laneOff, y = pt.y + ny * c.laneOff;
+      let flip = 1, evx = dx, evy = dy;
+      if(dx < 0){ flip = -1; evx = -dx; evy = -dy; }
+      const tilt = Math.atan2(evy, evx) * 180 / Math.PI;
+      c.el.style.left = x + 'px';
+      c.el.style.top = y + 'px';
+      c.img.style.transform = 'scaleX(' + flip + ') rotate(' + (flip < 0 ? -tilt : tilt) + 'deg)';
+      c.x = x; c.y = y; c.dx = dx; c.dy = dy;
+      if(ts && !c.done && stage && ts - c.lastSmoke > 200){
+        spawnPathCarSmoke(stage, x, y, dx, dy);
+        c.lastSmoke = ts;
+      }
+    });
+  }
+  // '최강 센터 그랑프리 운영방식 안내' 팝업에서 차량이 주행(카운트다운 포함)하는 도중 다른 버튼 팝업이 열리면,
+  // 주행을 멈추고 모든 차량을 출발지점으로 되돌립니다(팝업 자체를 닫을 때는 closeCircuitAreaPopup이 같은 처리를 합니다).
+  const RV_MC_OTHER_OVERLAYS = ['rvPopupOverlay','awardsPopupOverlay','rapInfoPopupOverlay','rcbCardPopupOverlay','seatPopupOverlay',
+    'welcomeEventPopupOverlay','quizPopupOverlay','vdCardPopupOverlay','centerEvalPopupOverlay','centerEvalPrincipleOverlay',
+    'instructorScheduleOverlay','qrPopupOverlay','prepPopupOverlay','fdExpectPopupOverlay','satisfactionQrPopupOverlay',
+    'suddenMissionPopupOverlay','winnerRevealOverlay'];
+  function rvMCResetToStart(){
+    closeRaceResultOverlay();
+    rvMiniCar2Running = false;
+    stopRvBgm2();
+    stopEngineSound2();
+    rvBuildMultiCars();
+  }
+  setInterval(function(){
+    if(!circuitAreaPopupOpen || (rvMCState !== 'countdown' && rvMCState !== 'running' && rvMCState !== 'done')) return;
+    const r1 = document.getElementById('circuitAreaRoot');
+    if(!r1 || r1.style.display === 'none') return;
+    const other = RV_MC_OTHER_OVERLAYS.some(function(id){
+      const el = document.getElementById(id);
+      return !!(el && (el.classList.contains('show') || el.classList.contains('active')));
+    });
+    if(other) rvMCResetToStart();
+  }, 200);
+  function rvMCBeginCountdown(){
+    if(rvMCState !== 'ready') return;
+    rvMCState = 'countdown';
+    const stage = document.getElementById('stage2');
+    const hint = stage && stage.querySelector('.rv-mc-hint');
+    if(hint) hint.remove();
+    bmEnsureAudio();
+    const flash = document.createElement('div');
+    flash.className = 'tr-countdown';
+    stage.appendChild(flash);
+    let count = 3;
+    flash.textContent = count;
+    bmTone(440, 0.12, 'square', 0.22, 0);
+    rvMCTimer = setInterval(function(){
+      count--;
+      if(count > 0){
+        flash.textContent = count;
+        flash.style.animation = 'none'; void flash.offsetWidth; flash.style.animation = '';
+        bmTone(440, 0.12, 'square', 0.22, 0);
+      } else {
+        clearInterval(rvMCTimer); rvMCTimer = null;
+        flash.textContent = 'GO!';
+        flash.classList.add('go');
+        bmTone(880, 0.4, 'square', 0.3, 0);
+        bmTone(1108, 0.3, 'square', 0.22, 0.1);
+        setTimeout(function(){ flash.remove(); }, 700);
+        rvMCStartRace();
+      }
+    }, 800);
+  }
+  function rvMCStartRace(){
+    rvMCState = 'running';
+    rvMiniCar2Running = true;
+    rvMCars.forEach(function(c){ c.el.classList.add('running'); });
+    if(typeof sfxRaceStart === 'function') sfxRaceStart();
+    startRvBgm2();
+    startEngineSound2();
+    const t0 = performance.now();
+    let last = null;
+    const circles = document.querySelectorAll('#stage2 .lap-circle');
+    function frame(ts){
+      if(!rvMiniCar2Running || rvMCState !== 'running') return;
+      if(last === null) last = ts;
+      const dt = Math.min(0.35, (ts - last) / 1000);
+      last = ts;
+      const elapsed = (ts - t0) / 1000;
+      rvMCars.forEach(function(c){
+        if(c.done) return;
+        const sp = c.baseSpeed * (1 + c.amp * Math.sin(elapsed * c.w + c.phase));
+        c.progress += sp * dt;
+        if(c.progress >= c.finishLen - c.grid){
+          c.progress = c.finishLen - c.grid;
+          c.done = true;
+          c.finishTime = elapsed;
+          c.el.classList.remove('running');
+          c.el.style.opacity = '0.9';
+        }
+      });
+      rvMCPlace(ts);
+      rvMCars.forEach(function(c){
+        if(c.done && !c.fx){
+          c.fx = true;
+          rvMCFinishFx(c);
+        }
+      });
+      const lead = rvMCars.slice().sort(function(a, b){ return (b.progress + b.grid) - (a.progress + a.grid); })[0];
+      if(lead){
+        circles.forEach(function(el, idx){
+          const cc = RAP_CENTERS2[idx];
+          if(!cc) return;
+          el.classList.toggle('car-near', Math.hypot(lead.x - cc[0], lead.y - cc[1]) < NEAR_DIST2);
+        });
+      }
+      if(rvMCars.every(function(c){ return c.done; })){
+        rvMCAllFinished();
+        return;
+      }
+      requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+  }
+  function rvMCFinishFx(c){
+    const stage = document.getElementById('stage2');
+    if(!stage) return;
+    const box = document.createElement('div');
+    box.className = 'rv-finish-fireworks';
+    box.style.left = c.x + 'px';
+    box.style.top = (c.y - 40) + 'px';
+    stage.appendChild(box);
+    fwBurst(box, 0, 0, 0);
+    bmEnsureAudio();
+    sfxFireworkBurst(0);
+    sfxCheer(0);
+    setTimeout(function(){ box.remove(); }, 1700);
+  }
+  function rvMCAllFinished(){
+    rvMCState = 'done';
+    rvMiniCar2Running = false;
+    stopRvBgm2();
+    stopEngineSound2();
+    const list = rvMCars.slice().sort(function(a, b){ return a.finishTime - b.finishTime; }).map(function(c){
+      const person = c.info.person || {};
+      return {
+        car: c.info.car, name: c.info.name, finishTime: c.finishTime,
+        team: { name: c.info.name, __photoOverride: makeFaceAvatar(person.name || c.info.name, person.photo, currentSeatCenter) }
+      };
+    });
+    setTimeout(function(){
+      if(rvMCState !== 'done') return;
+      showTeamRaceRankOverlay(list);
+    }, 700);
   }
   window.addEventListener('load', updateRvMiniCar2Display);
 
@@ -9778,7 +10747,7 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
   });
 
   /* click anywhere (except interactive controls) advances to the next page */
-  const PAGE_ORDER = ['welcome','overview','mission','intro','rehearsal','circuitview','rehearsal-detail1','prep-blank1','prep-blank2','lap1finish','rehearsal-detail2','ccs-mission2','ccs-mission3','ccs-quiz','ccs-closing','lap2finish','main','main-message','rap-carousel','lap6finish','final','final-detail','final-vision','lapfinalfinish','closing1','closing2','closing-thanks','closing3','closing4'];
+  const PAGE_ORDER = ['welcome','overview','mission','intro','rehearsal','circuitview','rehearsal-detail1','prep-blank1','prep-blank2','lap1finish','rehearsal-detail2','ccs-mission2','ccs-mission3','ccs-quiz','ccs-closing','lap2finish','main','main-message','rap-carousel','driving-style','driving-style2','driving-style-ccs','lap6finish','final','final-detail','final-vision','lapfinalfinish','closing1','closing2','closing-thanks','closing3','closing4'];
   function currentPageId(){
     const el = document.querySelector('.page.active');
     return el ? el.id.replace('page-','') : 'intro';
@@ -9885,10 +10854,53 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
         return;
       }
     }
+    if(dir === 1 && typeof whOpen === 'function' && whOpen()){ wheelAct(); return; }
+    if(dir === 1 && typeof g1IsOpen === 'function' && g1IsOpen()){ g1Next(); return; }
+    if(dir === 1 && currentPageId() === 'driving-style-ccs' && typeof dscHandleNext === 'function'){
+      if(dscHandleNext()) return;
+    }
+    if(dir === 1 && currentPageId() === 'driving-style2' && typeof ds2HandleNext === 'function'){
+      if(ds2HandleNext()) return;
+    }
+    if(dir === 1 && currentPageId() === 'driving-style' && typeof dsHandleNext === 'function'){
+      if(dsHandleNext()) return;
+    }
     // '최고 센터 만들기 레이스 미션' 팝업(도로 카드/차량 주행/결승 세레모니)은 전체화면 진입 여부와 무관하게
     // 항상 '다음'에 반응해야 하므로, 전체화면 게이트보다 먼저 확인합니다.
     // (전체화면 요청이 브라우저/미리보기 환경 제약으로 조용히 실패하면, 전체화면 게이트가 모든 '다음' 입력을
     //  영원히 막아버려 이 팝업이 아예 반응하지 않는 것처럼 보일 수 있었습니다.)
+    // '레이싱 현황 보드' 팝업의 도착 세레모니: 미션 팝업의 도착 세레모니와 동일하게
+    // '다음'을 누를 때마다 1조 → 2조 → … 순서로 카드를 회전시키고, 마지막 카드 뒤 '다음'에서 세레모니를 닫습니다.
+    if(dir === 1 && bmCelebrationActive && rvPopupOverlayOpen && currentSidePopupKind === 'board'){
+      const celB = document.getElementById('rcbFinishCelebration');
+      if(celB && celB.classList.contains('show')){
+        const ringB = document.getElementById('rcbFinishCarouselRing');
+        const totalB = ringB ? ringB.querySelectorAll('.rcb-finish-carousel-card').length : 0;
+        if(totalB && (rcbFinishCycleIdx === null || rcbFinishCycleIdx < totalB - 1)){
+          rcbFinishCycleIdx = (rcbFinishCycleIdx === null) ? 0 : (rcbFinishCycleIdx + 1);
+          rcbFinishCarouselIdx = rcbFinishCycleIdx;
+          layoutRcbFinishCarousel();
+          bmEnsureAudio();
+          if(typeof sfxCoin === 'function') sfxCoin();
+          return;
+        }
+        // 마지막 조까지 회전된 뒤의 '다음': 도착 세레모니와 함께 '레이싱 현황 보드' 팝업도 닫습니다.
+        bmCloseCelebration();
+        closeSidePopup();
+        return;
+      }
+      bmCelebrationActive = false;
+    }
+    // '레이싱 현황 보드' 팝업이 열려 있을 때 첫 '다음' → 도착 세레모니 팝업 열기
+    // (이후 '다음'은 위 게이트가 조별 카드를 하나씩 회전시키고, 마지막 조 뒤의 '다음'에서 팝업이 닫힙니다.)
+    if(dir === 1 && !bmCelebrationActive && rvPopupOverlayOpen && currentSidePopupKind === 'board'){
+      const gameElSN = document.getElementById('bmGame');
+      if(gameElSN && gameElSN.style.display !== 'none'){
+        if(typeof bmTeams !== 'undefined' && bmTeams.length){ bmShowCelebrationNow(); }
+        else { closeSidePopup(); }
+        return;
+      }
+    }
     const rapInfoOverlayEarly = document.getElementById('rapInfoPopupOverlay');
     const rapInfoShowingEarly = !!(rapInfoOverlayEarly && rapInfoOverlayEarly.classList.contains('show'));
     const FINISH_PAGE_IDS_FOR_RAPINFO_EARLY = ['lap1finish', 'lap2finish', 'lap6finish', 'lapfinalfinish'];
@@ -9903,10 +10915,16 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
     // '최고 센터 만들기 레이스 미션' 팝업을 바로 열어줍니다.
     if(dir === 1 && !rapInfoShowingEarly && circuitAreaPopupOpen &&
        document.getElementById('circuitAreaRoot') && document.getElementById('circuitAreaRoot').style.display !== 'none'){
+      // 1) 출발 대기 중: 3-2-1 카운트다운 후 모든 조 차량 출발   2) 카운트다운 중: 대기
+      if(rvMCState === 'ready'){ rvMCBeginCountdown(); return; }
+      if(rvMCState === 'countdown') return;
+      // 3) 출발한 뒤(주행 중/완주 후)의 '다음': 기록표가 떠 있으면 함께 닫고 이 팝업창을 닫습니다.
+      //    ('최고 센터 만들기 레이스 미션' 팝업은 더 이상 열지 않습니다.)
+      closeRaceResultOverlay();
       rvMiniCar2Running = false;
       stopRvBgm2();
       stopEngineSound2();
-      openRapInfoPopup();
+      closeCircuitAreaPopup();
       return;
     }
     // '원팀 스피릿 레이싱' 카드 팝업(circuitAreaPopup의 'circuit2' 모드)이 열려 있는 동안에는,
@@ -9970,22 +10988,24 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
       if(dir === -1 && typeof rapCarouselIdx !== 'undefined' && rapCarouselIdx > 0){ selectRapCarousel(rapCarouselIdx - 1); return; }
     }
     if(dir === 1 && rvPopupOverlayOpen && currentSidePopupKind === 'prize'){
-      pzSmartStep++;
-      const isOdd = (pzSmartStep % 2) === 1;
-      if(isOdd){
-        const btn = document.getElementById('pzSpinBtn');
-        if(btn && !btn.disabled) btn.click();
-      } else {
+      // 룰렛 '돌리기 → 멈춤 → 당첨 팝업 닫음'을 반복합니다(상태 기준으로 판단).
+      if(pzWinPopupOpen()){ closePzWinPopup(); return; }
+      if(pzRouletteSpinning){
         const btn = document.getElementById('pzStopBtn');
         if(btn && !btn.disabled) btn.click();
+        return;
       }
+      if(pzWinPending) return; // 멈춤 직후 당첨 팝업이 뜨기 전까지는 대기
+      const spin = document.getElementById('pzSpinBtn');
+      if(spin && !spin.disabled) spin.click();
       return;
     }
     // 그랑프리 대회 방식 안내 페이지 시퀀스:
     //  (1) 운영방식 안내 카드 팝업 열림(차량 주행) → (2) 주행 멈춤 + 최고 센터 만들기 레이스 미션 팝업 열림
     //  → (3) 미션 팝업 시퀀스(rcbHandleSmartNext) → (4) 미션/운영방식 팝업 닫힘 → (5) 우승 특전 안내 팝업 열림
     //  → (6) 행운권 추첨 보드 열림 → (7) 룰렛 돌리기/멈춤 반복(위쪽 prize 게이트) → (8) 우승 특전 팝업 닫힘 → 다음 페이지
-    if(dir === 1 && cur === 'circuitview'){
+    if(dir === 1){
+      // 우승 특전 안내 팝업은 어느 페이지에서 열렸든 동일하게 '다음' 시퀀스를 따릅니다.
       const awardsOv = document.getElementById('awardsPopupOverlay');
       const awardsOpen = !!(awardsOv && awardsOv.classList.contains('active') && awardsOv.classList.contains('open'));
       if(awardsOpen){
@@ -10002,7 +11022,13 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
         circuitviewStep = 3;
         return;
       }
-      if(circuitviewStep === 0){
+      // 운영방식 안내 카드 팝업이 닫힌 뒤(차량 주행 후 '다음'으로 닫았든 직접 닫았든)의 '다음' → 우승 특전 안내 팝업 열기
+      if(cur === 'circuitview' && circuitviewStep === 1 && !circuitAreaPopupOpen){
+        circuitviewStep = 2;
+        openAwardsPopup();
+        return;
+      }
+      if(cur === 'circuitview' && circuitviewStep === 0){
         circuitviewStep = 1;
         const v = document.getElementById('cvcVideo1');
         if(v) v.pause();
@@ -10015,9 +11041,11 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
     if(dir === 1){
       const winnerOvNext = document.getElementById('winnerRevealOverlay');
       if(winnerOvNext && winnerOvNext.classList.contains('show')){
-        const order = [3, 1, 2];
+        // 순서: 1등 컨스트럭터(팀) → 센터 챔피언(개인) → 한국 서비스 챔피언(센터) → '경품 추첨 보드' 팝업 열림
+        // (이후 '다음'은 룰렛 돌리기 → 멈춤 → 당첨 팝업 닫음을 반복)
+        const order = [1, 3, 2];
         const nextCard = order.find(function(n){ return !document.getElementById('wcardOuter' + n).classList.contains('flipped'); });
-        if(nextCard){ flipWinnerCard(nextCard); } else { closeWinnerReveal(); }
+        if(nextCard){ flipWinnerCard(nextCard); } else { closeWinnerReveal(); rcbOpenPrizeRestricted(); }
         return;
       }
     }
@@ -10179,10 +11207,9 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
       revealPageContent('closing1');
       return;
     }
+    // (2회차 '다음'에서 '최고 센터 만들기 레이스 미션' 팝업을 열던 단계는 제외 → 곧바로 다음 페이지로 이동)
     if(dir === 1 && cur === 'closing1' && championStep === 1){
       championStep = 2;
-      openRapInfoPopup(null, true);
-      return;
     }
     // 마지막 페이지: 1회차 '다음' → '만족도 의견 QR' 팝업 열림, 2회차 '다음' → 팝업 닫힘.
     if(dir === 1 && cur === 'closing4'){
@@ -10534,7 +11561,7 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
     const content = document.getElementById('rvPopupContent');
     const boardRoot = document.getElementById('brumableRoot');
     const prizeRoot = document.getElementById('prizeRoot');
-    popup.classList.remove('pink-theme','green-theme');
+    popup.classList.remove('pink-theme','green-theme','pz-wide');
     popup.classList.remove('bm-board-mode');
     content.style.display = 'none';
     boardRoot.style.display = 'none';
@@ -10552,12 +11579,21 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
       // fitBoard()는 실제 게임판(#bmGame)이 보일 때(openRacingStatusBoard에서) 호출합니다.
       // 여기서 미리 호출하면 형제 요소들이 아직 숨겨진 상태라 잘못된 값을 측정하게 됩니다.
     } else {
-      popup.classList.add('green-theme');
+      popup.classList.add('green-theme','pz-wide');
       popup.classList.remove('rv-popup-autoheight');
       overlay.classList.remove('center-mode');
       prizeRoot.style.display = 'flex';
-      if(!pzOpened){
+      pzRestricted = pzRestrictNext; pzRestrictNext = false;
+      // '경품 추첨 보드'(pz-fancy: 경품 이미지/당첨 카드/추첨 대상 제한)와 '행운권 추첨 보드'(기존 버전)를 구분합니다.
+      prizeRoot.classList.toggle('pz-fancy', pzRestricted);
+      const ttl = document.getElementById('pzBoardTitle');
+      if(ttl) ttl.textContent = pzRestricted ? '🎁 경품 추첨 보드' : '🎁 행운권 추첨 보드';
+      const asg = document.getElementById('pzAssignOpenBtn');
+      if(asg) asg.style.display = pzRestricted ? '' : 'none';
+      const sigNow = pzRestricted ? 'F:' + pzEligibleMembers().map(function(m){ return m.team + '|' + m.name; }).join(',') : '';
+      if(!pzOpened || sigNow !== pzRestrictSig){
         pzOpened = true;
+        pzRestrictSig = sigNow;
         renderPrizeBoard();
       }
       requestAnimationFrame(fitPrizeBoard);
@@ -10607,6 +11643,7 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
     requestAnimationFrame(fitBoard);
   }
   function closeSidePopup(){
+    if(bmCelebrationActive) bmCloseCelebration();
     rvPopupOverlayOpen = false;
     currentSidePopupKind = null;
     // 레이싱 현황 보드를 닫을 때, 칸 도착 팝업/주사위 연출이 화면에 남아 다른 페이지를 가리지 않게 함께 닫습니다.
@@ -10644,6 +11681,7 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
     rvFinishReady2 = true;
     stopRvBgm2();
     stopEngineSound2();
+    if(typeof rvClearMultiCars === 'function') rvClearMultiCars();
     const carEl = document.getElementById('rvMiniCar2');
     const carImg = document.getElementById('rvMiniCarImg2');
     if(carEl){
@@ -10668,7 +11706,7 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
       resetMiniCar2ToStart();
       requestAnimationFrame(fitStage2);
       if(typeof updateRvMiniCar2Display === 'function') updateRvMiniCar2Display();
-      startMiniCar2();
+      rvBuildMultiCars(); // 자동 출발하지 않고, 스마트 포인터 '다음'을 누르면 3-2-1 카운트다운 후 출발합니다.
     } else {
       root2.style.display = 'block';
       resetTeamRaceToStart();
@@ -10689,6 +11727,7 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
     const overlay = document.getElementById('circuitAreaPopupOverlay');
     if(!overlay) return;
     rvMiniCar2Running = false;
+    if(typeof rvClearMultiCars === 'function') rvClearMultiCars();
     stopRvBgm2();
     stopEngineSound2();
     // 팝업을 닫을 때 원팀 챌린지(그랑프리 서킷) 레이스가 진행 중이었다면,
@@ -11105,6 +12144,11 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
   }
   // 시상식 팝업에서 '행운권 추첨 보드' 버튼을 직접 눌러 다음 단계로 넘어갈 때도,
   // 스마트 포인터 시퀀스(rcbRevealStep)가 6에 멈춰 있는 채로 남지 않도록 함께 리셋합니다.
+  function rcbOpenPrizeRestricted(e){
+    rcbRevealStep = 0;
+    pzRestrictNext = true;
+    openSidePopup('prize', e);
+  }
   function rcbOpenPrizeFromAwards(e){
     rcbRevealStep = 0;
     openSidePopup('prize', e);
@@ -11155,9 +12199,28 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
       const photoEl = document.getElementById('wcardPhoto1');
       const coinEl = document.getElementById('wcardCoin1');
       if(!nameEl) return;
-      const forcedTeam = (typeof getForcedTeamWinner === 'function') ? getForcedTeamWinner() : '';
+      // 사전 셋팅('1.2.3등 조/MVP 지정' · '추첨 대상 지정')한 1등 조가 있으면 가장 먼저 반영합니다.
+      // 우선순위: ① 1등 조 직접 지정 → ② 관리자 강제 우승팀 → ③ 레이싱 현황 보드 도착 세레모니 결과 → ④ 보드 1위 팀
+      function pickTeamByRankMap(map){
+        try{
+          if(!map || map[1] === undefined) return null;
+          const teamsArr = getRcbRaceTeams();
+          const ti = parseInt(map[1], 10);
+          const t = teamsArr[ti];
+          if(!t) return null;
+          const nm = resolveRcbTeamName(t, ti);
+          return { name: nm, key: resolveSeatTeamKeyForTeam(t, nm) || '' };
+        }catch(err){ return null; }
+      }
+      const rankPick = pickTeamByRankMap(RCB_FORCED_RANK[rcbRankKey()]);
+      let forcedTeam = (typeof getForcedTeamWinner === 'function') ? getForcedTeamWinner() : '';
+      let autoPick = null;
+      if(rankPick){ forcedTeam = rankPick.key; }
+      else if(!forcedTeam){ autoPick = pickTeamByRankMap(RCB_AUTO_RANK); if(autoPick) forcedTeam = autoPick.key; }
       let teamName;
-      if(forcedTeam){
+      if(rankPick || autoPick){
+        teamName = (rankPick || autoPick).name;
+      } else if(forcedTeam){
         teamName = (typeof getTeamLabel === 'function' && getTeamLabel(forcedTeam)) ? getTeamLabel(forcedTeam) : forcedTeam;
       } else {
         if(typeof bmTeams === 'undefined' || !bmTeams.length){
@@ -11223,7 +12286,7 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
       const allCenters = (typeof SEAT_DATA_BY_CENTER !== 'undefined') ? Object.keys(SEAT_DATA_BY_CENTER) : [];
       const candidateNames = allCenters.filter(function(c){ return c !== center && SEAT_DATA_BY_CENTER[c] && SEAT_DATA_BY_CENTER[c].head; });
       const reelCount = 14;
-      const itemH = 96;
+      const itemH = 200;
       let html = '';
       for(let i = 0; i < reelCount; i++){
         const pick = candidateNames.length ? candidateNames[Math.floor(Math.random() * candidateNames.length)] : center;
@@ -11274,6 +12337,9 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
       }
       indivList.sort(function(a, b){ return b.coin - a.coin; });
       let top = indivList[0];
+      // 사전 셋팅한 MVP가 있으면 가장 먼저 반영합니다(MVP → 관리자 강제 지정 → 개인 코인 1위).
+      const mvpPreset = (typeof RCB_MVP_NAME !== 'undefined') ? (RCB_MVP_NAME[rcbRankKey()] || '').trim() : '';
+      const mvpEntry = mvpPreset ? indivList.find(function(it){ return it.m.name === mvpPreset; }) : null;
       const forcedIndiv = (typeof getForcedIndivWinner === 'function') ? getForcedIndivWinner() : '';
       if(forcedIndiv){
         const sepIdx = forcedIndiv.indexOf('|');
@@ -11282,6 +12348,7 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
         const forcedEntry = indivList.find(function(it){ return it.team === fTeam && it.m.name === fName; });
         if(forcedEntry) top = forcedEntry;
       }
+      if(mvpEntry) top = mvpEntry;
       if(top){
         nameEl.textContent = top.m.name || '(이름없음)';
         if(roleEl){
@@ -11437,6 +12504,14 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
   function setCenterEvalStore(obj){
     try{ localStorage.setItem(CENTER_EVAL_STORAGE_KEY, JSON.stringify(obj)); } catch(err){}
   }
+  const CENTER_EVAL_OPINION_KEY = 'center_eval_opinion_v1';
+  function getCenterEvalOpinion(center){
+    try{ const o = JSON.parse(localStorage.getItem(CENTER_EVAL_OPINION_KEY) || '{}'); return o[center] || ''; }catch(err){ return ''; }
+  }
+  function onCenterEvalOpinion(v){
+    const center = (typeof currentSeatCenter !== 'undefined' && currentSeatCenter) ? currentSeatCenter : '선택된 센터';
+    try{ const o = JSON.parse(localStorage.getItem(CENTER_EVAL_OPINION_KEY) || '{}'); o[center] = v; localStorage.setItem(CENTER_EVAL_OPINION_KEY, JSON.stringify(o)); }catch(err){}
+  }
   function levelTagClass(tag){
     if(tag === '상') return 'lv-hi';
     if(tag === '중상') return 'lv-midhigh';
@@ -11477,6 +12552,7 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
     });
     const maxTotal = CENTER_EVAL_ROWS.reduce(function(sum, r){ return sum + r.levels[0].score; }, 0);
     html += '<tr class="ceval-total-row"><td colspan="5" style="text-align:right;">종합 점수 (총 ' + maxTotal + '점 만점)</td><td id="cevalTotalScore">' + computeCenterEvalTotal(saved) + '</td><td colspan="3"></td></tr>';
+    html += '<tr class="ceval-opinion-row"><td colspan="9"><div class="ceval-opinion-label">[종합 평가 의견]</div><textarea id="cevalOpinion" class="ceval-opinion-text" rows="5" placeholder="센터 전사원 교육에 대한 종합 평가 의견을 입력하세요." oninput="onCenterEvalOpinion(this.value)">' + String(getCenterEvalOpinion(center)).replace(/&/g,'&amp;').replace(/</g,'&lt;') + '</textarea></td></tr>';
     html += '</tbody></table></div>';
     const body = document.getElementById('centerEvalPopupBody');
     if(body) body.innerHTML = html;
@@ -11563,6 +12639,9 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
     });
     rows.push([]);
     rows.push(['', '', '', '', '', '', '', '', '', '종합 점수', total]);
+    rows.push([]);
+    rows.push(['[종합 평가 의견]']);
+    rows.push([getCenterEvalOpinion(center)]);
     const ws = XLSX.utils.aoa_to_sheet(rows);
     const wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, '종합평가');
@@ -12206,6 +13285,7 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
     return null;
   }
   function resolveTeamLeaderPhoto(team){
+    if(team && team.__photoOverride) return team.__photoOverride;
     const leader = resolveTeamLeaderPerson(team);
     if(leader) return makeFaceAvatar(leader.name, leader.photo, currentSeatCenter);
     return makeFaceAvatar(team.name || 'TEAM');
@@ -12377,6 +13457,9 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
       return;
     }
     if(trRevealStep === 1){
+      // '레이스 준비' 팝업이 이미 닫혀 있으면(직접 닫은 경우) 차량선택 룰렛을 돌리지 않고 다음 단계(출발신호)로 넘어갑니다.
+      const boardOpen = (typeof rvPopupOverlayOpen !== 'undefined' && rvPopupOverlayOpen && typeof currentSidePopupKind !== 'undefined' && currentSidePopupKind === 'board');
+      if(!boardOpen){ trRevealStep = 2; trRouletteIdx = null; trHandleSmartNext(); return; }
       const teams = (typeof bmTeams !== 'undefined' && bmTeams) ? bmTeams : [];
       if(!teams.length){
         // 편성된 팀이 없으면 룰렛 단계를 건너뛰고 곧바로 다음 단계로 넘어갑니다.
@@ -12606,6 +13689,8 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
     stopBgm();
     bmRaceFinished = false;
     closeRaceResultOverlay();
+    RCB_AUTO_RANK = null;
+    if(bmCelebrationActive) bmCloseCelebration();
     bmTeams.forEach(function(t){
       t.pos = 0; t.score = 0; t.laps = 0; t.tickets = 0; t.skipNext = false;
     });
@@ -12966,6 +14051,18 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
   /* ---- Finish 통과 시 전체 순위 발표 ---- */
   // 어느 한 팀이 Finish 지점을 통과하면 그 팀이 우승팀이 되고, 나머지 팀들은 그 순간
   // Finish 지점(랩 수 → 보드 위치 → 점수 순)에 가장 가깝게 이동한 순서대로 등수를 매깁니다.
+  // 도착지점을 통과한 조가 없어도 현재 도착지점에 가장 가까운 조 순서(랩 → 칸 위치 → 점수)로 등수를 매겨 세레모니를 띄웁니다.
+  function bmShowCelebrationNow(e){
+    if(e) e.stopPropagation();
+    if(typeof bmTeams === 'undefined' || !bmTeams.length) return;
+    if(bmCelebrationActive){ bmCloseCelebration(); return; }
+    let best = 0;
+    bmTeams.forEach(function(t, i){
+      const b = bmTeams[best];
+      if((t.laps||0) > (b.laps||0) || ((t.laps||0) === (b.laps||0) && ((t.pos||0) > (b.pos||0) || ((t.pos||0) === (b.pos||0) && (t.score||0) > (b.score||0))))) best = i;
+    });
+    finishRaceAndShowRanking(best);
+  }
   function finishRaceAndShowRanking(winnerIdx){
     if(typeof bmTeams === 'undefined' || !bmTeams.length) return;
     const winner = bmTeams[winnerIdx];
@@ -12977,7 +14074,17 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
       return (b.score||0) - (a.score||0);
     });
     const ranked = [winner].concat(others);
-    showRaceResultOverlay(ranked);
+    // 도착 세레모니(미션 팝업과 동일한 회전형 카드 팝업)로 표시합니다. 등수: 먼저 통과한 조 1등 → 도착지점에 가까운 순 2·3등.
+    const auto = {};
+    ranked.slice(0,3).forEach(function(t, i){ auto[i+1] = String(bmTeams.indexOf(t)); });
+    RCB_AUTO_RANK = auto;
+    if(rvPopupOverlayOpen && currentSidePopupKind === 'board'){
+      rcbMoveCelebrationTo('board');
+      bmCelebrationActive = true;
+      rcbShowFinishCelebration(winner);
+    } else {
+      showRaceResultOverlay(ranked);
+    }
   }
 
   function showRaceResultOverlay(ranked){
@@ -13388,16 +14495,41 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
     { label: '간식권', icon: '🍪' },
     { label: '칩', icon: '🪙' }
   ];
+  // 경품 목록(8종, 25개 풍선 구성) — 경품 추첨 보드 풍선 셀/당첨 팝업에 사용
+  const PZ_PRIZE_LIST = [{"label": "꽝", "icon": "💣", "img": "assets/7e3d41311414603a2284c73b95e5631c.jpg"}, {"label": "메가커피 5천원권", "icon": "🎁", "img": "assets/960eae5851adf55c7b7773e38edcc67a.jpg"}, {"label": "편의점 상품권 1만원권", "icon": "🎁", "img": "assets/c006556d43a4fa9d0c84a54df262dc89.jpg"}, {"label": "다이소 2천원권", "icon": "🎁", "img": "assets/723f6d38a8a914742416432f833872fc.jpg"}, {"label": "신세계상품권 3만원권", "icon": "🎁", "img": "assets/5865467a013b45fdad226be119fc286f.jpg"}, {"label": "아이스 아메리카노 기프티콘", "icon": "☕", "img": "assets/7b9110d08a8619f3584bbbce2a28c300.jpg"}];
+  // 풍선 40개 경품 구성(엑셀 기준: 꽝 3 / 메가커피 10 / 편의점 10 / 다이소 7 / 신세계 3 / 아메리카노 7)
+  const PZ_PRIZE_SEQ25 = [0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 5, 5, 5, 5, 5, 5, 5];
   const PRIZE_ITEMS = [];
-  for(let i = 1; i <= 30; i++){
+  for(let i = 1; i <= 40; i++){
     PRIZE_ITEMS.push({ img: null, icon: '🎁', label: '경품 ' + i });
   }
   // 30개 풍선(경품) 칸에 6종 경품을 무작위로 배정합니다.
   function assignPzPrizeLabels(){
-    for(let i = 0; i < PRIZE_ITEMS.length; i++){
-      const pick = PZ_PRIZE_TYPES[Math.floor(Math.random() * PZ_PRIZE_TYPES.length)];
-      PRIZE_ITEMS[i].label = pick.label;
-      PRIZE_ITEMS[i].icon = pick.icon;
+    if(!pzRestricted){
+      // '행운권 추첨 보드': 기존 방식(6종 경품 라벨 무작위 배정, 경품 이미지 없음)
+      for(let i = 0; i < PRIZE_ITEMS.length; i++){
+        if(PRIZE_ITEMS[i].custom) continue;
+        const pick = PZ_PRIZE_TYPES[Math.floor(Math.random() * PZ_PRIZE_TYPES.length)];
+        PRIZE_ITEMS[i].label = pick.label;
+        PRIZE_ITEMS[i].icon = pick.icon;
+        PRIZE_ITEMS[i].img = null;
+      }
+      return;
+    }
+    // 25개 경품 구성을 무작위로 섞어 앞 25개 풍선에 배정하고, 나머지 풍선(26~40번)은 '꽝'으로 채웁니다.
+    const seq = PZ_PRIZE_SEQ25.slice();
+    while(seq.length < PRIZE_ITEMS.length) seq.push(0); // 엑셀 25개 외 남는 풍선은 '꽝'
+    // (전체를 섞으므로 '꽝' 위치도 무작위)
+    for(let a = seq.length - 1; a > 0; a--){
+      const b = Math.floor(Math.random() * (a + 1));
+      const tmp = seq[a]; seq[a] = seq[b]; seq[b] = tmp;
+    }
+    for(let k = 0; k < PRIZE_ITEMS.length; k++){
+      if(PRIZE_ITEMS[k].custom) continue; // 관리자가 직접 업로드한 이미지는 유지
+      const t = PZ_PRIZE_LIST[seq[k]];
+      PRIZE_ITEMS[k].label = t.label;
+      PRIZE_ITEMS[k].icon = t.icon;
+      PRIZE_ITEMS[k].img = t.img;
     }
   }
   let pzOpened = false;
@@ -13422,8 +14554,62 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
     return list;
   }
   // 30개 풍선 셀에 구성원을 무작위로 배정(인원이 30명 미만이면 순환 배정)
-  function assignPzCellMembers(){
+  // '경품 추첨 보드' 버튼(Final RACE Finish / 우승자 발표 팝업)으로 연 경우: 1등조 전원 + MVP + 강제 직접 지정 인원만 추첨 대상
+  let pzRestrictNext = false, pzRestricted = false, pzRestrictSig = '';
+  function pzEligibleMembers(){
     const all = getCenterAllMembers();
+    const data = (currentSeatCenter && typeof SEAT_DATA_BY_CENTER !== 'undefined') ? SEAT_DATA_BY_CENTER[currentSeatCenter] : null;
+    const picked = [];
+    const add = function(m){ if(m && picked.indexOf(m) === -1) picked.push(m); };
+    // (1) 1등조 전체 인원
+    let teamKey = null;
+    try{
+      const teams = getRcbRaceTeams();
+      const rk = rcbRankKey();
+      let idx = null;
+      const f = RCB_FORCED_RANK[rk];
+      if(f && f[1] !== undefined && teams[parseInt(f[1], 10)]) idx = parseInt(f[1], 10);
+      else if(RCB_AUTO_RANK && RCB_AUTO_RANK[1] !== undefined && teams[parseInt(RCB_AUTO_RANK[1], 10)]) idx = parseInt(RCB_AUTO_RANK[1], 10);
+      if(idx !== null){
+        const t = teams[idx];
+        teamKey = resolveSeatTeamKeyForTeam(t, resolveRcbTeamName(t, idx));
+      } else if(typeof getForcedTeamWinner === 'function' && getForcedTeamWinner()){
+        teamKey = getForcedTeamWinner();
+      } else if(typeof bmTeams !== 'undefined' && bmTeams.length){
+        let best = 0;
+        bmTeams.forEach(function(t, i){
+          const b = bmTeams[best];
+          if((t.laps||0) > (b.laps||0) || ((t.laps||0) === (b.laps||0) && ((t.pos||0) > (b.pos||0) || ((t.pos||0) === (b.pos||0) && (t.score||0) > (b.score||0))))) best = i;
+        });
+        teamKey = resolveSeatTeamKeyForTeam(bmTeams[best], resolveRcbTeamName(bmTeams[best], best));
+      }
+    } catch(err){}
+    if(teamKey) all.forEach(function(m){ if(m.team === teamKey) add(m); });
+    // (2) MVP 선정 인원
+    const mvp = (RCB_MVP_NAME[rcbRankKey()] || '').trim();
+    if(mvp) all.forEach(function(m){ if(m.name === mvp) add(m); });
+    // (2-1) 준우승자
+    const ru = (RCB_RUNNERUP_NAME[rcbRankKey()] || '').trim();
+    if(ru) all.forEach(function(m){ if(m.name === ru) add(m); });
+    // (2-2) 강제 지정 인원(여러 명, 쉼표/줄바꿈 구분)
+    (RCB_PRIZE_EXTRA[rcbRankKey()] || '').split(/[,\n，、;]+/).forEach(function(nm){
+      nm = nm.trim();
+      if(nm) all.forEach(function(m){ if(m.name === nm) add(m); });
+    });
+    // (3) 강제 직접 지정 인원(센터 챔피언(개인) 지정)
+    const fi = (typeof getForcedIndivWinner === 'function') ? getForcedIndivWinner() : '';
+    if(fi){
+      const parts = fi.split('|');
+      all.forEach(function(m){ if(m.team === parts[0] && m.name === parts[1]) add(m); });
+    }
+    return picked;
+  }
+  function assignPzCellMembers(){
+    let all = getCenterAllMembers();
+    if(pzRestricted){
+      const el = pzEligibleMembers();
+      if(el.length) all = el;
+    }
     PZ_CELL_MEMBERS = [];
     if(!all.length) return;
     const pool = all.slice();
@@ -13431,7 +14617,7 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
       const j = Math.floor(Math.random() * (i + 1));
       const tmp = pool[i]; pool[i] = pool[j]; pool[j] = tmp;
     }
-    for(let i = 0; i < 30; i++){
+    for(let i = 0; i < 40; i++){
       PZ_CELL_MEMBERS.push(pool[i % pool.length]);
     }
   }
@@ -13454,6 +14640,7 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
         const photoUrl = makeFaceAvatar(person.name, person.photo, currentSeatCenter);
         cell.innerHTML =
           '<div class="pz-person-photo" data-photo-name="' + person.name.replace(/"/g,'&quot;') + '" data-photo-src="' + (person.photo||'').replace(/"/g,'&quot;') + '" data-photo-center="' + (currentSeatCenter||'').replace(/"/g,'&quot;') + '" style="background-image:url(\'' + photoUrl + '\');"></div>' +
+          ((pzRestricted && item.img) ? '<img class="pz-cell-prize-thumb" src="' + item.img + '" alt="">' : '') +
           '<span class="pz-person-name">' + person.name + '</span>' +
           '<span class="pz-person-pos">' + (person.position || '') + '</span>';
       } else {
@@ -13463,11 +14650,11 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
     });
     if(typeof upgradeFacePhotos === 'function') upgradeFacePhotos(grid);
 
-    // 6x5 grid over a 1200x860 stage => cell 200x172, center offsets. Leftmost column = red balloons.
+    // 8x5 grid over a 1600x860 stage => cell 200x172. 왼쪽 열=파랑, 오른쪽 열=노랑 풍선.
     let bi = 0;
     for(let row = 0; row < 5; row++){
-      for(let col = 0; col < 6; col++){
-        const idx = row * 6 + col;
+      for(let col = 0; col < 8; col++){
+        const idx = row * 8 + col;
         const cx = col * 200 + 100;
         const cy = row * 172 + 86;
         const balloon = document.createElement('div');
@@ -13476,12 +14663,16 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
         balloon.style.left = cx + 'px';
         balloon.style.top = cy + 'px';
         if(col === 0){
+          balloon.style.backgroundImage = 'var(--img-balloon5)'; // 왼쪽 추가 열: 파란 풍선
+        } else if(col === 7){
+          balloon.style.backgroundImage = 'var(--img-balloon2)'; // 오른쪽 추가 열: 노란 풍선
+        } else if(col === 1){
           balloon.style.backgroundImage = 'var(' + RED_BALLOON_VAR + ')';
         } else {
           balloon.style.backgroundImage = balloonCss(bi);
           bi++;
         }
-        balloon.style.animationDelay = ((idx % 6) * 0.25) + 's';
+        balloon.style.animationDelay = ((idx % 8) * 0.25) + 's';
         balloon.onclick = (function(ix){ return function(){ popBalloon(ix); }; })(idx);
         balloonsWrap.appendChild(balloon);
       }
@@ -13523,7 +14714,7 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
     const wrap = document.getElementById('pzBalloons');
     if(!wrap){ if(onHit) onHit(); return; }
     // launch from a random corner-ish spot outside the visible cluster for variety
-    const launches = [[-60,-60],[960,-60],[-60,910],[960,910],[450,-80]];
+    const launches = [[-60,-60],[1660,-60],[-60,910],[1660,910],[800,-80]];
     const start = launches[Math.floor(Math.random()*launches.length)];
     const sx = start[0], sy = start[1];
     const dx = tx - sx, dy = ty - sy;
@@ -13596,20 +14787,65 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
     }
   }
 
+  // 당첨 팝업은 자동으로 닫히지 않고, 'X' 버튼 / 배경 클릭 / 스마트 포인터 '다음'으로 닫습니다.
+  let pzWinPending = false;
+  function pzWinPopupOpen(){
+    const ov = document.getElementById('pzPopupOverlay');
+    return !!(ov && ov.classList.contains('show'));
+  }
+  function closePzWinPopup(){
+    clearTimeout(window.__pzWinTimer);
+    const ov = document.getElementById('pzPopupOverlay');
+    if(ov) ov.classList.remove('show');
+    const box = document.getElementById('pzPopupFireworks');
+    if(box) box.innerHTML = '';
+  }
   function showPrizePopup(person, prizeItem){
+    pzWinPending = false;
     if(!person) return;
     const overlay = document.getElementById('pzPopupOverlay');
+    overlay.onclick = function(ev){ if(ev.target === overlay) closePzWinPopup(); };
     const inner = document.getElementById('pzPopupInner');
     const photoUrl = makeFaceAvatar(person.name, person.photo, currentSeatCenter);
     const prizeLabel = (prizeItem && prizeItem.label) ? prizeItem.label : '행운경품추첨권';
     const prizeIcon = (prizeItem && prizeItem.icon) ? prizeItem.icon : '🎁';
+    const esc = function(v){ return String(v || '').replace(/"/g, '&quot;'); };
+    overlay.classList.toggle('pz-fancy', pzRestricted);
+    if(!pzRestricted){
+      // '행운권 추첨 보드': 기존 당첨 팝업
+      inner.className = 'pz-popup';
+      inner.innerHTML =
+        '<div class="pz-winner-congrats">🎉 축하합니다 🎉</div>' +
+        '<div class="pz-winner-box" id="pzWinnerBox" data-photo-name="' + esc(person.name) + '" data-photo-src="' + esc(person.photo) + '" data-photo-center="' + esc(currentSeatCenter) + '" style="background-image:url(\'' + photoUrl + '\');">' +
+          '<div class="pz-winner-cap">' +
+            '<div class="pz-winner-name">' + person.name + '</div>' +
+            '<div class="pz-winner-pos">' + (person.position || '') + '</div>' +
+            '<div class="pz-winner-sub">' + prizeIcon + ' ' + prizeLabel + ' 당첨!</div>' +
+          '</div>' +
+        '</div>';
+      overlay.classList.add('show');
+      inner.style.animation = 'none';
+      void inner.offsetWidth;
+      inner.style.animation = '';
+      const wb = document.getElementById('pzWinnerBox');
+      if(wb && typeof applyFacePhotoBackground === 'function') applyFacePhotoBackground(wb, person.name, person.photo, currentSeatCenter);
+      launchPzPopupFireworks();
+      clearTimeout(window.__pzWinTimer);
+      return;
+    }
+    inner.className = 'pz-popup pz-popup-big';
     inner.innerHTML =
-      '<div class="pz-winner-congrats">🎉 축하합니다 🎉</div>' +
-      '<div class="pz-winner-box" id="pzWinnerBox" data-photo-name="' + (person.name||'').replace(/"/g,'&quot;') + '" data-photo-src="' + (person.photo||'').replace(/"/g,'&quot;') + '" data-photo-center="' + (currentSeatCenter||'').replace(/"/g,'&quot;') + '" style="background-image:url(\'' + photoUrl + '\');">' +
-        '<div class="pz-winner-cap">' +
-          '<div class="pz-winner-name">' + person.name + '</div>' +
-          '<div class="pz-winner-pos">' + (person.position || '') + '</div>' +
-          '<div class="pz-winner-sub">' + prizeIcon + ' ' + prizeLabel + ' 당첨!</div>' +
+      '<div class="pz-win-title">🎉 당첨! 축하합니다 🎉</div>' +
+      '<div class="pz-win-card">' +
+        '<div class="pz-win-person">' +
+          '<div class="pz-win-photo" id="pzWinnerBox" data-photo-name="' + esc(person.name) + '" data-photo-src="' + esc(person.photo) + '" data-photo-center="' + esc(currentSeatCenter) + '" style="background-image:url(\'' + photoUrl + '\');"></div>' +
+          '<div class="pz-win-name">' + person.name + '</div>' +
+          '<div class="pz-win-pos">' + (person.position || '') + '</div>' +
+        '</div>' +
+        '<div class="pz-win-plus">🎁</div>' +
+        '<div class="pz-win-prize">' +
+          '<div class="pz-win-prize-img">' + ((prizeItem && prizeItem.img) ? '<img src="' + prizeItem.img + '" alt="">' : '<span class="pz-win-prize-icon">' + prizeIcon + '</span>') + '</div>' +
+          '<div class="pz-win-prize-label">' + prizeIcon + ' ' + prizeLabel + '</div>' +
         '</div>' +
       '</div>';
     overlay.classList.add('show');
@@ -13621,7 +14857,7 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
       applyFacePhotoBackground(winnerBoxEl, person.name, person.photo, currentSeatCenter);
     }
     launchPzPopupFireworks();
-    setTimeout(function(){ overlay.classList.remove('show'); }, 3200);
+    clearTimeout(window.__pzWinTimer);
   }
 
   function launchPzPopupFireworks(){
@@ -13693,6 +14929,9 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
   function stopPzRoulette(){
     if(!pzRouletteSpinning) return;
     pzRouletteSpinning = false;
+    pzWinPending = true;
+    clearTimeout(window.__pzPendTimer);
+    window.__pzPendTimer = setTimeout(function(){ pzWinPending = false; }, 3000);
     clearInterval(pzRouletteInterval);
     const spinBtn = document.getElementById('pzSpinBtn');
     const stopBtn = document.getElementById('pzStopBtn');
@@ -13729,6 +14968,7 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
       const idx = i;
       reader.onload = function(ev){
         PRIZE_ITEMS[idx].img = ev.target.result;
+        PRIZE_ITEMS[idx].custom = true;
         loaded++;
         if(loaded === limit){
           renderPrizeBoard();
@@ -13884,7 +15124,6 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
         '<input type="text" class="prep-team-name" placeholder="팀명을 입력하세요(선택)" value="' + (team.name || '') + '"' + (locked ? ' readonly' : ' oninput="updatePrepTeam(' + ti + ',\'name\',this.value)"') + '>' +
         (locked ? '' : '<button class="prep-remove-team" onclick="removePrepTeam(' + ti + ')">✕ 팀 삭제</button>') +
         '</div>' +
-        '<input type="text" class="prep-team-slogan" placeholder="팀 구호를 입력하세요" value="' + (team.slogan || '') + '"' + (locked ? ' readonly' : ' oninput="updatePrepTeam(' + ti + ',\'slogan\',this.value)"') + '>' +
         '<div class="prep-members-row">' + membersHtml + '</div>' +
         (locked ? '' : '<button class="prep-add-member-btn" onclick="addPrepMember(' + ti + ')">+ 인원 추가</button>');
       wrap.appendChild(block);
@@ -14486,11 +15725,12 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
     if(!headBadge && !subBadge) return;
     const data = (typeof SEAT_DATA_BY_CENTER !== 'undefined' && currentSeatCenter) ? SEAT_DATA_BY_CENTER[currentSeatCenter] : null;
     if(headBadge){
-      if(data && data.head && data.head.name){
-        headBadge.style.backgroundImage = "url('" + makeFaceAvatar(data.head.name, data.head.photo, currentSeatCenter) + "')";
-        if(typeof applyFacePhotoBackground === 'function') applyFacePhotoBackground(headBadge, data.head.name, data.head.photo, currentSeatCenter);
+      const hp = findCenterHeadPerson(data);
+      if(hp && hp.name){
+        headBadge.style.backgroundImage = "url('" + makeFaceAvatar(hp.name, hp.photo, currentSeatCenter) + "')";
+        if(typeof applyFacePhotoBackground === 'function') applyFacePhotoBackground(headBadge, hp.name, hp.photo, currentSeatCenter);
         headBadge.textContent = '';
-        headBadge.title = data.head.name + (data.head.position ? ' · ' + data.head.position : '');
+        headBadge.title = hp.name + (hp.position ? ' · ' + hp.position : '');
       } else {
         headBadge.style.backgroundImage = 'none';
         headBadge.textContent = '센터장';
@@ -14517,7 +15757,7 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
     const badge = document.getElementById('vdHeadBadge');
     if(!badge) return;
     const data = (typeof SEAT_DATA_BY_CENTER !== 'undefined' && currentSeatCenter) ? SEAT_DATA_BY_CENTER[currentSeatCenter] : null;
-    const person = (data && data.head && data.head.name) ? data.head : (data && data.subHead && data.subHead.name) ? data.subHead : null;
+    const person = findCenterHeadPerson(data) || findFdSubBadgePerson(data);
     badge.textContent = '';
     if(person){
       badge.style.backgroundImage = "url('" + makeFaceAvatar(person.name, person.photo, currentSeatCenter) + "')";
@@ -14547,11 +15787,14 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
     { key:'bodyVideoRapCarousel', label:'본격 Race 여정 배경 영상', elId:'bodyVideoRapCarousel' },
     { key:'bodyVideoFinal', label:'Final Race 배경 영상', elId:'bodyVideoFinal' },
     { key:'bodyVideoClosing1', label:'챔피언은 누구? 배경 영상', elId:'bodyVideoClosing1' },
+    { key:'dsWhyVideo', label:'스타일은 왜 다른가? 영상', elId:'dsWhyVideo' },
+    { key:'dscVideo', label:'공감 소통 영상 (고요속의 외침)', elId:'dscVideo' },
     { key:'heroThanksVideo', label:'감사와 가족응원 영상', elId:'heroThanksVideoEl' }
   ];
   const FILE_LINK_REGISTRY = [
     { key:'prizeBoardLink', label:'경품추첨 보드', elId:'prizeBoardLink', attr:'href' },
     { key:'hostLink', label:'강사 운영 화면 들어가기', selector:'.js-host-link', attr:'href' },
+    { key:'dsRace2Link', label:'동족 RACE 2 링크 (드라이빙 스타일별 Race 페이지)', elId:'dsRace2Link', attr:'href' },
     { key:'iceBreakLink', label:'원팀 워밍업 게임 링크', selector:'.js-ice-break-link', attr:'href' },
     { key:'ccsPptLink', label:'고객가치혁신부문 지향점 (우리의 새로운 지향점 페이지 뱃지)', elId:'ccsMission3BadgeLink', attr:'href' }
   ];
@@ -16839,6 +18082,786 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
 
 
 
+  /* ===== '우리들의 드라이빙 스타일 알아보기' DISC 큐빅 =====
+     각 큐브의 6개 면(앞/오른쪽/뒤/왼쪽/위/아래)에 서로 다른 내용을 넣을 수 있습니다.
+     아래 DS_CUBES 의 faces 배열(순서: 앞 → 오른쪽 → 뒤 → 왼쪽 → 위 → 아래)만 수정하면 반영됩니다.
+     (title: 면 제목, text: 면 내용 / 첫 번째 '앞' 면은 big(영문 대문자) + sub(유형명)을 크게 보여줍니다.) */
+  const DS_DETAIL_IMG = {"D": "assets/db5563abab4506cb147fd3231690bcbf.jpg", "I": "assets/51a3ac92a996e84624ad396c4b1999a9.jpg", "S": "assets/fdbf0c3196542fec4e0d3ce3de93696c.jpg", "C": "assets/ae9daec11647ff4bcd090c7c42f6f5f3.jpg"};
+  const DS_CUBES = [
+    { key:'D', color:'linear-gradient(145deg,#ff5a6e,#e0233f)', x:23, y:27,
+      faces:[ {big:'D', img:'assets/c7bf77f97e815a587d63b30a9cfc3e07.png', sub:'주도형'},
+              {title:'핵심 특징', text:'결과 지향 · 빠른 결단 · 도전을 즐김'},
+              {title:'강점', text:'목표 추진력이 강하고 위기 상황에서 방향을 제시'},
+              {title:'주의할 점', text:'성급함, 경청 부족으로 강하게 비칠 수 있음'},
+              {title:'소통 TIP', text:'결론부터, 핵심만 간결하게 전달'},
+              {title:'키워드', text:'도전 · 속도 · 성과 · 주도'} ] },
+    { key:'I', color:'linear-gradient(145deg,#ffd43b,#f5a800)', x:77, y:27, dark:true,
+      faces:[ {big:'I', img:'assets/d0507095cd05c942088b5ff4ce120904.png', sub:'사교형'},
+              {title:'핵심 특징', text:'사람 중심 · 낙관적 · 분위기를 이끎'},
+              {title:'강점', text:'공감과 표현력으로 팀의 에너지를 높임'},
+              {title:'주의할 점', text:'세부 관리·마무리가 느슨해질 수 있음'},
+              {title:'소통 TIP', text:'인정과 칭찬, 함께하는 분위기 만들기'},
+              {title:'키워드', text:'열정 · 소통 · 영향력 · 즐거움'} ] },
+    { key:'C', color:'linear-gradient(145deg,#38b6f2,#1478c8)', x:23, y:73,
+      faces:[ {big:'C', img:'assets/e03f1a67a66b970ad8ec85cc57286a32.png', sub:'신중형'},
+              {title:'핵심 특징', text:'분석적 · 정확성 · 원칙과 기준 중시'},
+              {title:'강점', text:'꼼꼼한 검토와 품질 관리로 오류를 줄임'},
+              {title:'주의할 점', text:'완벽 추구로 결정이 늦어질 수 있음'},
+              {title:'소통 TIP', text:'근거와 데이터, 충분한 검토 시간 제공'},
+              {title:'키워드', text:'정확 · 분석 · 원칙 · 품질'} ] },
+    { key:'S', color:'linear-gradient(145deg,#2ed573,#0f9d4b)', x:77, y:73,
+      faces:[ {big:'S', img:'assets/727e7e0c30ef9a888e49955c0fa21c88.png', sub:'안정형'},
+              {title:'핵심 특징', text:'협력적 · 꾸준함 · 갈등을 피하고 조화 추구'},
+              {title:'강점', text:'경청과 배려로 팀의 신뢰와 안정감을 만듦'},
+              {title:'주의할 점', text:'변화 앞에서 주저하고 의견 표현을 미룸'},
+              {title:'소통 TIP', text:'충분히 들어주고, 변화는 미리·차분히 안내'},
+              {title:'키워드', text:'배려 · 신뢰 · 협력 · 꾸준함'} ] }
+  ];
+  // 면 순서별 회전 값: 앞 → 오른쪽 → 뒤 → 왼쪽 → 위 → 아래
+  const DS_CUBE_ROT = ['rotateX(-8deg) rotateY(12deg)','rotateX(-10deg) rotateY(-90deg)','rotateX(-10deg) rotateY(-180deg)','rotateX(-10deg) rotateY(-270deg)','rotateX(-90deg) rotateY(0deg)','rotateX(90deg) rotateY(0deg)'];
+  const DS_FACE_CLS = ['dsf-front','dsf-right','dsf-back','dsf-left','dsf-top','dsf-bottom'];
+  function dsBuildCubes(){
+    const layer = document.getElementById('dsCubeLayer');
+    if(!layer) return;
+    layer.innerHTML = '';
+    DS_CUBES.forEach(function(cb){
+      const wrap = document.createElement('div');
+      wrap.className = 'ds-cube-wrap';
+      wrap.style.left = cb.x + '%';
+      wrap.style.top = cb.y + '%';
+      wrap.dataset.face = '0';
+      const cube = document.createElement('div');
+      cube.className = 'ds-cube';
+      cube.style.transform = DS_CUBE_ROT[0];
+      cb.faces.forEach(function(f, i){
+        const face = document.createElement('div');
+        face.className = 'ds-cube-face ' + DS_FACE_CLS[i];
+        face.style.background = cb.color;
+        if(cb.dark) face.style.color = '#2b2100';
+        if(cb.dark) face.style.textShadow = '0 0.2cqw 0.5cqw rgba(255,255,255,0.35)';
+        if(f.big){
+          face.innerHTML = f.img
+            ? '<img class="dsf-photo" src="' + f.img + '" alt=""><div class="dsf-cap"><span class="dsf-capk">' + f.big + '</span> ' + (f.sub || '') + '</div>'
+            : '<div class="dsf-big">' + f.big + '</div><div class="dsf-sub">' + (f.sub || '') + '</div>';
+        } else {
+          face.innerHTML = '<div class="dsf-title">' + (f.title || '') + '</div><div class="dsf-text">' + (f.text || '') + '</div>';
+          if(i === 5){
+            const btn = document.createElement('button');
+            btn.type = 'button'; btn.className = 'dsf-detail-btn'; btn.textContent = '▶ 상세보기';
+            btn.addEventListener('click', function(ev){ ev.stopPropagation(); dsOpenDetail(cb.key); });
+            face.appendChild(btn);
+          }
+        }
+        cube.appendChild(face);
+      });
+      wrap.appendChild(cube);
+      wrap.addEventListener('click', function(ev){
+        ev.stopPropagation();
+        // 3D 변환된 면은 브라우저가 직접 클릭 대상으로 잡지 못하는 경우가 있어, '키워드' 면에서는 ▶ 상세보기 버튼 영역을 좌표로 판정합니다.
+        if(wrap.dataset.face === '5'){
+          const bt = wrap.querySelector('.dsf-bottom .dsf-detail-btn');
+          if(bt){
+            const r = bt.getBoundingClientRect();
+            if(ev.clientX >= r.left - 4 && ev.clientX <= r.right + 4 && ev.clientY >= r.top - 4 && ev.clientY <= r.bottom + 4){
+              dsOpenDetail(cb.key); return;
+            }
+          }
+        }
+        const n = (parseInt(wrap.dataset.face, 10) + 1) % 6;
+        wrap.dataset.face = String(n);
+        cube.style.transform = DS_CUBE_ROT[n];
+      });
+      layer.appendChild(wrap);
+    });
+  }
+  dsBuildCubes();
+
+
+  /* ================= 행운추첨 회전판 ================= */
+  const WH_COLORS = ['#5b5f6e','#e0233f','#f5a800','#1478c8','#2ed573','#8e44ad'];
+  const whImgs = [];
+  let whState = 'idle';   // idle | spinning | stopping | result
+  let whAngle = 0, whSpeed = 0, whRaf = null, whLastT = 0, whLastSeg = -1, whTimers = [];
+  function whOpen(){ return document.getElementById('whPop').classList.contains('show'); }
+  function whDraw(){
+    const cv = document.getElementById('whDisc'); if(!cv) return;
+    const ctx = cv.getContext('2d'), W = cv.width, R = W / 2, n = PZ_PRIZE_LIST.length, step = Math.PI * 2 / n;
+    ctx.clearRect(0, 0, W, W);
+    for(let i = 0; i < n; i++){
+      const a0 = -Math.PI / 2 + i * step, a1 = a0 + step;
+      const g = ctx.createRadialGradient(R, R, R * 0.1, R, R, R);
+      g.addColorStop(0, WH_COLORS[i % 6]); g.addColorStop(1, WH_COLORS[i % 6]);
+      ctx.beginPath(); ctx.moveTo(R, R); ctx.arc(R, R, R, a0, a1); ctx.closePath();
+      ctx.fillStyle = g; ctx.fill();
+      ctx.lineWidth = 6; ctx.strokeStyle = '#fff3c0'; ctx.stroke();
+      // 밝은 하이라이트
+      ctx.save(); ctx.beginPath(); ctx.moveTo(R, R); ctx.arc(R, R, R, a0, a1); ctx.closePath(); ctx.clip();
+      const hl = ctx.createRadialGradient(R, R, R * 0.2, R, R, R); hl.addColorStop(0, 'rgba(255,255,255,0.28)'); hl.addColorStop(0.6, 'rgba(255,255,255,0)'); hl.addColorStop(1, 'rgba(0,0,0,0.25)');
+      ctx.fillStyle = hl; ctx.fillRect(0, 0, W, W); ctx.restore();
+      // 라벨 + 이미지 (조각 중심선 방향으로 회전)
+      const ac = a0 + step / 2;
+      ctx.save(); ctx.translate(R, R); ctx.rotate(ac);
+      const item = PZ_PRIZE_LIST[i];
+      ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillStyle = '#fff';
+      ctx.shadowColor = 'rgba(0,0,0,0.6)'; ctx.shadowBlur = 8;
+      const label = item.label, words = label.split(' ');
+      let lines = [];
+      if(label.length <= 6 || words.length === 1){ lines = [label]; }
+      else { let cur = ''; words.forEach(function(w){ if((cur + ' ' + w).trim().length > 7 && cur){ lines.push(cur); cur = w; } else { cur = (cur + ' ' + w).trim(); } }); if(cur) lines.push(cur); }
+      ctx.font = '900 ' + Math.round(R * 0.075) + 'px "Noto Sans KR",sans-serif';
+      const lh = R * 0.09, baseX = R * 0.42;
+      lines.forEach(function(ln, k){ ctx.fillText(ln, baseX + (R * 0.0), (k - (lines.length - 1) / 2) * lh); });
+      ctx.shadowBlur = 0;
+      const im = whImgs[i];
+      if(im && im.complete && im.naturalWidth){
+        const sz = R * 0.24, x = R * 0.78;
+        ctx.save(); ctx.translate(x, 0); ctx.rotate(Math.PI / 2);
+        ctx.beginPath(); const r = sz * 0.5; ctx.arc(0, 0, r, 0, Math.PI * 2); ctx.closePath(); ctx.fillStyle = '#fff'; ctx.fill(); ctx.clip();
+        const sc = Math.max(sz / im.naturalWidth, sz / im.naturalHeight);
+        ctx.drawImage(im, -im.naturalWidth * sc / 2, -im.naturalHeight * sc / 2, im.naturalWidth * sc, im.naturalHeight * sc);
+        ctx.restore();
+      } else {
+        ctx.font = Math.round(R * 0.16) + 'px sans-serif'; ctx.fillText(item.icon || '🎁', R * 0.78, 0);
+      }
+      ctx.restore();
+    }
+    // 바깥 테두리 점선
+    ctx.beginPath(); ctx.arc(R, R, R - 3, 0, Math.PI * 2); ctx.lineWidth = 6; ctx.strokeStyle = '#e8b83a'; ctx.stroke();
+  }
+  function whBuildBulbs(){
+    const box = document.getElementById('whBulbs'); if(!box || box.children.length) return;
+    const N = 28;
+    for(let i = 0; i < N; i++){
+      const d = document.createElement('div'); d.className = 'wh-bulb';
+      const a = i / N * Math.PI * 2;
+      d.style.left = (50 + 48.2 * Math.cos(a)) + '%'; d.style.top = (50 + 48.2 * Math.sin(a)) + '%';
+      box.appendChild(d);
+    }
+  }
+  function whApply(){ const cv = document.getElementById('whDisc'); if(cv) cv.style.transform = 'rotate(' + whAngle + 'deg)'; }
+  function whTick(now){
+    whRaf = requestAnimationFrame(whTick);
+    const dt = Math.min(0.05, (now - whLastT) / 1000); whLastT = now;
+    if(whState === 'spinning'){
+      whSpeed = Math.min(900, whSpeed + 1400 * dt);
+      whAngle += whSpeed * dt;
+    } else if(whState === 'stopping'){
+      const t = Math.min(1, (now - whStopT0) / whStopDur);
+      const e = 1 - Math.pow(1 - t, 3);
+      whAngle = whStopFrom + (whStopTo - whStopFrom) * e;
+      if(t >= 1){ whState = 'result'; whAngle = whStopTo; whShowResult(); }
+    }
+    whApply();
+    // 조각 경계 통과 시 틱 소리
+    const seg = Math.floor((((whAngle % 360) + 360) % 360) / 60);
+    if(seg !== whLastSeg){ whLastSeg = seg; if(whState === 'spinning' || whState === 'stopping'){ sfxPzRouletteTick(); } }
+  }
+  let whStopT0 = 0, whStopDur = 4200, whStopFrom = 0, whStopTo = 0, whTarget = 0;
+  function whStart(){
+    bmEnsureAudio(); sfxRouletteSpin();
+    whState = 'spinning'; whSpeed = 120;
+    document.getElementById('whStage').classList.add('spin'); document.getElementById('whStage').classList.remove('win');
+    document.getElementById('whResult').classList.remove('show');
+    document.getElementById('whHub').textContent = 'STOP';
+  }
+  function whStop(){
+    const n = PZ_PRIZE_LIST.length, seg = 360 / n;
+    whTarget = Math.floor(Math.random() * n);
+    const jitter = (Math.random() - 0.5) * seg * 0.6;
+    const want = -(whTarget + 0.5) * seg + jitter;          // 포인터(맨 위)에 whTarget 조각의 중심이 오는 각도
+    const cur = whAngle;
+    let diff = ((want - cur) % 360 + 360) % 360;
+    whStopFrom = cur; whStopTo = cur + diff + 360 * 3; whStopT0 = performance.now();
+    whState = 'stopping';
+  }
+  function whShowResult(){
+    const item = PZ_PRIZE_LIST[whTarget], stage = document.getElementById('whStage');
+    stage.classList.remove('spin');
+    const res = document.getElementById('whResult'), lose = (item.label === '꽝');
+    document.getElementById('whResImg').src = item.img || '';
+    document.getElementById('whResLabel').textContent = lose ? '꽝! 다음 기회에~' : item.label;
+    res.classList.toggle('lose', lose);
+    res.querySelector('.wh-result-badge').textContent = lose ? '😢 아쉽네요' : '🎉 CONGRATULATIONS 🎉';
+    res.classList.add('show');
+    document.getElementById('whHub').textContent = 'GO';
+    bmEnsureAudio();
+    if(lose){ sfxBust(); return; }
+    stage.classList.add('win');
+    sfxCeremonyOpen(); sfxFanfare();
+    const fw = document.getElementById('whFw'); fw.innerHTML = '';
+    const sw = stage.getBoundingClientRect().width;
+    for(let k = 0; k < 9; k++){
+      whTimers.push(setTimeout(function(){
+        if(!whOpen()) return;
+        fwLaunchRocket(fw, (Math.random() - 0.5) * sw * 1.1, 0, sw * (0.35 + Math.random() * 0.4), 380);
+        sfxFireworkBurst(0.4);
+        if(k % 3 === 0) sfxCheer(0.4);
+      }, 150 + k * 380));
+    }
+  }
+  function whCloseResult(){
+    document.getElementById('whResult').classList.remove('show');
+    document.getElementById('whStage').classList.remove('win');
+    whState = 'idle';
+    whTimers.forEach(clearTimeout); whTimers = [];
+    document.getElementById('whFw').innerHTML = '';
+  }
+  // '다음'/GO 버튼 한 번마다: 대기→회전, 회전→멈춤(경품 선택), 결과→경품 팝업 닫기
+  function wheelAct(){
+    if(!whOpen()) return;
+    if(whState === 'idle') whStart();
+    else if(whState === 'spinning') whStop();
+    else if(whState === 'result') whCloseResult();
+    // stopping 중에는 무시
+  }
+  function openWheelPopup(e){
+    if(e) e.stopPropagation();
+    if(!whImgs.length){ PZ_PRIZE_LIST.forEach(function(it, i){ const im = new Image(); im.onload = whDraw; im.src = it.img || ''; whImgs[i] = im; }); }
+    whBuildBulbs(); whDraw();
+    whState = 'idle'; whAngle = 0; whApply(); whLastSeg = -1;
+    document.getElementById('whHub').textContent = 'GO';
+    document.getElementById('whResult').classList.remove('show');
+    document.getElementById('whPop').classList.add('show');
+    bmEnsureAudio();
+    if(!whRaf){ whLastT = performance.now(); whRaf = requestAnimationFrame(whTick); }
+  }
+  function closeWheelPopup(){
+    whCloseResult(); whState = 'idle';
+    document.getElementById('whStage').classList.remove('spin', 'win');
+    document.getElementById('whPop').classList.remove('show');
+    if(whRaf){ cancelAnimationFrame(whRaf); whRaf = null; }
+  }
+  document.addEventListener('keydown', function(ev){ if(ev.key === 'Escape' && whOpen()){ ev.stopImmediatePropagation(); closeWheelPopup(); } }, true);
+
+  /* ================= 동족 RACE 1 : DISC 게임 허브 (5가지 게임을 상황에 맞게 골라 사용) ================= */
+  const G1_KEYS = ['D','I','S','C'];
+  const G1_TYPES = {
+    D:{ name:'주도형', color:'#e0233f', kw:'결과 · 속도 · 도전' },
+    I:{ name:'사교형', color:'#f5a800', kw:'사람 · 분위기 · 표현' },
+    S:{ name:'안정형', color:'#22b866', kw:'배려 · 안정 · 협력' },
+    C:{ name:'신중형', color:'#2f8cff', kw:'정확 · 기준 · 분석' }
+  };
+  const G1_GAMES = [
+    { id:'quiz', no:1, emoji:'🔍', color:'#2f8cff', name:'모르는 척 유형 맞히기', tag:'선택형 퀴즈 + 반전', who:'개인 / 전체', time:'10분', prep:'없음',
+      desc:'6가지 상황에서 내 선택을 고르면, 마지막에 유형별 성향 그래프가 공개됩니다. 도입·워밍업에 좋아요.' },
+    { id:'mission', no:2, emoji:'🏁', color:'#e0233f', name:'같은 미션, 다른 레이스', tag:'동족 팀 미션 대결', who:'동족 팀별 4~6명', time:'15~20분', prep:'타이머·메모지',
+      desc:'같은 미션을 유형별 팀이 풀고, 진행 방식의 차이를 눈으로 비교합니다. 차이를 가장 확실히 체감하는 메인 게임.' },
+    { id:'roleplay', no:3, emoji:'🎭', color:'#22b866', name:'피트스탑 상황극', tag:'현장 롤플레이', who:'동족 팀 × 관전 팀', time:'15~25분', prep:'타이머',
+      desc:'센터 현장 상황을 뽑고, 배정된 유형답게 연기합니다. 다른 팀이 어떤 유형인지 맞힙니다.' },
+    { id:'translate', no:4, emoji:'💬', color:'#f5a800', name:'말 한마디 번역 게임', tag:'소통 변환기 퀴즈', who:'전체 / 팀 대항', time:'10~15분', prep:'없음',
+      desc:'같은 말에 대한 반응을 보고 어떤 유형인지 맞힙니다. 유형별 소통 방식을 웃으며 익힙니다.' },
+    { id:'relay', no:5, emoji:'🏎️', color:'#a066ff', name:'이어달리기 퍼즐', tag:'유형 혼합팀 협업', who:'유형이 섞인 팀', time:'20~30분', prep:'타이머',
+      desc:'D → I → S → C 순서로 바통을 이어받으며 한 미션을 완성합니다. 서로 보완하는 경험을 만드는 마무리 게임.' }
+  ];
+  const G1_MISSIONS = [
+    '5분 안에 센터 회식 장소를 정해서 발표하세요.',
+    '신입사원 환영 이벤트를 기획해서 발표하세요.',
+    '고객 불만이 가장 많은 상황 1개를 골라 개선안을 만드세요.',
+    '우리 센터 슬로건을 만들고 이유를 설명하세요.',
+    '다음 달 센터 교육 주제 1개를 정하고 이유를 정리하세요.',
+    '센터 사무실 정리정돈 새 규칙 3가지를 만들어 발표하세요.'
+  ];
+  const G1_SPOT = {
+    D:'누가 먼저 결론을 내리나? 몇 분 만에 방향이 정해졌나?',
+    I:'아이디어가 얼마나 쏟아지나? 팀 분위기는 어땠나?',
+    S:'모두의 의견을 들었나? 갈등을 피하려는 모습이 있었나?',
+    C:'기준·자료·절차부터 확인했나? 세부 점검에 시간을 쓰나?'
+  };
+  const G1_DEBRIEF = ['우리 팀은 어떤 순서로 일을 진행했나요?', '가장 답답했던 순간은 언제였고, 왜였을까요?', '다른 유형 팀을 보며 가장 놀란 점은 무엇인가요?'];
+  const G1_SAY = [
+    { say:'이거 오늘까지 해 주세요.', r:{ D:'좋아, 바로 시작하자. 우선순위부터 정리!', I:'오늘까지요? 다 같이 힘 모으면 되죠!', S:'갑자기…? 지금 하던 건 어떡하지.', C:'완료 기준이 뭔가요? 조건부터 알려주세요.' }, ex:'기한 앞에서 D는 “바로 실행”, C는 “기준 확인”이 먼저입니다.' },
+    { say:'이번 일은 센터장님이 정한 방향으로 갑시다.', r:{ D:'좋아, 결정됐으면 빨리 가자.', I:'오, 다들 의견 한 번씩 나눠 볼까요?', S:'모두 괜찮으면… 저도 따를게요.', C:'그 방향의 근거를 확인하고 싶은데요.' }, ex:'S는 조화를, C는 근거를 먼저 찾습니다.' },
+    { say:'고객이 너무 화가 나 있어요.', r:{ D:'내가 직접 처리할게. 해결책부터!', I:'일단 밝게 응대하면 풀리실 거예요.', S:'많이 속상하셨겠다… 천천히 들어드려야지.', C:'무슨 일이 있었는지 경과부터 정확히 확인하자.' }, ex:'같은 불만도 D는 해결, I는 분위기, S는 경청, C는 사실 확인으로 접근합니다.' },
+    { say:'새로운 방식으로 한번 바꿔 보면 어때요?', r:{ D:'좋아, 해보자. 언제부터?', I:'와, 재밌겠다! 아이디어 더 있어요!', S:'지금도 괜찮은데… 다들 적응할 수 있을까요?', C:'바꿨을 때 위험과 근거 자료가 있나요?' }, ex:'변화 앞에서 D·I는 설레고, S·C는 신중합니다.' },
+    { say:'회의에서 의견이 서로 갈려요.', r:{ D:'그럼 내가 정리할게. 이걸로 갑시다.', I:'다 일리 있어요, 분위기 풀고 얘기해요.', S:'싸우지 말고… 중간에서 맞춰 볼까요?', C:'각 안의 장단점을 표로 비교해 봅시다.' }, ex:'갈등 상황의 첫 행동: D 결정, I 분위기, S 중재, C 분석.' },
+    { say:'실수가 생겼는데 어떻게 하죠?', r:{ D:'원인은 나중에, 지금 수습부터!', I:'괜찮아요, 다들 그럴 수 있어요! 힘내요.', S:'당황했겠다… 같이 도와줄게요.', C:'어디서 틀어졌는지 기록부터 확인합시다.' }, ex:'실수 앞에서 D는 수습, I는 격려, S는 돌봄, C는 원인 분석을 먼저 합니다.' },
+    { say:'이번 달 목표가 높아졌어요.', r:{ D:'도전이네. 달성 계획 바로 짜자.', I:'할 수 있어요! 다 같이 파이팅!', S:'부담스럽지만… 팀이 같이 하면 되겠죠.', C:'산출 근거와 실행 가능성부터 확인해야 해요.' }, ex:'높은 목표를 D는 도전으로, C는 검증 대상으로 받아들입니다.' },
+    { say:'신입이 아직 적응을 힘들어해요.', r:{ D:'역할을 분명히 주고 빨리 성과를 경험하게 하자.', I:'같이 밥 먹으면서 친해지게 해 주세요!', S:'옆에서 천천히 챙겨 주면 좋겠어요.', C:'업무 매뉴얼과 체크리스트를 정리해 주자.' }, ex:'돕는 방식도 다릅니다. D 역할 부여, I 관계, S 동행, C 자료.' }
+  ];
+  const G1_ROLE = [
+    { s:'화가 난 고객이 센터에 방문해 큰 소리로 항의합니다.' },
+    { s:'꼭 필요한 부품이 일주일 늦어진다는 연락을 받았습니다. 고객에게 알려야 합니다.' },
+    { s:'후배가 접수한 건에서 실수가 발견되었습니다. 후배에게 이야기해야 합니다.' },
+    { s:'본사에서 새로운 응대 매뉴얼을 내려보냈습니다. 센터 회의에서 공유해야 합니다.' },
+    { s:'마감이 임박한 민원 3건이 한꺼번에 몰렸습니다. 팀원에게 업무를 나눠야 합니다.' },
+    { s:'회의에서 두 동료가 큰 의견 충돌을 보입니다. 중간에 있는 나는?' }
+  ];
+  const G1_HINT = {
+    D:'짧고 단호하게. 결론·해결책부터 말하고, 빠르게 지시·결정하세요.',
+    I:'표정과 목소리를 크게. 공감하며 분위기를 띄우고, 사람 이야기를 하세요.',
+    S:'차분하고 느리게. 끝까지 들어주고, 상대 감정을 먼저 살피세요.',
+    C:'정확하고 조목조목. 사실 확인, 기준·절차, 질문이 많은 말투로 하세요.'
+  };
+  const G1_QUIZ = [
+    { q:'갑자기 큰 업무가 떨어졌습니다. 나는?', c:{ D:'바로 우선순위를 정하고 밀어붙인다', I:'동료들에게 말을 걸어 “같이 해보자”고 한다', S:'일정 영향을 걱정하며 주변과 조율한다', C:'요구 사항과 기준을 먼저 정확히 확인한다' } },
+    { q:'회의에서 나는 보통…', c:{ D:'결론을 빨리 내자고 말한다', I:'분위기를 띄우고 아이디어를 던진다', S:'다른 사람 말을 듣고 의견을 정리한다', C:'자료와 근거가 있는지 따져 묻는다' } },
+    { q:'고객 불만이 접수되었습니다. 첫 행동은?', c:{ D:'해결 방법부터 제시한다', I:'공감하며 밝게 응대한다', S:'끝까지 차분히 경청한다', C:'사실관계와 기록을 먼저 확인한다' } },
+    { q:'새로운 시스템을 도입한다고 합니다.', c:{ D:'“해보자!” 일단 도전한다', I:'신기하다며 같이 써보자고 한다', S:'적응할 시간이 필요하다고 느낀다', C:'오류 가능성과 검증 방법을 따져본다' } },
+    { q:'후배가 실수를 했을 때 나는?', c:{ D:'바로 개선할 점을 말해 준다', I:'격려하고 분위기를 풀어 준다', S:'조용히 곁에서 도와준다', C:'원인과 재발방지 절차를 정리해 준다' } },
+    { q:'쉬는 날 팀 모임이 생겼습니다.', c:{ D:'내가 주도해서 일정을 잡는다', I:'신나서 참석할 사람을 모은다', S:'다들 괜찮은 쪽으로 맞춰 간다', C:'일정·장소 세부 사항을 확인하고 결정한다' } }
+  ];
+  const G1_QDESC = {
+    D:'빠른 결정과 추진력이 강점! 주변의 의견을 한 번 더 듣는다면 더욱 좋아요.',
+    I:'사람을 움직이는 에너지가 강점! 마무리와 세부 확인을 챙기면 더욱 좋아요.',
+    S:'배려와 꾸준함이 강점! 필요할 때 의견을 먼저 표현해 보세요.',
+    C:'정확성과 기준이 강점! 완벽보다 속도가 필요한 순간도 기억해 보세요.'
+  };
+  const G1_LEGS = [
+    { k:'D', name:'출발 · 방향 정하기', task:'목표와 방향을 한 문장으로 정하고, 역할과 마감 시간을 정합니다. (결정은 빠르게!)' },
+    { k:'I', name:'아이디어 · 에너지 올리기', task:'다양한 아이디어를 쏟아내고, 팀이 신나게 움직일 수 있도록 분위기를 만듭니다.' },
+    { k:'S', name:'조율 · 실행 준비', task:'모두의 의견을 듣고 역할을 조율합니다. 부담이 큰 사람은 없는지 살핍니다.' },
+    { k:'C', name:'점검 · 완성하기', task:'빠진 부분, 기준, 위험 요소를 점검하고 결과물을 다듬어 완성합니다.' }
+  ];
+  const G1_RELAY_DEBRIEF = ['각 구간에서 서로 어떤 점이 가장 도움이 되었나요?', '내 유형이 없었다면 부족했을 부분은 무엇일까요?', '다음에 우리 팀에서 꼭 해보고 싶은 것 1가지는?'];
+
+  let G1 = { game:null };
+  let G1T = { left:0, total:0, run:false, int:null, onEnd:null };
+  const g1el = function(id){ return document.getElementById(id); };
+  function g1Open(ev){
+    if(ev) ev.stopPropagation();
+    G1 = { game:null };
+    g1Render();
+    g1el('dsRace1Pop').classList.add('show');
+    bmEnsureAudio();
+  }
+  function g1Close(){ g1BgmStop(); g1TStop(); const p = g1el('dsRace1Pop'); if(p) p.classList.remove('show'); }
+  function g1IsOpen(){ const p = g1el('dsRace1Pop'); return !!(p && p.classList.contains('show')); }
+  /* ---- 동족 RACE 1 게임: 경쾌하고 잔잔한 배경음 (게임카드 선택 시 시작 / 팝업 닫으면 정지) ---- */
+  const G1_BGM_MEL = [[523,0,659,784,659,0,784,1046],[440,0,523,659,523,0,659,880],[349,0,440,523,440,0,523,698],[392,0,494,587,494,0,587,784]];
+  const G1_BGM_BASS = [131,110,175,98];
+  let g1BgmTimer = null, g1BgmStep = 0;
+  function g1BgmTick(){
+    const bar = (g1BgmStep >> 3) & 3, st = g1BgmStep & 7, f = G1_BGM_MEL[bar][st];
+    if(f) bmTone(f, 0.34, 'triangle', 0.05);
+    if(st === 0 || st === 4) bmTone(G1_BGM_BASS[bar], 0.45, 'sine', 0.075);
+    if(st === 2 || st === 6) bmTone(G1_BGM_MEL[bar][st + 1] * 2 || 1046, 0.12, 'sine', 0.018);
+    g1BgmStep++;
+  }
+  function g1BgmStart(){ if(g1BgmTimer) return; bmEnsureAudio(); g1BgmStep = 0; g1BgmTimer = setInterval(g1BgmTick, 250); }
+  function g1BgmStop(){ if(g1BgmTimer){ clearInterval(g1BgmTimer); g1BgmTimer = null; } }
+  function g1Pick(id){ g1TStop(); G1 = { game:id }; g1Render(); g1BgmStart(); }
+  function g1Hub(){ g1TStop(); G1 = { game:null }; g1Render(); }
+  function g1Shuffle(a){ a = a.slice(); for(let i = a.length - 1; i > 0; i--){ const j = Math.floor(Math.random() * (i + 1)); const t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
+  function g1Render(){
+    const box = g1el('g1Box'), body = g1el('g1Body'); if(!box || !body) return;
+    box.classList.toggle('ingame', !!G1.game);
+    const fwc = g1el('g1Fw'); if(fwc) fwc.innerHTML = '';
+    { const ff = g1el('g1Finish'); if(ff && ff.parentNode) ff.parentNode.removeChild(ff); }
+    const g = G1_GAMES.find(function(x){ return x.id === G1.game; });
+    g1el('g1TitleSub').textContent = g ? (g.no + '. ' + g.name) : 'DISC 게임 허브';
+    body.classList.toggle('hub', !g);
+    body.classList.toggle('qz', !!g && (g.id === 'quiz' || g.id === 'translate'));
+    if(!g){ body.innerHTML = g1HubHTML(); return; }
+    ({ mission:g1MissionInit, translate:g1TransInit, roleplay:g1RoleInit, quiz:g1QuizInit, relay:g1RelayInit })[g.id]();
+    body.scrollTop = 0;
+  }
+  function g1HubHTML(){
+    let h = '<div class="g1-grid">';
+    G1_GAMES.forEach(function(g){
+      h += '<button type="button" class="g1-card" style="--gc:' + g.color + '" onclick="g1Pick(\'' + g.id + '\')">' +
+        '<span class="g1-card-no">' + g.no + '</span><span class="g1-card-emoji">' + g.emoji + '</span>' +
+        '<span class="g1-card-name">' + g.name + '</span><span class="g1-card-tag">' + g.tag + '</span></button>';
+    });
+    return h + '</div>';
+  }
+
+  /* ---- 타이머 ---- */
+  function g1Fmt(sec){ const m = Math.floor(sec / 60), s = sec % 60; return (m < 10 ? '0' : '') + m + ':' + (s < 10 ? '0' : '') + s; }
+  function g1TStop(){ if(G1T.int){ clearInterval(G1T.int); G1T.int = null; } G1T.run = false; }
+  function g1TShow(){
+    const t = g1el('g1Time'); if(!t) return;
+    t.textContent = g1Fmt(G1T.left);
+    t.classList.toggle('low', G1T.run && G1T.left <= 10 && G1T.left > 0);
+    t.classList.toggle('done', G1T.left === 0 && G1T.total > 0);
+    const b = g1el('g1TBtn'); if(b) b.textContent = G1T.run ? '⏸ 일시정지' : (G1T.left === G1T.total || G1T.left === 0 ? '▶ 시작' : '▶ 계속');
+  }
+  function g1TSet(sec, onEnd){ g1TStop(); G1T.total = sec; G1T.left = sec; G1T.onEnd = onEnd || null; g1TShow(); }
+  function g1TToggle(){
+    bmEnsureAudio();
+    if(G1T.run){ g1TStop(); g1TShow(); return; }
+    if(G1T.left <= 0) G1T.left = G1T.total;
+    G1T.run = true; sfxStart(); g1TShow();
+    G1T.int = setInterval(function(){
+      G1T.left--;
+      if(G1T.left <= 10 && G1T.left > 0) bmTone(900, 0.08, 'square', 0.12);
+      if(G1T.left <= 0){ G1T.left = 0; g1TStop(); sfxFanfare(); if(G1T.onEnd) G1T.onEnd(); }
+      g1TShow();
+    }, 1000);
+  }
+  function g1TReset(){ g1TStop(); G1T.left = G1T.total; g1TShow(); }
+  function g1TimerHTML(opts){
+    const o = opts || [];
+    let h = '<div class="g1-timer"><div class="g1-time" id="g1Time">' + g1Fmt(G1T.left) + '</div><div><button type="button" class="g1-btn gold" id="g1TBtn" onclick="g1TToggle()">▶ 시작</button> <button type="button" class="g1-btn alt" onclick="g1TReset()">↺ 리셋</button>';
+    if(o.length){ h += '<div class="g1-row">'; o.forEach(function(s){ h += '<button type="button" class="g1-btn alt" onclick="g1TSet(' + s + ', G1T.onEnd)">' + (s >= 60 ? (s / 60) + '분' : s + '초') + '</button>'; }); h += '</div>'; }
+    return h + '</div></div>';
+  }
+
+  /* ---- 1. 같은 미션, 다른 레이스 ---- */
+  function g1MissionInit(){
+    G1.mission = G1.mission || G1_MISSIONS[0];
+    g1TSet(180, null);
+    let chips = ''; G1_MISSIONS.forEach(function(m, i){ chips += '<button type="button" class="g1-btn alt" style="padding:6px 12px;font-size:13px" onclick="g1SetMission(' + i + ')">미션 ' + (i + 1) + '</button> '; });
+    g1el('g1Body').innerHTML = '<div class="g1-mtimer">' + g1TimerHTML([]) + '</div>' +
+      '<div class="g1-panel g1-mpanel"><div class="g1-mhead"><h3>🎯 오늘의 미션</h3><div class="g1-row"><button type="button" class="g1-btn" onclick="g1DrawMission()">🎲 미션 뽑기</button>' + chips + '</div></div>' +
+      '<div class="g1-mission g1-mission-big" id="g1Mission">' + G1.mission + '</div></div>' +
+      '<div class="g1-panel g1-dpanel"><h3>🗣 마무리 토론 질문</h3><ol class="g1-qs g1-qs-big"><li>' + G1_DEBRIEF.join('</li><li>') + '</li></ol></div>';
+    g1TShow();
+  }
+  function g1SetMission(i){ G1.mission = G1_MISSIONS[i]; const m = g1el('g1Mission'); if(m){ m.classList.remove('rolling'); m.textContent = G1.mission; } bmEnsureAudio(); sfxCoin(); }
+  function g1DrawMission(){
+    const m = g1el('g1Mission'); if(!m) return; bmEnsureAudio();
+    let n = 0; m.classList.add('rolling');
+    const iv = setInterval(function(){
+      m.textContent = G1_MISSIONS[Math.floor(Math.random() * G1_MISSIONS.length)]; sfxPzRouletteTick(); n++;
+      if(n >= 14){ clearInterval(iv); G1.mission = G1_MISSIONS[Math.floor(Math.random() * G1_MISSIONS.length)]; m.textContent = G1.mission; m.classList.remove('rolling'); sfxPrize(); }
+    }, 90);
+  }
+
+  /* ---- 2. 말 한마디 번역 게임 ---- */
+  function g1TransInit(){ G1.list = G1_SAY.slice(); G1.i = -1; G1.rev = false; g1TransDraw(); }
+  function g1TransDraw(){
+    const n = G1.list.length, q = G1.i >= 0 ? G1.list[G1.i] : null;
+    let h = '<div class="g1-prog"><span>말 ' + (G1.i + 1) + ' / ' + n + '</span><div class="g1-prog-bar"><i style="width:' + ((G1.i + 1) / n * 100) + '%"></i></div></div>' +
+      '<div class="g1-qwrap g1-twrap"><div class="g1-say g1-say-big">💬 상대가 이렇게 말했습니다<br><span>' + (q ? '“' + q.say + '”' : '…') + '</span></div><div class="g1-reacts">';
+    G1_KEYS.forEach(function(k){ const t = G1_TYPES[k];
+      h += '<div class="g1-react2' + ((q && G1.rev && G1.anim) ? ' seq' : '') + '" style="--tc:' + t.color + ';--d:' + (G1_KEYS.indexOf(k) * 0.9) + 's"><div class="g1-r2-h"><b>' + k + '</b>' + t.name + '</div><div class="g1-r2-t">' + ((q && G1.rev) ? '“' + q.r[k] + '”' : '') + '</div></div>'; });
+    g1el('g1Body').innerHTML = h + '</div></div>';
+    (G1.tt || []).forEach(clearTimeout); G1.tt = [];
+    if(q && G1.rev && G1.anim){ G1_KEYS.forEach(function(k, i){ G1.tt.push(setTimeout(function(){ if(G1.game === 'translate'){ bmEnsureAudio(); sfxCoin(); } }, i * 900)); }); }
+  }
+  // '다음': 말 1 → 그 말에 대한 4유형 반응 → 말 2 → … → 말 8 → 반응 → 처음으로
+  function g1TransNext(){
+    bmEnsureAudio(); sfxCoin();
+    G1.anim = false;
+    if(G1.i < 0){ G1.i = 0; G1.rev = false; }
+    else if(!G1.rev){ G1.rev = true; G1.anim = true; }
+    else if(G1.i + 1 < G1.list.length){ G1.i++; G1.rev = false; }
+    else { G1.i = -1; G1.rev = false; }
+    g1TransDraw();
+  }
+
+  /* ---- 3. 피트스탑 상황극 ---- */
+  function g1RoleInit(){
+    G1.sit = null; G1.open = {};
+    g1TSet(120, null); g1RoleDraw();
+  }
+  function g1RoleDraw(){
+    let boxes = '<div class="g1-rtypes">';
+    G1_KEYS.forEach(function(k){ const t = G1_TYPES[k], on = !!G1.open[k];
+      boxes += '<button type="button" class="g1-rtype' + (on ? ' on' : '') + '" style="--tc:' + t.color + '" onclick="g1RoleToggle(\'' + k + '\')">' +
+        (on ? '<span class="g1-rt-k">' + k + ' ' + t.name + '</span><span class="g1-rt-tip">💡 ' + G1_HINT[k] + '</span>'
+            : '<span class="g1-rt-big">' + k + '</span><span class="g1-rt-name">' + t.name + '</span><span class="g1-rt-hint">탭하여 연기 팁 보기</span>') + '</button>'; });
+    boxes += '</div>';
+    g1el('g1Body').innerHTML = '<div class="g1-mtimer">' + g1TimerHTML([]) + '</div>' +
+      '<div class="g1-panel g1-sitpanel"><h4 class="g1-sit-h">SITUATION · 상황</h4><button type="button" class="g1-btn" onclick="g1RoleDrawSit()">🎲 상황 뽑기</button>' +
+      '<div class="g1-sit-big" id="g1Sit">' + (G1.sit || '상황을 뽑아 주세요') + '</div></div>' + boxes;
+    g1TShow();
+  }
+  function g1RoleDrawSit(){ G1.open = {}; G1.sit = G1_ROLE[Math.floor(Math.random() * G1_ROLE.length)].s; bmEnsureAudio(); sfxCoin(); g1RoleDraw(); }
+  // '다음': 상황 뽑기 → 연기 팁 D → I → S → C 순서로 하나씩 → (다시) 상황 뽑기 … 반복
+  function g1RoleNext(){
+    const nxt = G1.sit ? G1_KEYS.find(function(k){ return !G1.open[k]; }) : null;
+    if(!nxt){ g1RoleDrawSit(); return; }
+    G1.open[nxt] = true; bmEnsureAudio(); sfxCoin(); g1RoleDraw();
+  }
+  function g1RoleToggle(k){ G1.open[k] = !G1.open[k]; bmEnsureAudio(); sfxCoin(); g1RoleDraw(); }
+
+  /* ---- 4. 모르는 척 유형 맞히기 ---- */
+  function g1QuizInit(){
+    G1.qs = G1_QUIZ.map(function(q){ return { q:q.q, opts:g1Shuffle(G1_KEYS).map(function(k){ return { k:k, t:q.c[k] }; }) }; });
+    G1.i = 0; G1.tally = { D:0, I:0, S:0, C:0 }; G1.picks = []; g1QuizDraw();
+  }
+  function g1QuizDraw(){
+    const n = G1.qs.length, body = g1el('g1Body');
+    if(G1.i >= n){
+      let top = G1_KEYS.slice().sort(function(a, b){ return G1.tally[b] - G1.tally[a]; });
+      const mx = G1.tally[top[0]], tops = top.filter(function(k){ return G1.tally[k] === mx; });
+      let bars = '<div class="g1-bars">'; G1_KEYS.forEach(function(k){ const t = G1_TYPES[k];
+        bars += '<div class="g1-bar" style="--tc:' + t.color + '"><span style="color:' + t.color + '">' + k + ' ' + t.name + '</span><div class="g1-bar-track"><i data-w="' + (G1.tally[k] / n * 100) + '"></i></div><span>' + G1.tally[k] + '</span></div>'; });
+      bars += '</div>';
+      const names = tops.map(function(k){ return k + ' ' + G1_TYPES[k].name; }).join(' + ');
+      body.innerHTML = '<div class="g1-panel g1-qresult"><h3>🔍 반전! 나의 선택으로 본 행동 경향</h3><div class="g1-result-top" style="color:' + G1_TYPES[tops[0]].color + '">' + names + ' 성향이 두드러져요</div>' + bars +
+        '<div class="g1-explain">' + tops.map(function(k){ return G1_QDESC[k]; }).join('<br>') + '<br><span style="font-size:12.5px;color:#cbbf8a">※ 짧은 체험 퀴즈로, 정식 DISC 진단 결과와는 다를 수 있어요. 상황에 따라 여러 유형이 섞여 나타나는 것이 자연스럽습니다.</span></div>' +
+        '</div>';
+      bmEnsureAudio(); sfxFanfare();
+      setTimeout(function(){ document.querySelectorAll('.g1-bar-track i').forEach(function(e){ e.style.width = e.getAttribute('data-w') + '%'; }); }, 80);
+      return;
+    }
+    const q = G1.qs[G1.i], labels = ['A', 'B', 'C', 'D'];
+    let h = '<div class="g1-prog"><span>질문 ' + (G1.i + 1) + ' / ' + n + '</span><div class="g1-prog-bar"><i style="width:' + (G1.i / n * 100) + '%"></i></div></div><div class="g1-qwrap"><div class="g1-say g1-say-big">' + q.q + '</div><div class="g1-opts">';
+    q.opts.forEach(function(o, i){ h += '<button type="button" class="g1-opt" onclick="g1QuizPick(' + i + ')"><i>' + labels[i] + '</i><span>' + o.t + '</span></button>'; });
+    body.innerHTML = h + '</div></div><div style="font-size:12.5px;color:#aab;font-weight:700;margin-top:6px">※ 정답은 없어요. 가장 나다운 선택을 고르세요. (결과는 마지막에 공개!)</div>';
+  }
+  function g1QuizSkip(){ if(G1.i >= G1.qs.length){ g1Pick('quiz'); return; } bmEnsureAudio(); sfxCoin(); G1.i++; g1QuizDraw(); }
+  function g1QuizPick(i){ const o = G1.qs[G1.i].opts[i]; G1.tally[o.k]++; G1.picks.push(o.k); bmEnsureAudio(); sfxCoin(); G1.i++; g1QuizDraw(); }
+
+  /* ---- 5. 이어달리기 퍼즐 ---- */
+  function g1RelayInit(){
+    G1.mission = G1.mission || G1_MISSIONS[0]; G1.leg = -1; G1.show = false; G1.carLeft = null; G1.drawn = false; g1TSet(300, function(){ const m = g1el('g1Time'); if(m) m.classList.add('done'); });
+    g1RelayDraw();
+  }
+  function g1RelayStnX(i){
+    const tr = document.querySelector('#g1Body .g1-track'), st = tr && tr.querySelectorAll('.g1-stn')[i];
+    return (tr && st) ? ((st.offsetLeft + st.offsetWidth / 2) / tr.offsetWidth * 100) : (12 + i * 25);
+  }
+  function g1RelayDraw(){
+    const L = G1.leg;
+    g1RelayFinClose();
+    let track = '<div class="g1-track"><span class="g1-car" id="g1Car">🏎️</span>';
+    G1_LEGS.forEach(function(g, i){ const t = G1_TYPES[g.k];
+      const role = (L === i && G1.show) ? '<div class="g1-stn-role r' + i + '"><b>' + g.k + ' ' + t.name + ' — ' + g.name + '</b><span>' + g.task + '</span></div>' : '';
+      track += '<div class="g1-stn' + (L === i ? ' on' : (L > i ? ' passed' : '')) + '" style="--tc:' + t.color + '">' + g.k + '<small>' + t.name + '</small>' + role + '</div>'; });
+    track += '</div>';
+    let main;
+    if(L < 0){
+      main = '<div class="g1-panel g1-rmpanel"><h3>🎯 팀 미션</h3><button type="button" class="g1-btn alt g1-rbig" onclick="g1RelayDrawMission()">🎲 미션 뽑기</button>' +
+        '<div class="g1-mission g1-mission-big" id="g1Mission">' + G1.mission + '</div>' +
+        '<button type="button" class="g1-btn gold g1-rbig" onclick="g1RelayNext()">🏁 출발!</button></div>';
+    } else {
+      main = '<div class="g1-mtimer">' + g1TimerHTML([]) + '</div>' +
+        '<div class="g1-panel g1-rmpanel g1-rmpanel-sm"><h3>🎯 팀 미션</h3><div class="g1-mission g1-mission-big" id="g1Mission">' + G1.mission + '</div></div>';
+    }
+    g1el('g1Body').innerHTML = main + track;
+    const car = g1el('g1Car'), idx = Math.max(L, 0), x = (L < 0) ? 4 : g1RelayStnX(idx);
+    if(car){
+      car.style.left = (G1.carLeft == null ? x : G1.carLeft) + '%';
+      if(G1.carLeft != null && G1.carLeft !== x){ requestAnimationFrame(function(){ requestAnimationFrame(function(){ car.style.left = x + '%'; }); }); }
+    }
+    G1.carLeft = x;
+    if(L >= 0) g1TShow();
+  }
+  function g1RelayDrawMission(){ G1.drawn = true; G1.mission = G1_MISSIONS[Math.floor(Math.random() * G1_MISSIONS.length)]; const m = g1el('g1Mission'); if(m) m.textContent = G1.mission; bmEnsureAudio(); sfxPrize(); }
+  function g1RelayReset(){ g1RelayFinClose(); g1Pick('relay'); }
+  function g1RelayFinClose(){ const f = g1el('g1Finish'); if(f && f.parentNode) f.parentNode.removeChild(f); }
+  function g1RelayFinish(){
+    g1RelayFinClose(); g1TStop();
+    const d = document.createElement('div'); d.className = 'g1-finpop'; d.id = 'g1Finish';
+    d.innerHTML = '<div class="g1-finbox"><button type="button" class="ds2-pop-close g1-fin-x" onclick="g1RelayReset()" aria-label="닫기">✕</button><div class="g1-fin-flag">🏁 결승선 통과!</div><div class="g1-fin-top">🏆 팀 완주! 모두 함께 만든 결과입니다</div>' +
+      '<div class="g1-fin-mission">' + G1.mission + '</div><div class="g1-fin-h">🗣 회고 질문</div><ol class="g1-fin-qs"><li>' + G1_RELAY_DEBRIEF.join('</li><li>') + '</li></ol></div>';
+    g1el('g1Box').appendChild(d);
+    bmEnsureAudio(); sfxFanfare(); launchAwardsFireworksSafe();
+  }
+  // 스마트 포인터 '다음': 출발(5분 타이머 시작, 차는 D) → D 수행역할 → I로 바통 터치 → I 수행역할 → … → C 수행역할 → 결승선 팝업
+  function g1RelayNext(){
+    bmEnsureAudio();
+    if(g1el('g1Finish')){ g1RelayReset(); return; }
+    if(G1.leg < 0 && !G1.drawn){ g1RelayDrawMission(); return; }
+    if(G1.leg < 0){
+      G1.leg = 0; G1.show = false; sfxStart(); g1RelayDraw();
+      G1T.left = G1T.total; if(!G1T.run) g1TToggle();
+      return;
+    }
+    if(!G1.show){ G1.show = true; sfxCoin(); g1RelayDraw(); return; }
+    if(G1.leg < 3){ G1.leg++; G1.show = false; sfxLap(); g1RelayDraw(); return; }
+    g1RelayFinish();
+  }
+  function launchAwardsFireworksSafe(){ try{ const fw = g1el('g1Fw'); if(fw){ fw.innerHTML = ''; for(let k = 0; k < 6; k++){ fwLaunchRocket(fw, (Math.random() - 0.5) * 700, k * 260, 260 + Math.random() * 200, 420); } sfxFireworkBurst(0.5); sfxCheer(0.6); } }catch(e){} }
+
+  // 스마트 포인터 '다음': 현재 화면의 주요 동작을 한 번씩 진행
+  function g1Next(){
+    const g = G1.game;
+    if(g === 'quiz'){ g1QuizSkip(); }
+    else if(g === 'translate'){ g1TransNext(); }
+    else if(g === 'relay'){ g1RelayNext(); }
+    else if(g === 'mission'){ g1DrawMission(); }
+    else if(g === 'roleplay'){ g1RoleNext(); }
+  }
+
+  /* ---- 드라이빙 스타일별 Race: 카드 팝업 ---- */
+  function dsOpenWhyVideo(ev){
+    if(ev) ev.stopPropagation();
+    ds2Started = true;
+    const v = document.getElementById('dsWhyVideo'), empty = document.getElementById('dsWhyEmpty');
+    const has = !!(v && v.getAttribute('src'));
+    if(empty) empty.style.display = has ? 'none' : 'flex';
+    if(v) v.style.visibility = has ? 'visible' : 'hidden';
+    document.getElementById('dsWhyPop').classList.add('show');
+    if(has){ try{ v.load(); v.currentTime = 0; const pr = v.play(); if(pr && pr.catch) pr.catch(function(){}); }catch(e){} }
+  }
+  function dsCloseWhyVideo(){
+    const v = document.getElementById('dsWhyVideo');
+    if(v){ try{ v.pause(); }catch(e){} }
+    document.getElementById('dsWhyPop').classList.remove('show');
+  }
+  // 스타일은 왜 다른가?: 영상 팝업에서 '다음' → 영상 닫고 카드 팝업(감자 → 질문/이미지 4장) 시퀀스
+  let ds2AfterQuiz = false, ds2Started = false;
+  function ds2HandleNext(){
+    if(document.getElementById('dsWhyPop').classList.contains('show')){ dsCloseWhyVideo(); dsqReset(); ds2AfterQuiz = true; dsqAdvance(); return true; }
+    if(document.getElementById('dsqPop').classList.contains('show')){ dsqAdvance(); return true; }
+    if(ds2AfterQuiz){ ds2AfterQuiz = false; dsOpenRace1Popup(); return true; }
+    if(!ds2Started){ dsOpenWhyVideo(); return true; }
+    return false;
+  }
+  function dsOpenRace1Popup(ev){ ds2Started = true; g1Open(ev); }
+  function dsCloseRace1Popup(){ g1Close(); }
+  document.addEventListener('keydown', function(ev){
+    if(ev.key === 'Escape'){ dsCloseWhyVideo(); dsCloseRace1Popup(); if(typeof dsqClose==='function') dsqClose(true); }
+  });
+
+  /* ---- DISC vs MBTI 팝업 ---- */
+  let dsMbtiShown = false;
+  function dsOpenMbti(ev){ dsMbtiShown = true; if(ev) ev.stopPropagation(); document.getElementById('dsMbtiPop').classList.add('show'); }
+  function dsCloseMbti(){ const e = document.getElementById('dsMbtiPop'); if(e) e.classList.remove('show'); }
+  document.addEventListener('keydown', function(ev){ if(ev.key === 'Escape') dsCloseMbti(); });
+
+  /* ---- '공감 소통' 카드: 팝업 앞 2단계 팝업(감자 사진 가림 → 질문/이미지 카드 뒤집기 시퀀스) ---- */
+  const DSQ_A_IMG = "assets/ea130406af036b3d8babfd530e52ce94.jpg";
+  const DSQ_QS = [
+    { q:"‘돌아이’하면 떠오르는 연예인은 누구입니까?", opt:["전영록","노홍철"], img:"assets/4b9a34d1c8702528201c8f24fd9e5e35.jpg" },
+    { q:"‘유리’는 어느 그룹의 멤버일까요?", opt:["핑클","쿨","소녀시대"], img:"assets/e79af599f5915a9ae2859a76203821c7.jpg" },
+    { q:"〈거짓말〉을 부른 5인조 그룹은 누구입니까?", opt:["god","빅뱅"], img:"assets/99e7d41d0579b026e8b895bba8d1548b.jpg" },
+    { q:"‘코난’이 주인공인 만화제목은 무엇이었습니까?", opt:["미래소년 코난","명탐정 코난"], img:"assets/d7e466709b80f1227194fea21ba2d51c.jpg" }
+  ];
+  const DSQ_STEPS = 11;
+  let dsqStep = 0, dsqSide = 0, dsqRot = 0;
+  function dsqPhotoHTML(){
+    return '<div class="dsq-photo"><img src="' + DSQ_A_IMG + '" alt=""><div class="dsq-cover" id="dsqCover">여보~<br>까만 봉지에 있는<br>감자 반만 깎아<br>냄비에 삶아 줘</div></div>';
+  }
+  function dsqQHTML(k){
+    const o = DSQ_QS[k];
+    return '<div class="dsq-q"><div class="dsq-qtext"><div class="dsq-qline">' + o.q + '</div></div><img class="dsq-qimg" src="' + o.img + '" alt=""></div>';
+  }
+  function dsqFlipTo(html){
+    const faces = [document.getElementById('dsqF0'), document.getElementById('dsqF1')];
+    faces[1 - dsqSide].innerHTML = html;
+    dsqRot += 180;
+    document.getElementById('dsqFlip').style.transform = 'rotateY(' + dsqRot + 'deg)';
+    dsqSide = 1 - dsqSide;
+  }
+  function dsqVisibleFace(){ return document.getElementById(dsqSide ? 'dsqF1' : 'dsqF0'); }
+  function dsqOpen(){
+    const fl = document.getElementById('dsqFlip');
+    fl.style.transition = 'none'; fl.style.transform = 'rotateY(0deg)'; void fl.offsetWidth; fl.style.transition = '';
+    dsqSide = 0; dsqRot = 0;
+    document.getElementById('dsqF0').innerHTML = dsqPhotoHTML();
+    document.getElementById('dsqF1').innerHTML = '';
+    document.getElementById('dsqPop').classList.add('show');
+  }
+  function dsqClose(markDone){
+    const pop = document.getElementById('dsqPop'); if(pop) pop.classList.remove('show');
+    if(markDone) dsqStep = DSQ_STEPS;
+  }
+  function dsqReset(){ dsqStep = 0; dsqClose(false); }
+  function dsqAdvance(){
+    const s = dsqStep;
+    if(s === 0){ dsqOpen(); }
+    else if(s === 1){ const c = document.getElementById('dsqCover'); if(c) c.classList.add('gone'); }
+    else if(s <= 9){
+      const k = (s - 2) >> 1;
+      if(s % 2 === 0){ dsqFlipTo(dsqQHTML(k)); }
+      else { const q = dsqVisibleFace().querySelector('.dsq-q'); if(q) q.classList.add('show-img'); }
+    }
+    else { dsqClose(true); }
+    dsqStep = s + 1;
+  }
+
+  /* ---- '멋지고 행복한 센터' 페이지: 카드 3장 팝업 + 스마트 포인터 '다음' 시퀀스 ---- */
+  let dscIdx = -1;
+  function dscOpenCard(i, ev){
+    if(ev) ev.stopPropagation();
+    const cards = document.querySelectorAll('.dsc-card');
+    if(!cards[i]) return;
+    document.getElementById('dscPopImg').src = cards[i].querySelector('img').src;
+    document.querySelector('.dsc-pop-box').classList.toggle('with-msg', i === 1);
+    document.getElementById('dscPop').classList.add('show');
+    cards.forEach(function(c, k){ c.classList.toggle('active', k === i); });
+    dscIdx = i; if(i === 0) dscVidDone = false; dscCloseVideo();
+  }
+  function dscClosePop(){
+    const pop = document.getElementById('dscPop'); if(pop) pop.classList.remove('show');
+    document.querySelectorAll('.dsc-card').forEach(function(c){ c.classList.remove('active'); });
+  }
+  let dscVidDone = false;
+  function dscVideoOpen(){ const p = document.getElementById('dscVideoPop'); return !!(p && p.classList.contains('show')); }
+  function dscOpenVideo(){
+    dscVidDone = true;
+    const v = document.getElementById('dscVideo');
+    document.getElementById('dscVideoPop').classList.add('show');
+    if(v){ try{ v.load(); v.currentTime = 0; const pr = v.play(); if(pr && pr.catch) pr.catch(function(){}); }catch(e){} }
+  }
+  function dscCloseVideo(){
+    const v = document.getElementById('dscVideo');
+    if(v){ try{ v.pause(); }catch(e){} }
+    const p = document.getElementById('dscVideoPop'); if(p) p.classList.remove('show');
+  }
+  function dscReset(){ dscIdx = -1; dscVidDone = false; dscCloseVideo(); dscClosePop(); }
+  document.addEventListener('keydown', function(ev){ if(ev.key !== 'Escape') return; if(dscVideoOpen()){ dscCloseVideo(); return; } dscClosePop(); });
+  // true 반환 = 이 페이지에서 '다음'을 처리함. 왼쪽 카드부터 차례로 팝업 → 마지막 카드 다음엔 팝업을 닫고, 그다음 '다음'에서 페이지 이동
+  function dscHandleNext(){
+    const n = document.querySelectorAll('.dsc-card').length;
+    const popOpen = document.getElementById('dscPop').classList.contains('show');
+    if(dscVideoOpen()){ dscCloseVideo(); if(dscIdx + 1 < n){ dscOpenCard(dscIdx + 1); return true; } dscClosePop(); return true; }
+    if(dscIdx === 0 && popOpen && !dscVidDone){ dscOpenVideo(); return true; }
+    if(dscIdx + 1 < n){ dscOpenCard(dscIdx + 1); return true; }
+    if(popOpen){ dscClosePop(); return true; }
+    dscIdx = -1;
+    return false;
+  }
+
+  /* ---- DISC 상세보기 팝업 + 스마트 포인터 '다음' 시퀀스 ---- */
+  let dsDetailOpenKey = null;
+  function dsEnsureDetail(){
+    let ov = document.getElementById('dsDetailOverlay');
+    if(ov) return ov;
+    ov = document.createElement('div');
+    ov.id = 'dsDetailOverlay'; ov.className = 'ds-detail-overlay';
+    ov.innerHTML = '<div class="ds-detail-box"><button type="button" class="ds-detail-close" aria-label="닫기">✕</button><img class="ds-detail-img" alt=""></div>';
+    ov.addEventListener('click', function(ev){ if(ev.target === ov) dsCloseDetail(); });
+    ov.querySelector('.ds-detail-close').addEventListener('click', function(ev){ ev.stopPropagation(); dsCloseDetail(); });
+    document.body.appendChild(ov);
+    return ov;
+  }
+  function dsOpenDetail(key){
+    const ov = dsEnsureDetail();
+    ov.querySelector('.ds-detail-img').src = DS_DETAIL_IMG[key] || '';
+    ov.classList.add('show');
+    dsDetailOpenKey = key;
+  }
+  function dsCloseDetail(){
+    const ov = document.getElementById('dsDetailOverlay');
+    if(ov) ov.classList.remove('show');
+    dsDetailOpenKey = null;
+  }
+  document.addEventListener('keydown', function(ev){ if(ev.key === 'Escape' && dsDetailOpenKey) dsCloseDetail(); });
+  // 순서: 주도형(D) → 안정형(S) → 사교형(I) → 신중형(C)
+  const DS_SEQ_ORDER = [0, 3, 1, 2];
+  let dsSeq = { ci:0, st:0 };
+  function dsResetSeq(){
+    dsMbtiShown = false; dsCloseMbti();
+    dsSeq = { ci:0, st:0 };
+    dsCloseDetail();
+    document.querySelectorAll('#dsCubeLayer .ds-cube-wrap').forEach(function(w){
+      w.dataset.face = '0';
+      const c = w.querySelector('.ds-cube'); if(c) c.style.transform = DS_CUBE_ROT[0];
+    });
+  }
+  function dsSetFace(wrap, n){
+    wrap.dataset.face = String(n);
+    const c = wrap.querySelector('.ds-cube'); if(c) c.style.transform = DS_CUBE_ROT[n];
+  }
+  // true 를 반환하면 이 '다음' 입력을 이 페이지에서 처리한 것(다음 페이지로 넘어가지 않음)
+  function dsHandleNext(){
+    { const mp = document.getElementById('dsMbtiPop'); if(mp && mp.classList.contains('show')){ dsCloseMbti(); return true; } }
+    if(!dsMbtiShown && dsSeq.ci === 0 && dsSeq.st === 0 && !dsDetailOpenKey){ dsOpenMbti(); return true; }
+    if(dsDetailOpenKey){ dsCloseDetail(); dsSeq.st = 7; return true; }
+    const wraps = document.querySelectorAll('#dsCubeLayer .ds-cube-wrap');
+    if(!wraps.length) return false;
+    if(dsSeq.st >= 6){
+      dsSeq.ci++; dsSeq.st = 0;
+      if(dsSeq.ci >= DS_SEQ_ORDER.length){ dsSeq = { ci:0, st:0 }; return false; }
+    }
+    const idx = DS_SEQ_ORDER[dsSeq.ci];
+    const wrap = wraps[idx];
+    if(dsSeq.st < 5){
+      dsSeq.st++;
+      dsSetFace(wrap, dsSeq.st);
+    } else {
+      dsSeq.st = 6;
+      dsOpenDetail(DS_CUBES[idx].key);
+    }
+    return true;
+  }
+
   /* ---- mission background video (click to play / click to pause, plays once) ---- */
   let MISSION_VIDEO_SRC = "";
   let missionVideoStarted = false;
@@ -17745,8 +19768,30 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
   // '최고 센터 만들기 레이스 미션' 팝업에서 1·2·3등 조와 MVP/준우승자를 운영자가 직접 지정할 수 있는 기능.
   // (센터별로 저장되며, 지정하지 않으면 기존처럼 실제 레이스 결과가 자동으로 표시됩니다.)
   let RCB_FORCED_RANK = {};
+  let RCB_AUTO_RANK = null; // 보드 레이스 결과로 자동 결정된 등수 {1:idx,2:idx,3:idx} (운영자 강제 지정이 없을 때 사용)
+  let bmCelebrationActive = false;
+  // 세레모니 패널을 보드 팝업(#rvPopup) 안으로 옮기거나(보드), 원래 미션 팝업 보드판으로 되돌립니다.
+  function rcbMoveCelebrationTo(target){
+    const cel = document.getElementById('rcbFinishCelebration');
+    if(!cel) return;
+    if(target === 'board'){
+      const pop = document.getElementById('rvPopup');
+      if(pop && cel.parentNode !== pop) pop.appendChild(cel);
+    } else {
+      const inner = document.querySelector('#rcbBoardOuter .rcb-board-inner');
+      if(inner && cel.parentNode !== inner) inner.appendChild(cel);
+    }
+  }
+  function bmCloseCelebration(){
+    const cel = document.getElementById('rcbFinishCelebration');
+    if(cel) cel.classList.remove('show');
+    bmCelebrationActive = false;
+    rcbFinishCycleIdx = null;
+    rcbMoveCelebrationTo('mission');
+  }
   let RCB_MVP_NAME = {};
   let RCB_RUNNERUP_NAME = {};
+  let RCB_PRIZE_EXTRA = {}; // 경품 추첨 보드에서 추가로 뽑힐 수 있도록 강제 지정한 인원 이름들(센터별)
   function rcbRankKey(){ return currentSeatCenter || '__default__'; }
   function openRcbRankAssignPopup(e){
     if(e) e.stopPropagation();
@@ -17775,6 +19820,8 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
     const ruInput = document.getElementById('rcbRunnerUpInput');
     if(mvpInput) mvpInput.value = RCB_MVP_NAME[key] || '';
     if(ruInput) ruInput.value = RCB_RUNNERUP_NAME[key] || '';
+    const exInput = document.getElementById('rcbPrizeExtraInput');
+    if(exInput) exInput.value = RCB_PRIZE_EXTRA[key] || '';
   }
   function saveRcbRankAssign(){
     const key = rcbRankKey();
@@ -17788,6 +19835,8 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
     const ruInput = document.getElementById('rcbRunnerUpInput');
     RCB_MVP_NAME[key] = mvpInput ? mvpInput.value.trim() : '';
     RCB_RUNNERUP_NAME[key] = ruInput ? ruInput.value.trim() : '';
+    const exInput = document.getElementById('rcbPrizeExtraInput');
+    RCB_PRIZE_EXTRA[key] = exInput ? exInput.value.trim() : '';
     const status = document.getElementById('rcbRankAssignStatus');
     if(status){
       status.textContent = '✅ 저장되었습니다.';
@@ -17817,7 +19866,8 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
     if(!ring) return;
     let teams = getRcbRaceTeams();
     let centerArrIdx = (winnerIdx >= 0 && winnerIdx < teams.length) ? winnerIdx : 0;
-    const forced = RCB_FORCED_RANK[rcbRankKey()];
+    let forced = RCB_FORCED_RANK[rcbRankKey()];
+    if((!forced || forced[1] === undefined) && RCB_AUTO_RANK) forced = RCB_AUTO_RANK;
     let fRankTeam1 = null, fRankTeam2 = null, fRankTeam3 = null;
     if(forced && forced[1] !== undefined && teams[parseInt(forced[1], 10)]){
       const idx1 = parseInt(forced[1], 10);
@@ -17990,7 +20040,8 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
     if(!cel) return;
     const teams = getRcbRaceTeams();
     // 운영자가 1등 조를 직접 지정해두었다면 실제 주행 결과보다 그 지정을 우선합니다.
-    const forced = RCB_FORCED_RANK[rcbRankKey()];
+    let forced = RCB_FORCED_RANK[rcbRankKey()];
+    if((!forced || forced[1] === undefined) && RCB_AUTO_RANK) forced = RCB_AUTO_RANK;
     let winnerIdx;
     if(forced && forced[1] !== undefined && teams[parseInt(forced[1], 10)]){
       winnerIdx = parseInt(forced[1], 10);
