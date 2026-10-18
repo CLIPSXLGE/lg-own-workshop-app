@@ -103,6 +103,10 @@
     .game-hub-card:nth-child(10) { animation-delay: 0.1s; }
     .game-hub-card:nth-child(11) { animation-delay: 0.45s; }
     .game-hub-card:nth-child(12) { animation-delay: 0.8s; }
+    .game-hub-card:nth-child(13) { animation-delay: 1.15s; }
+    .game-hub-card:nth-child(14) { animation-delay: 0.3s; }
+    .game-hub-card:nth-child(15) { animation-delay: 0.65s; }
+    .game-hub-card:nth-child(16) { animation-delay: 1.0s; }
     .game-hub-card:hover {
       transform: translateY(-6px) scale(1.02);
       box-shadow: 0 20px 36px -15px rgba(0,0,0,0.75);
@@ -128,7 +132,7 @@
     }
     .game-hub-card .hub-overlay {
       position: absolute; inset: 0;
-      background: linear-gradient(180deg, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.35) 55%, rgba(0,0,0,0.92) 100%);
+      background: linear-gradient(180deg, rgba(0,0,0,0.22) 0%, rgba(0,0,0,0.5) 38%, rgba(0,0,0,0.8) 62%, rgba(0,0,0,0.96) 100%);
     }
     .game-hub-card .hub-card-content {
       position: absolute; inset: 0;
@@ -146,12 +150,15 @@
       border-radius: 999px;
       border: 1px solid;
     }
+    .game-hub-card .hub-card-content .hub-card-tag:not(.offline-badge) { background-color: rgba(2,6,23,0.72) !important; font-size: 0.56rem; }
     .hub-card-title {
-      font-size: 0.9rem;
+      font-size: 1rem;
+      word-break: keep-all;
       line-height: 1.15;
       font-weight: 900;
       color: #fff;
       letter-spacing: -0.01em;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.85);
     }
     .hub-card-desc {
       font-size: 0.6rem;
@@ -159,8 +166,8 @@
       line-height: 1.3;
     }
     @media (min-width: 768px) {
-      .hub-card-content { padding: 0.9rem; }
-      .hub-card-title { font-size: 1.05rem; }
+      .hub-card-content { padding: 0.5rem; }
+      .hub-card-title { font-size: 1.2rem; }
       .hub-card-desc { font-size: 0.66rem; }
     }
     .offline-badge {
@@ -269,6 +276,39 @@
     .quote-problem-box:active { transform: scale(0.95); }
     .quote-problem-box-num { font-size: 1.4rem; line-height: 1; }
     .quote-problem-box-label { font-size: 0.65rem; opacity: 0.8; }
+    .chosung-problem-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      aspect-ratio: 1 / 1;
+      background: linear-gradient(160deg, rgba(154,52,18,0.85), rgba(30,27,75,0.9));
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 1rem;
+      color: #fed7aa;
+      font-weight: 800;
+      transition: transform .15s, box-shadow .15s;
+      cursor: pointer;
+      backdrop-filter: blur(2px);
+    }
+    .chosung-problem-box:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(249,115,22,0.35); }
+    .chosung-problem-box:active { transform: scale(0.95); }
+    .chosung-problem-box-num { font-size: 2.2rem; line-height: 1; }
+    .chosung-problem-box-label { font-size: 0.75rem; opacity: 0.85; }
+    .newgame-panel {
+      background: rgba(15,23,42,0.55);
+      border: 1px solid rgba(255,255,255,0.14);
+      border-radius: 1.25rem;
+      backdrop-filter: blur(4px);
+    }
+    .cup-layer { opacity: 0; transform: translateY(-70px); transition: none; }
+    .cup-layer.show { opacity: 1; transform: translateY(0); transition: transform .2s cubic-bezier(.2,1.5,.5,1), opacity .1s linear; }
+    .newgame-blank {
+      border: 2px dashed rgba(255,255,255,0.22);
+      border-radius: 1rem;
+      color: rgba(226,232,240,0.6);
+    }
     @keyframes offline-blink {
       0%, 100% { opacity: 1; }
       50% { opacity: 0.15; }
@@ -765,6 +805,63 @@
         if (popupBgmLoop && popupBgmLoop.state === "started") popupBgmLoop.stop(0);
       } catch (e) {}
     }
+
+    // ---- Mission Impossible theme (looping) for 바퀴벌레 Race / 탁구공 빙고 / 물병에 빨대꽂기 / 초성퀴즈 / 컵쌓기 / 마시멜로 popups ----
+    // The track is decoded once in the background into a Web Audio buffer, so playback starts instantly
+    // (no media-element loading delay). The hidden <audio> element is only a fallback until the buffer is ready.
+    let mbCtx = null, mbGain = null, mbBuf = null, mbSrc = null, mbPlaying = false, mbOffset = 0, mbStartAt = 0;
+    function missionBgmInit() {
+      if (mbCtx) return;
+      try {
+        const AC = window.AudioContext || window.webkitAudioContext;
+        mbCtx = new AC({ latencyHint: 'interactive' });
+        mbGain = mbCtx.createGain(); mbGain.gain.value = 0.6; mbGain.connect(mbCtx.destination);
+        const a = document.getElementById('mission-bgm');
+        fetch(a.src).then(r => r.arrayBuffer()).then(ab => new Promise((res, rej) => mbCtx.decodeAudioData(ab, res, rej)))
+          .then(buf => { mbBuf = buf; }).catch(() => {});
+        const unlock = () => { if (mbCtx && mbCtx.state === 'suspended') mbCtx.resume().catch(() => {}); };
+        ['pointerdown', 'keydown', 'touchstart'].forEach(ev => document.addEventListener(ev, unlock, { capture: true, passive: true }));
+      } catch (e) { mbCtx = null; }
+    }
+    window.addEventListener('DOMContentLoaded', missionBgmInit);
+    function missionBgmPlay() {
+      if (!soundEnabled) return;
+      stopPopupBGM();
+      if (!mbCtx) missionBgmInit();
+      if (mbCtx && mbBuf) {
+        if (mbPlaying) return;
+        if (mbCtx.state === 'suspended') mbCtx.resume().catch(() => {});
+        mbSrc = mbCtx.createBufferSource();
+        mbSrc.buffer = mbBuf; mbSrc.loop = true; mbSrc.connect(mbGain);
+        mbSrc.start(0, mbOffset % mbBuf.duration);
+        mbStartAt = mbCtx.currentTime; mbPlaying = true;
+        return;
+      }
+      // fallback while the buffer is still decoding
+      const a = document.getElementById('mission-bgm');
+      if (!a) return;
+      a.volume = 0.6;
+      if (a.paused) { const pr = a.play(); if (pr && pr.catch) pr.catch(() => {}); }
+    }
+    function missionBgmPause() {
+      if (mbPlaying && mbSrc) {
+        mbOffset = (mbOffset + (mbCtx.currentTime - mbStartAt)) % mbBuf.duration;
+        try { mbSrc.stop(); } catch (e) {}
+        mbSrc = null; mbPlaying = false;
+      }
+      const a = document.getElementById('mission-bgm');
+      if (a && !a.paused) a.pause();
+    }
+    function missionBgmRewind() {
+      const wasPlaying = mbPlaying;
+      if (wasPlaying) missionBgmPause();
+      mbOffset = 0;
+      const a = document.getElementById('mission-bgm');
+      if (a) { try { a.currentTime = 0; } catch (e) {} }
+      if (wasPlaying) missionBgmPlay();
+    }
+    function missionBgmStop() { missionBgmPause(); missionBgmRewind(); }
+    function missionBgmIsPlaying() { const a = document.getElementById('mission-bgm'); return mbPlaying || (a && !a.paused); }
   </script>
 
   <!-- Global Buzzer Winner Overlay (shared by every game's buzzer widget) -->
@@ -820,6 +917,307 @@
           <div class="relative">
             <button id="buzzer-btn-green" onclick="pressBuzzer('green')" class="buzzer-btn-mini-lg" style="background: linear-gradient(160deg, #4ade80, #16a34a);">🟢</button>
             <span id="buzzer-rank-green" class="buzzer-rank-badge hidden"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- 초성퀴즈 - 니가비슷내가비슷 popup (blank shell: 5 problem boxes) -->
+  <div id="chosung-game-popup" class="hidden fixed inset-0 z-[998] flex items-center justify-center bg-slate-950/85 p-4">
+    <div class="relative w-full max-w-6xl bg-slate-900 border border-slate-800 rounded-3xl shadow-2xl h-[92vh] overflow-hidden flex flex-col">
+      <!-- real-photo style background + dark gradient so the content stays readable -->
+      <div id="chosung-popup-bg" class="absolute inset-0 bg-cover bg-center"></div>
+      <!-- movie poster of the current problem: fades in when 정답 공개 is pressed -->
+      <div id="chosung-poster-bg" class="absolute inset-0 bg-cover" style="opacity:0;background-position:center 30%;transition:opacity .7s ease"></div>
+      <div id="chosung-shade" class="absolute inset-0" style="background: linear-gradient(to bottom, rgba(2,6,23,0.62) 0%, rgba(2,6,23,0.84) 40%, rgba(2,6,23,0.95) 100%);transition:background .7s ease"></div>
+      <div class="relative flex items-center justify-between gap-3 px-4 py-3 border-b border-white/10 bg-slate-950/50">
+        <div class="flex items-center gap-3 min-w-0">
+          <button id="chosung-header-back" onclick="chosungBackToGrid()" class="hidden p-2 bg-slate-800/90 hover:bg-slate-700 rounded-lg text-sm text-slate-300 transition shrink-0" title="목록으로"><i class="fa-solid fa-arrow-left"></i></button>
+          <div class="min-w-0">
+            <div class="text-base md:text-lg font-black text-white truncate">초성퀴즈 - 니가비슷내가비슷</div>
+            <div class="text-xs text-slate-300 truncate">초성으로 영화제목 맞추기 + 해당 영화 명대사 맞추기</div>
+          </div>
+        </div>
+        <div class="flex items-center gap-2 shrink-0">
+          <div id="chosung-header-nav" class="hidden flex items-center gap-2">
+            <span id="chosung-header-badge" class="text-sm font-bold text-slate-100 mr-1">문제 1</span>
+            <button onclick="chosungPrevProblem()" class="p-2 bg-slate-800/90 hover:bg-slate-700 rounded-lg text-xs text-slate-300 transition">이전문제</button>
+            <button onclick="chosungNextProblem()" class="p-2 bg-slate-800/90 hover:bg-slate-700 rounded-lg text-xs text-slate-300 transition">다음문제</button>
+          </div>
+          <button onclick="closeNewGamePopup('chosungGame')" class="w-8 h-8 rounded-full bg-slate-800/90 hover:bg-slate-700 text-slate-200 text-lg flex items-center justify-center transition" title="닫기">×</button>
+        </div>
+      </div>
+      <div class="relative flex-1 overflow-y-auto">
+        <!-- VIEW 1: 5 problem boxes -->
+        <div id="chosung-view-grid" class="min-h-full p-8 md:p-14 flex flex-col items-center justify-center gap-8">
+          <div class="text-center">
+            <div class="text-5xl mb-1">🔤</div>
+            <h3 class="text-3xl md:text-4xl font-black text-white">초성퀴즈<br>니가비슷내가비슷</h3>
+            <p class="text-sm text-slate-300 mt-2">초성으로 영화제목 맞추기 + 해당 영화 명대사 맞추기</p>
+          </div>
+          <div class="grid grid-cols-5 gap-3 md:gap-4 w-full">
+          <button onclick="chosungSelectProblem(1)" class="chosung-problem-box"><span class="chosung-problem-box-num">1</span><span class="chosung-problem-box-label">문제 1</span></button>
+          <button onclick="chosungSelectProblem(2)" class="chosung-problem-box"><span class="chosung-problem-box-num">2</span><span class="chosung-problem-box-label">문제 2</span></button>
+          <button onclick="chosungSelectProblem(3)" class="chosung-problem-box"><span class="chosung-problem-box-num">3</span><span class="chosung-problem-box-label">문제 3</span></button>
+          <button onclick="chosungSelectProblem(4)" class="chosung-problem-box"><span class="chosung-problem-box-num">4</span><span class="chosung-problem-box-label">문제 4</span></button>
+          <button onclick="chosungSelectProblem(5)" class="chosung-problem-box"><span class="chosung-problem-box-num">5</span><span class="chosung-problem-box-label">문제 5</span></button>
+          </div>
+        </div>
+
+        <!-- VIEW 2: problem page — chosung -> title -> quote(s), advanced step by step -->
+        <div id="chosung-view-problem" class="hidden min-h-full p-6 md:p-10 flex flex-col items-center justify-center gap-5 md:gap-7 text-center">
+          <div id="chosung-wait" class="hidden font-black text-amber-300" style="font-size:clamp(3rem,min(12vw,16vh),9rem);text-shadow:0 4px 24px rgba(245,158,11,.4)"></div>
+          <div id="chosung-label" class="font-black tracking-widest uppercase text-amber-300" style="font-size:clamp(.9rem,1.8vw,1.4rem)">이 초성의 영화 제목은?</div>
+          <div id="chosung-letters" class="flex flex-nowrap justify-center gap-2 md:gap-4"></div>
+          <div id="chosung-title" class="hidden font-black text-white leading-tight" style="font-size:clamp(2.6rem,min(9.5vw,9vh),7rem);text-shadow:0 3px 18px rgba(0,0,0,.9)"></div>
+          <div id="chosung-quotes" class="hidden flex flex-col items-center gap-2 w-full"></div>
+          <button id="chosung-step-btn" onclick="chosungAdvance()" class="px-10 py-3 text-lg md:text-xl bg-gradient-to-r from-amber-500 to-orange-500 hover:brightness-110 text-white font-black rounded-xl shadow-lg shadow-amber-500/30 active:scale-95 transition">정답 공개</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 각양각색 순발력 컵쌓기 popup (blank shell: 게임안내 + 색깔순 컵쌓기 문제) -->
+  <div id="cup-game-popup" class="hidden fixed inset-0 z-[998] flex items-center justify-center bg-slate-950/85 p-4">
+    <div class="relative w-full bg-slate-900 border border-slate-800 rounded-3xl shadow-2xl h-[92vh] overflow-hidden flex flex-col" style="max-width:min(97vw,1800px)">
+      <!-- real-photo style background + dark gradient so the content stays readable -->
+      <div id="cup-popup-bg" class="absolute inset-0 bg-cover bg-center"></div>
+      <div class="absolute inset-0" style="background: linear-gradient(to bottom, rgba(2,6,23,0.28) 0%, rgba(2,6,23,0.66) 40%, rgba(2,6,23,0.92) 100%);"></div>
+      <div class="relative flex items-center justify-between gap-3 px-4 py-3 border-b border-white/10 bg-slate-950/50">
+        <div class="flex items-center gap-3 min-w-0">
+          <div class="min-w-0">
+            <div class="text-base md:text-lg font-black text-white truncate">각양각색 순발력 컵쌓기</div>
+            <div class="text-xs text-slate-300 truncate">게임안내 + 색깔 순서 컵쌓기 문제 제시</div>
+          </div>
+        </div>
+        <div class="flex items-center gap-2 shrink-0">
+          <span id="cup-page-badge" class="text-sm font-bold text-slate-100 mr-1">1 / 6</span>
+          <button onclick="cupPrevPage()" class="p-2 bg-slate-800/90 hover:bg-slate-700 rounded-lg text-xs text-slate-300 transition">이전</button>
+          <button onclick="cupNextPage()" class="p-2 bg-slate-800/90 hover:bg-slate-700 rounded-lg text-xs text-slate-300 transition">다음</button>
+          <button onclick="closeNewGamePopup('cupGame')" class="w-8 h-8 rounded-full bg-slate-800/90 hover:bg-slate-700 text-slate-200 text-lg flex items-center justify-center transition" title="닫기">×</button>
+        </div>
+      </div>
+      <div class="relative flex-1 overflow-y-auto">
+        <!-- PAGE 1: 게임 안내 (컵빌딩을 세워라!) -->
+        <div id="cup-page-1" class="min-h-full flex flex-col justify-center" style="background:rgba(5,7,11,0.93);padding:clamp(1rem,3vh,2.5rem) clamp(1.25rem,4vw,3.5rem);gap:clamp(.8rem,2.6vh,2rem)">
+          <h2 class="font-black text-white leading-none" style="font-size:clamp(1.75rem,min(5vw,6.8vh),4.2rem);letter-spacing:-0.02em">컵빌딩을 세워라!</h2>
+          <ul class="flex flex-col font-extrabold text-white" style="gap:clamp(.7rem,2.4vh,1.6rem);font-size:clamp(1rem,min(2.3vw,3.5vh),2.3rem)">
+            <li class="flex items-start gap-3"><span class="shrink-0">▶</span><span>각 팀원 1명씩 6개의 컵 중 마음에 드는 색상을 고른다.</span></li>
+            <li class="flex items-start gap-3"><span class="shrink-0">▶</span><span>스크린에 제시된 컵의 색을 순서대로 최대한 빠르게 쌓는다.</span></li>
+            <li class="flex items-start gap-3"><span class="shrink-0">▶</span><span>완성한 조는 다같이 '○○팀'을 외친다.</span></li>
+          </ul>
+          <div class="rounded-2xl border border-white/10 flex flex-col items-center" style="background:rgba(2,3,6,0.7);padding:clamp(.8rem,2.4vh,1.8rem);gap:clamp(.6rem,2vh,1.4rem)">
+            <div class="font-black tracking-[0.35em] text-slate-400" style="font-size:clamp(.95rem,min(2.2vw,3.2vh),2rem)">6가지 색상의 컵</div>
+            <div class="flex justify-center w-full" style="gap:clamp(.5rem,1.8vw,2rem)">
+              <div class="flex flex-col items-center min-w-0" style="gap:clamp(.5rem,1.6vh,1rem);flex:1 1 0;max-width:min(13rem,22vh)">
+                <div style="width:100%;aspect-ratio:200/156;background:#FFD500;clip-path:polygon(8% 0,92% 0,100% 100%,0 100%);"></div>
+                <div class="font-black text-white" style="font-size:clamp(.95rem,min(2.3vw,3.4vh),2.2rem)">노랑색</div>
+              </div>
+              <div class="flex flex-col items-center min-w-0" style="gap:clamp(.5rem,1.6vh,1rem);flex:1 1 0;max-width:min(13rem,22vh)">
+                <div style="width:100%;aspect-ratio:200/156;background:#00E600;clip-path:polygon(8% 0,92% 0,100% 100%,0 100%);"></div>
+                <div class="font-black text-white" style="font-size:clamp(.95rem,min(2.3vw,3.4vh),2.2rem)">연두색</div>
+              </div>
+              <div class="flex flex-col items-center min-w-0" style="gap:clamp(.5rem,1.6vh,1rem);flex:1 1 0;max-width:min(13rem,22vh)">
+                <div style="width:100%;aspect-ratio:200/156;background:#FF7F00;clip-path:polygon(8% 0,92% 0,100% 100%,0 100%);"></div>
+                <div class="font-black text-white" style="font-size:clamp(.95rem,min(2.3vw,3.4vh),2.2rem)">주황색</div>
+              </div>
+              <div class="flex flex-col items-center min-w-0" style="gap:clamp(.5rem,1.6vh,1rem);flex:1 1 0;max-width:min(13rem,22vh)">
+                <div style="width:100%;aspect-ratio:200/156;background:#6E4BF5;clip-path:polygon(8% 0,92% 0,100% 100%,0 100%);"></div>
+                <div class="font-black text-white" style="font-size:clamp(.95rem,min(2.3vw,3.4vh),2.2rem)">보라색</div>
+              </div>
+              <div class="flex flex-col items-center min-w-0" style="gap:clamp(.5rem,1.6vh,1rem);flex:1 1 0;max-width:min(13rem,22vh)">
+                <div style="width:100%;aspect-ratio:200/156;background:#FF3CA0;clip-path:polygon(8% 0,92% 0,100% 100%,0 100%);"></div>
+                <div class="font-black text-white" style="font-size:clamp(.95rem,min(2.3vw,3.4vh),2.2rem)">분홍색</div>
+              </div>
+              <div class="flex flex-col items-center min-w-0" style="gap:clamp(.5rem,1.6vh,1rem);flex:1 1 0;max-width:min(13rem,22vh)">
+                <div style="width:100%;aspect-ratio:200/156;background:#3A78C8;clip-path:polygon(8% 0,92% 0,100% 100%,0 100%);"></div>
+                <div class="font-black text-white" style="font-size:clamp(.95rem,min(2.3vw,3.4vh),2.2rem)">파랑색</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- PAGE 2: 컵쌓기 연습 — 컵빌딩을 세워라! + 위로 빠르게 쌓여 올라가는 컵 -->
+        <div id="cup-page-2" class="hidden min-h-full flex flex-col items-center justify-center" style="background:rgba(5,7,11,0.93);padding:clamp(.8rem,2.4vh,2rem) 1rem;gap:clamp(.5rem,1.6vh,1.2rem)">
+          <span class="inline-flex items-center gap-2 rounded-full font-black text-slate-950" style="background:linear-gradient(90deg,#fbbf24,#f97316);padding:.25em 1.1em;font-size:clamp(.95rem,min(2vw,3vh),1.7rem);box-shadow:0 6px 18px rgba(249,115,22,.35)">연습</span>
+          <h2 class="font-black text-white leading-none text-center" style="font-size:clamp(1.4rem,min(3.7vw,5vh),3.1rem);letter-spacing:-0.02em">컵빌딩을 세워라!</h2>
+          <svg id="cup-stack-svg" viewBox="0 0 215 515" style="height:min(56vh,640px);max-width:100%;overflow:visible" aria-label="쌓이는 컵">
+            <g class="cup-layer" data-order="5"><polygon points="38,0 178,0 215,200 0,200" fill="#A0BF5E" stroke="#2c4a6e" stroke-width="1.6" stroke-linejoin="round"/></g>
+            <g class="cup-layer" data-order="4"><polygon points="1,200 209,200 215,257 0,257" fill="#614B7D" stroke="#2c4a6e" stroke-width="1.6" stroke-linejoin="round"/></g>
+            <g class="cup-layer" data-order="3"><polygon points="4,257 206,257 215,323 0,323" fill="#F2D230" stroke="#2c4a6e" stroke-width="1.6" stroke-linejoin="round"/></g>
+            <g class="cup-layer" data-order="2"><polygon points="5,323 209,323 215,384 0,384" fill="#F68625" stroke="#2c4a6e" stroke-width="1.6" stroke-linejoin="round"/></g>
+            <g class="cup-layer" data-order="1"><polygon points="6,384 208,384 215,453 0,453" fill="#0052E0" stroke="#2c4a6e" stroke-width="1.6" stroke-linejoin="round"/></g>
+            <g class="cup-layer" data-order="0"><polygon points="7,453 208,453 215,515 0,515" fill="#B5127F" stroke="#2c4a6e" stroke-width="1.6" stroke-linejoin="round"/></g>
+          </svg>
+        </div>
+
+        <!-- PAGE 3: 1라운드 — three color-order problems shown one at a time (left -> middle -> right) -->
+        <div id="cup-page-3" class="hidden min-h-full flex flex-col items-center justify-center" style="background:rgba(5,7,11,0.93);padding:clamp(.8rem,2.4vh,2rem) clamp(.8rem,2vw,2rem);gap:clamp(.5rem,1.6vh,1.2rem)">
+          <span class="inline-flex items-center gap-2 rounded-full font-black text-white" style="background:linear-gradient(90deg,#ec4899,#8b5cf6);padding:.25em 1.1em;font-size:clamp(.95rem,min(2vw,3vh),1.7rem);box-shadow:0 6px 18px rgba(139,92,246,.4)">1라운드</span>
+          <h2 class="font-black text-white leading-none text-center" style="font-size:clamp(1.4rem,min(3.7vw,5vh),3.1rem);letter-spacing:-0.02em">컵빌딩을 세워라!</h2>
+          <div class="grid grid-cols-3 w-full" style="gap:clamp(.6rem,1.6vw,1.5rem)">
+            <div id="cup-r1-panel-1" class="rounded-2xl flex items-end justify-center min-w-0" style="background:rgba(2,3,6,0.7);border:1px solid rgba(255,255,255,0.08);padding:clamp(.5rem,1.6vh,1.2rem)"></div>
+            <div id="cup-r1-panel-2" class="rounded-2xl flex items-end justify-center min-w-0" style="background:rgba(2,3,6,0.7);border:1px solid rgba(255,255,255,0.08);padding:clamp(.5rem,1.6vh,1.2rem)"></div>
+            <div id="cup-r1-panel-3" class="rounded-2xl flex items-end justify-center min-w-0" style="background:rgba(2,3,6,0.7);border:1px solid rgba(255,255,255,0.08);padding:clamp(.5rem,1.6vh,1.2rem)"></div>
+          </div>
+        </div>
+
+        <!-- PAGE 4: 2라운드 — three color-order problems shown one at a time (left -> middle -> right) -->
+        <div id="cup-page-4" class="hidden min-h-full flex flex-col items-center justify-center" style="background:rgba(5,7,11,0.93);padding:clamp(.8rem,2.4vh,2rem) clamp(.8rem,2vw,2rem);gap:clamp(.5rem,1.6vh,1.2rem)">
+          <span class="inline-flex items-center gap-2 rounded-full font-black text-white" style="background:linear-gradient(90deg,#ec4899,#8b5cf6);padding:.25em 1.1em;font-size:clamp(.95rem,min(2vw,3vh),1.7rem);box-shadow:0 6px 18px rgba(139,92,246,.4)">2라운드</span>
+          <h2 class="font-black text-white leading-none text-center" style="font-size:clamp(1.4rem,min(3.7vw,5vh),3.1rem);letter-spacing:-0.02em">컵빌딩을 세워라!</h2>
+          <div class="grid grid-cols-3 w-full" style="gap:clamp(.6rem,1.6vw,1.5rem)">
+            <div id="cup-r2-panel-1" class="rounded-2xl flex items-end justify-center min-w-0" style="background:rgba(2,3,6,0.7);border:1px solid rgba(255,255,255,0.08);padding:clamp(.5rem,1.6vh,1.2rem)"></div>
+            <div id="cup-r2-panel-2" class="rounded-2xl flex items-end justify-center min-w-0" style="background:rgba(2,3,6,0.7);border:1px solid rgba(255,255,255,0.08);padding:clamp(.5rem,1.6vh,1.2rem)"></div>
+            <div id="cup-r2-panel-3" class="rounded-2xl flex items-end justify-center min-w-0" style="background:rgba(2,3,6,0.7);border:1px solid rgba(255,255,255,0.08);padding:clamp(.5rem,1.6vh,1.2rem)"></div>
+          </div>
+        </div>
+
+        <!-- PAGE 5: 3라운드 — color words pile up bottom -> top -->
+        <div id="cup-page-5" class="hidden min-h-full flex flex-col items-center justify-center" style="background:rgba(5,7,11,0.93);padding:clamp(.8rem,2.4vh,2rem) 1rem;gap:clamp(.8rem,3vh,2.4rem)">
+          <span class="inline-flex items-center gap-2 rounded-full font-black text-white" style="background:linear-gradient(90deg,#ec4899,#8b5cf6);padding:.25em 1.1em;font-size:clamp(.95rem,min(2vw,3vh),1.7rem);box-shadow:0 6px 18px rgba(139,92,246,.4)">3라운드</span>
+          <h2 class="font-black text-white leading-none text-center" style="font-size:clamp(1.5rem,min(4vw,5.6vh),3.4rem);letter-spacing:-0.02em">컵빌딩을 세워라!</h2>
+          <div class="flex flex-col items-center font-black" style="gap:clamp(.5rem,2.2vh,1.7rem);font-size:clamp(1.4rem,min(4.2vw,6.4vh),4rem);line-height:1.1">
+            <div class="cup-layer" data-order="5" style="color:#3A78C8">파랑색</div>
+            <div class="cup-layer" data-order="4" style="color:#00E600">연두색</div>
+            <div class="cup-layer" data-order="3" style="color:#FF7F00">주황색</div>
+            <div class="cup-layer" data-order="2" style="color:#FFD500">노랑색</div>
+            <div class="cup-layer" data-order="1" style="color:#FF3CA0">분홍색</div>
+            <div class="cup-layer" data-order="0" style="color:#6E4BF5">보라색</div>
+          </div>
+        </div>
+
+        <!-- PAGE 6: 4라운드 — LEVEL 1 / 2 / 3 shown one at a time (left -> middle -> right) -->
+        <div id="cup-page-6" class="hidden min-h-full flex flex-col items-center justify-center" style="background:rgba(5,7,11,0.93);padding:clamp(.8rem,2.4vh,2rem) clamp(.8rem,2vw,2rem);gap:clamp(.6rem,2vh,1.6rem)">
+          <span class="inline-flex items-center gap-2 rounded-full font-black text-white" style="background:linear-gradient(90deg,#ec4899,#8b5cf6);padding:.25em 1.1em;font-size:clamp(.95rem,min(2vw,3vh),1.7rem);box-shadow:0 6px 18px rgba(139,92,246,.4)">4라운드</span>
+          <h2 class="font-black text-white leading-none text-center" style="font-size:clamp(1.5rem,min(4vw,5.6vh),3.4rem);letter-spacing:-0.02em">컵빌딩을 세워라!</h2>
+          <div class="grid grid-cols-3 w-full" style="gap:clamp(.6rem,1.6vw,1.5rem)">
+            <div id="cup-p6-col-1" class="rounded-2xl flex flex-col items-center justify-center min-w-0" style="background:rgba(2,3,6,0.7);border-top:3px solid rgba(255,255,255,0.14);padding:clamp(.6rem,2vh,1.6rem) .5rem;gap:clamp(.4rem,1.7vh,1.3rem)">
+              <div class="font-black text-slate-400" style="font-size:clamp(.8rem,min(1.5vw,2.4vh),1.5rem);letter-spacing:.35em;margin-bottom:clamp(.2rem,1vh,.8rem)">LEVEL 1</div>
+              <div class="cup-col-inner" style="visibility:hidden;display:flex;flex-direction:column;align-items:center;gap:clamp(.4rem,1.7vh,1.3rem)">
+              <div class="cup-layer font-black" data-order="5" style="color:#FF7F00;font-size:clamp(1.15rem,min(3vw,5vh),3.3rem);line-height:1.1">주황색</div>
+              <div class="cup-layer font-black" data-order="4" style="color:#3A78C8;font-size:clamp(1.15rem,min(3vw,5vh),3.3rem);line-height:1.1">파랑색</div>
+              <div class="cup-layer font-black" data-order="3" style="color:#FFD500;font-size:clamp(1.15rem,min(3vw,5vh),3.3rem);line-height:1.1">노랑색</div>
+              <div class="cup-layer font-black" data-order="2" style="color:#00E600;font-size:clamp(1.15rem,min(3vw,5vh),3.3rem);line-height:1.1">연두색</div>
+              <div class="cup-layer font-black" data-order="1" style="color:#6E4BF5;font-size:clamp(1.15rem,min(3vw,5vh),3.3rem);line-height:1.1">보라색</div>
+              <div class="cup-layer font-black" data-order="0" style="color:#FF3CA0;font-size:clamp(1.15rem,min(3vw,5vh),3.3rem);line-height:1.1">분홍색</div>
+              </div>
+            </div>
+            <div id="cup-p6-col-2" class="rounded-2xl flex flex-col items-center justify-center min-w-0" style="background:rgba(2,3,6,0.7);border-top:3px solid rgba(255,255,255,0.14);padding:clamp(.6rem,2vh,1.6rem) .5rem;gap:clamp(.4rem,1.7vh,1.3rem)">
+              <div class="font-black text-slate-400" style="font-size:clamp(.8rem,min(1.5vw,2.4vh),1.5rem);letter-spacing:.35em;margin-bottom:clamp(.2rem,1vh,.8rem)">LEVEL 2</div>
+              <div class="cup-col-inner" style="visibility:hidden;display:flex;flex-direction:column;align-items:center;gap:clamp(.4rem,1.7vh,1.3rem)">
+              <div class="cup-layer font-black" data-order="5" style="color:#FFFFFF;font-size:clamp(1.15rem,min(3vw,5vh),3.3rem);line-height:1.1">노랑색</div>
+              <div class="cup-layer font-black" data-order="4" style="color:#FFFFFF;font-size:clamp(1.15rem,min(3vw,5vh),3.3rem);line-height:1.1">보라색</div>
+              <div class="cup-layer font-black" data-order="3" style="color:#FFFFFF;font-size:clamp(1.15rem,min(3vw,5vh),3.3rem);line-height:1.1">연두색</div>
+              <div class="cup-layer font-black" data-order="2" style="color:#FFFFFF;font-size:clamp(1.15rem,min(3vw,5vh),3.3rem);line-height:1.1">파랑색</div>
+              <div class="cup-layer font-black" data-order="1" style="color:#FFFFFF;font-size:clamp(1.15rem,min(3vw,5vh),3.3rem);line-height:1.1">분홍색</div>
+              <div class="cup-layer font-black" data-order="0" style="color:#FFFFFF;font-size:clamp(1.15rem,min(3vw,5vh),3.3rem);line-height:1.1">주황색</div>
+              </div>
+            </div>
+            <div id="cup-p6-col-3" class="rounded-2xl flex flex-col items-center justify-center min-w-0" style="background:rgba(2,3,6,0.7);border-top:3px solid rgba(255,255,255,0.14);padding:clamp(.6rem,2vh,1.6rem) .5rem;gap:clamp(.4rem,1.7vh,1.3rem)">
+              <div class="font-black text-slate-400" style="font-size:clamp(.8rem,min(1.5vw,2.4vh),1.5rem);letter-spacing:.35em;margin-bottom:clamp(.2rem,1vh,.8rem)">LEVEL 3</div>
+              <div class="cup-col-inner" style="visibility:hidden;display:flex;flex-direction:column;align-items:center;gap:clamp(.4rem,1.7vh,1.3rem)">
+              <div class="cup-layer font-black" data-order="5" style="color:#FFD500;font-size:clamp(1.15rem,min(3vw,5vh),3.3rem);line-height:1.1">파랑색</div>
+              <div class="cup-layer font-black" data-order="4" style="color:#FF3CA0;font-size:clamp(1.15rem,min(3vw,5vh),3.3rem);line-height:1.1">연두색</div>
+              <div class="cup-layer font-black" data-order="3" style="color:#6E4BF5;font-size:clamp(1.15rem,min(3vw,5vh),3.3rem);line-height:1.1">주황색</div>
+              <div class="cup-layer font-black" data-order="2" style="color:#00E600;font-size:clamp(1.15rem,min(3vw,5vh),3.3rem);line-height:1.1">분홍색</div>
+              <div class="cup-layer font-black" data-order="1" style="color:#FF7F00;font-size:clamp(1.15rem,min(3vw,5vh),3.3rem);line-height:1.1">노랑색</div>
+              <div class="cup-layer font-black" data-order="0" style="color:#3A78C8;font-size:clamp(1.15rem,min(3vw,5vh),3.3rem);line-height:1.1">보라색</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 마시멜로 팀웍 챌린지 popup (blank shell: 게임안내 + 카운트다운 스톱워치) -->
+  <div id="marsh-game-popup" class="hidden fixed inset-0 z-[998] flex items-center justify-center bg-slate-950/85 p-4">
+    <div class="relative w-full bg-slate-900 border border-slate-800 rounded-3xl shadow-2xl h-[92vh] overflow-hidden flex flex-col" style="max-width:min(97vw,1800px)">
+      <!-- real-photo style background + dark gradient so the content stays readable -->
+      <div id="marsh-popup-bg" class="absolute inset-0 bg-cover bg-center"></div>
+      <div class="absolute inset-0" style="background: linear-gradient(to bottom, rgba(2,6,23,0.28) 0%, rgba(2,6,23,0.66) 40%, rgba(2,6,23,0.92) 100%);"></div>
+      <div class="relative flex items-center justify-between gap-3 px-4 py-3 border-b border-white/10 bg-slate-950/50">
+        <div class="flex items-center gap-3 min-w-0">
+          <div class="min-w-0">
+            <div class="text-base md:text-lg font-black text-white truncate">마시멜로 팀웍 챌린지</div>
+            <div class="text-xs text-slate-300 truncate">게임안내 + 카운트다운 스톱워치</div>
+          </div>
+        </div>
+        <div class="flex items-center gap-2 shrink-0">
+          <span id="marsh-page-badge" class="text-sm font-bold text-slate-100 mr-1">1 / 3</span>
+          <button onclick="marshPrevPage()" class="p-2 bg-slate-800/90 hover:bg-slate-700 rounded-lg text-xs text-slate-300 transition">이전</button>
+          <button onclick="marshNextPage()" class="p-2 bg-slate-800/90 hover:bg-slate-700 rounded-lg text-xs text-slate-300 transition">다음</button>
+          <button onclick="closeNewGamePopup('marshGame')" class="w-8 h-8 rounded-full bg-slate-800/90 hover:bg-slate-700 text-slate-200 text-lg flex items-center justify-center transition" title="닫기">×</button>
+        </div>
+      </div>
+      <div class="relative flex-1 overflow-y-auto">
+        <!-- PAGE 1: 준비물 -->
+        <div id="marsh-page-1" class="min-h-full flex flex-col justify-center" style="background:rgba(5,7,11,0.93);padding:clamp(.8rem,2.4vh,2rem) clamp(1rem,2.4vw,2.5rem);gap:clamp(.8rem,2.6vh,2rem)">
+          <div class="text-center font-black leading-tight" style="font-size:clamp(1.9rem,min(5.6vw,8.6vh),5.4rem);letter-spacing:-0.03em;background:linear-gradient(90deg,#fff 0%,#fde68a 45%,#fb923c 100%);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;filter:drop-shadow(0 4px 18px rgba(251,146,60,.45))">마시멜로를 가장 높이 올려라</div>
+          <h2 class="font-black text-white leading-tight" style="font-size:clamp(1.3rem,min(3.2vw,5vh),3rem);letter-spacing:-0.02em">[조별 ACTIVITY] 마시멜로 챌린지 준비물</h2>
+          <div class="grid grid-cols-5 w-full" style="gap:clamp(.3rem,.6vw,.6rem)">
+            <div class="flex flex-col min-w-0" style="background:#111318;border-top:4px solid #9ca3af;padding:clamp(.6rem,2vh,1.4rem) clamp(.5rem,1.2vw,1.2rem);gap:clamp(.4rem,1.6vh,1.2rem)">
+              <div class="font-black text-white" style="font-size:clamp(.95rem,min(1.9vw,3.4vh),2.1rem);line-height:1.25;min-height:2.5em">스파게티 면 20개</div>
+              <div class="flex-1 flex items-center justify-center"><img src="assets/9aff4b5babedbbebfd2f29533a9c39ea.jpg" alt="" style="max-width:100%;max-height:min(30vh,320px);object-fit:contain"></div>
+            </div>
+            <div class="flex flex-col min-w-0" style="background:#111318;border-top:4px solid #9ca3af;padding:clamp(.6rem,2vh,1.4rem) clamp(.5rem,1.2vw,1.2rem);gap:clamp(.4rem,1.6vh,1.2rem)">
+              <div class="font-black text-white" style="font-size:clamp(.95rem,min(1.9vw,3.4vh),2.1rem);line-height:1.25;min-height:2.5em">테이프<br>1미터</div>
+              <div class="flex-1 flex items-center justify-center"><img src="assets/d1888f7a3611dc03c5c0ce718492fbbe.jpg" alt="" style="max-width:100%;max-height:min(30vh,320px);object-fit:contain"></div>
+            </div>
+            <div class="flex flex-col min-w-0" style="background:#111318;border-top:4px solid #9ca3af;padding:clamp(.6rem,2vh,1.4rem) clamp(.5rem,1.2vw,1.2rem);gap:clamp(.4rem,1.6vh,1.2rem)">
+              <div class="font-black text-white" style="font-size:clamp(.95rem,min(1.9vw,3.4vh),2.1rem);line-height:1.25;min-height:2.5em">실<br>1미터</div>
+              <div class="flex-1 flex items-center justify-center"><img src="assets/c338945a65b9435c5a1b7d127bfc39a3.jpg" alt="" style="max-width:100%;max-height:min(30vh,320px);object-fit:contain"></div>
+            </div>
+            <div class="flex flex-col min-w-0" style="background:#111318;border-top:4px solid #9ca3af;padding:clamp(.6rem,2vh,1.4rem) clamp(.5rem,1.2vw,1.2rem);gap:clamp(.4rem,1.6vh,1.2rem)">
+              <div class="font-black text-white" style="font-size:clamp(.95rem,min(1.9vw,3.4vh),2.1rem);line-height:1.25;min-height:2.5em">마쉬멜로우 1개</div>
+              <div class="flex-1 flex items-center justify-center"><img src="assets/f9d1ba59ca04f65b27cb4cfd274a44ff.jpg" alt="" style="max-width:100%;max-height:min(30vh,320px);object-fit:contain"></div>
+            </div>
+            <div class="flex flex-col min-w-0" style="background:#111318;border-top:4px solid #9ca3af;padding:clamp(.6rem,2vh,1.4rem) clamp(.5rem,1.2vw,1.2rem);gap:clamp(.4rem,1.6vh,1.2rem)">
+              <div class="font-black text-white" style="font-size:clamp(.95rem,min(1.9vw,3.4vh),2.1rem);line-height:1.25;min-height:2.5em">가위<br>1개</div>
+              <div class="flex-1 flex items-center justify-center"><img src="assets/e5d94132d48e80777191370272b0a53a.jpg" alt="" style="max-width:100%;max-height:min(30vh,320px);object-fit:contain"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- PAGE 2: 챌린지 + 게임 규칙 -->
+        <div id="marsh-page-2" class="hidden min-h-full flex flex-col justify-center" style="background:rgba(5,7,11,0.93);padding:clamp(.8rem,2.4vh,2rem) clamp(1rem,2.4vw,2.5rem);gap:clamp(.8rem,2.6vh,2rem)">
+          <div class="text-center font-black leading-tight" style="font-size:clamp(1.9rem,min(5.6vw,8.6vh),5.4rem);letter-spacing:-0.03em;background:linear-gradient(90deg,#fff 0%,#fde68a 45%,#fb923c 100%);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;filter:drop-shadow(0 4px 18px rgba(251,146,60,.45))">마시멜로를 가장 높이 올려라</div>
+          <div style="background:linear-gradient(90deg,#b00000 0%,#e00000 55%,#ff3b30 100%);padding:clamp(.8rem,2.4vh,1.8rem) clamp(1rem,2vw,2rem)">
+            <div class="font-black text-white/85" style="font-size:clamp(.8rem,min(1.4vw,2.4vh),1.3rem);letter-spacing:.3em">챌 린 지</div>
+            <div class="font-black text-white" style="font-size:clamp(1.15rem,min(2.7vw,4.4vh),2.7rem);margin-top:clamp(.3rem,1.2vh,.9rem);line-height:1.3">제한된 자원(스파게티 면, 테이프, 실, 마쉬멜로우)을 활용해 구조물을 완성하라!</div>
+          </div>
+          <div style="background:#111318;border-left:5px solid #e60000;padding:clamp(.8rem,2.4vh,1.8rem) clamp(1rem,2vw,2rem)">
+            <div class="font-black" style="color:#ff2a1f;font-size:clamp(.8rem,min(1.4vw,2.4vh),1.3rem);letter-spacing:.3em;margin-bottom:clamp(.5rem,1.8vh,1.2rem)">게 임  규 칙</div>
+            <ul class="flex flex-col font-extrabold text-white" style="gap:clamp(.4rem,1.7vh,1.2rem);font-size:clamp(.95rem,min(2vw,3.5vh),2.1rem);line-height:1.35">
+              <li class="flex gap-3"><span class="shrink-0">1.</span><span>모든 구조물은 스파게티 면, 테이프, 실만으로 지탱되어야 하며, 마쉬멜로우는 구조물의 최상단에 위치해야 함.</span></li>
+              <li class="flex gap-3"><span class="shrink-0">2.</span><span>마쉬멜로우는 온전한 상태여야 한다. 어떤 부분도 자르거나 먹을 수 없음.</span></li>
+              <li class="flex gap-3"><span class="shrink-0">3.</span><span>외부 자원은 사용할 수 없으며(검색, 전화 안됨), 주어진 시간 안에 작업을 완료해야 함.</span></li>
+              <li class="flex gap-3"><span class="shrink-0">4.</span><span>천장이나 머리 위 구조물에 물건을 매달거나, 매달아서는 안됨.</span></li>
+              <li class="flex gap-3"><span class="shrink-0">5.</span><span>구조물이 무너지지 않고 10초 간 자립할 수 있어야 함.</span></li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- PAGE 3: 카운트다운 타이머 — left 1차 라운드 (green) / right 최종 라운드 (red) -->
+        <div id="marsh-page-3" class="hidden min-h-full grid grid-cols-2">
+          <div class="flex flex-col items-center justify-center min-w-0" style="background:linear-gradient(160deg,#047857 0%,#059669 55%,#10b981 100%);gap:clamp(.8rem,3.2vh,2.4rem);padding:clamp(1rem,3vh,2.5rem) 1rem">
+            <span class="inline-flex rounded-full font-black text-white" style="background:rgba(0,0,0,.28);border:2px solid rgba(255,255,255,.55);padding:.3em 1.4em;font-size:clamp(1.1rem,min(2.6vw,4.4vh),2.6rem);letter-spacing:.04em;box-shadow:0 8px 24px rgba(0,0,0,.3)">1차 라운드</span>
+            <div id="marsh-timer-1" class="font-black text-white tabular-nums leading-none" style="font-size:clamp(3.5rem,min(11vw,24vh),11rem);text-shadow:0 6px 28px rgba(0,0,0,.35)">05:00</div>
+            <div class="flex items-center" style="gap:clamp(.6rem,1.6vw,1.4rem)">
+              <button id="marsh-timer-btn-1" onclick="marshTimerToggle(1)" class="rounded-full font-black text-white transition active:scale-95" style="background:rgba(0,0,0,.35);border:2px solid rgba(255,255,255,.7);padding:.5em 1.8em;font-size:clamp(1rem,min(1.9vw,3.4vh),2rem)">시작</button>
+              <button onclick="marshTimerReset(1)" class="rounded-full font-black text-white transition active:scale-95" style="background:rgba(255,255,255,.14);border:2px solid rgba(255,255,255,.45);padding:.5em 1.8em;font-size:clamp(1rem,min(1.9vw,3.4vh),2rem)">리셋</button>
+            </div>
+          </div>
+          <div class="flex flex-col items-center justify-center min-w-0" style="background:linear-gradient(160deg,#991b1b 0%,#dc2626 55%,#ef4444 100%);gap:clamp(.8rem,3.2vh,2.4rem);padding:clamp(1rem,3vh,2.5rem) 1rem">
+            <span class="inline-flex rounded-full font-black text-white" style="background:rgba(0,0,0,.28);border:2px solid rgba(255,255,255,.55);padding:.3em 1.4em;font-size:clamp(1.1rem,min(2.6vw,4.4vh),2.6rem);letter-spacing:.04em;box-shadow:0 8px 24px rgba(0,0,0,.3)">최종 라운드</span>
+            <div id="marsh-timer-2" class="font-black text-white tabular-nums leading-none" style="font-size:clamp(3.5rem,min(11vw,24vh),11rem);text-shadow:0 6px 28px rgba(0,0,0,.35)">05:00</div>
+            <div class="flex items-center" style="gap:clamp(.6rem,1.6vw,1.4rem)">
+              <button id="marsh-timer-btn-2" onclick="marshTimerToggle(2)" class="rounded-full font-black text-white transition active:scale-95" style="background:rgba(0,0,0,.35);border:2px solid rgba(255,255,255,.7);padding:.5em 1.8em;font-size:clamp(1rem,min(1.9vw,3.4vh),2rem)">시작</button>
+              <button onclick="marshTimerReset(2)" class="rounded-full font-black text-white transition active:scale-95" style="background:rgba(255,255,255,.14);border:2px solid rgba(255,255,255,.45);padding:.5em 1.8em;font-size:clamp(1rem,min(1.9vw,3.4vh),2rem)">리셋</button>
+            </div>
           </div>
         </div>
       </div>
@@ -939,7 +1337,7 @@
 
   <!-- Quote Game Popup: 그건 거기 대사! 내가 젤 잘한다. (15-question movie-quote guessing game) -->
   <div id="quote-game-popup" class="hidden fixed inset-0 z-[998] flex items-center justify-center bg-slate-950/85 p-4">
-    <div id="quote-popup-box" class="relative w-full max-w-3xl bg-slate-900 border border-slate-800 rounded-3xl shadow-2xl max-h-[92vh] overflow-y-auto" style="transition:max-width .2s">
+    <div id="quote-popup-box" class="relative w-full max-w-3xl bg-slate-900 border border-slate-800 rounded-3xl shadow-2xl max-h-[92vh] overflow-y-auto" style="transition:max-width .2s;background:radial-gradient(ellipse 55% 30% at 50% 24%,rgba(2,6,23,.55),rgba(2,6,23,0)),linear-gradient(to bottom,rgba(2,6,23,.58) 0%,rgba(2,6,23,.78) 45%,rgba(2,6,23,.92) 100%),url('assets/2824135c63ca526a425544668eb3a279.jpg') center/cover no-repeat,#0f172a">
       <!-- Always-visible top bar: close (X) button on the right at all times; the
            back/prev/next controls only appear once a problem is selected. -->
       <div id="quote-problem-header" class="w-full flex justify-between items-center bg-slate-950/80 border-b border-slate-800 px-4 py-3 rounded-t-3xl">
@@ -1039,7 +1437,7 @@
           하나된 마음으로 <span class="text-red-500 animate-pulse">원팀</span> 워밍업 Challenge
         </h1>
         <p class="text-white text-xs md:text-base font-medium leading-snug whitespace-nowrap">
-          카드를 선택하면 바로 해당 게임으로 이동합니다. 13가지 게임 중 하나를 골라보세요!
+          카드를 선택하면 바로 해당 게임으로 이동합니다. 16가지 게임 중 하나를 골라보세요!
         </p>
       </div>
 
@@ -1058,7 +1456,7 @@
         </div>
       </div>
 
-      <!-- 13 Game Cards Grid (4 per row) -->
+      <!-- 16 Game Cards Grid (4 per row) -->
       <div class="grid grid-cols-4 gap-2 md:gap-3 w-full max-w-3xl mx-auto mt-6">
 
         <!-- CARD 1: 마게마게 얼마게? -->
@@ -1068,7 +1466,6 @@
           <div class="hub-card-content">
             <span class="hub-card-tag text-emerald-300 border-emerald-400/30 bg-emerald-500/10">GAME 01</span>
             <h3 class="hub-card-title">마게마게<br>얼마게?</h3>
-            <p class="hub-card-desc">겹쳐진 지폐·동전을 2초간 보고 총액 맞히기</p>
           </div>
         </div>
 
@@ -1079,7 +1476,6 @@
           <div class="hub-card-content">
             <span class="hub-card-tag text-violet-300 border-violet-400/30 bg-violet-500/10">GAME 02</span>
             <h3 class="hub-card-title">뭐야뭐야<br>이게뭐야?</h3>
-            <p class="hub-card-desc">반투명하게 겹친 이미지들을 보고 정체 맞히기</p>
           </div>
         </div>
 
@@ -1090,7 +1486,6 @@
           <div class="hub-card-content">
             <span class="hub-card-tag text-rose-300 border-rose-400/30 bg-rose-500/10">GAME 03</span>
             <h3 class="hub-card-title">맞다맞다<br>본거다!</h3>
-            <p class="hub-card-desc">가려진 포스터 조각을 지워가며 제목 맞히기</p>
           </div>
         </div>
 
@@ -1101,7 +1496,6 @@
           <div class="hub-card-content">
             <span class="hub-card-tag text-teal-300 border-teal-400/30 bg-teal-500/10">GAME 04</span>
             <h3 class="hub-card-title">그거맛<br>본거다!</h3>
-            <p class="hub-card-desc">조각을 하나씩 가려가며 원본 이미지 맞히기</p>
           </div>
         </div>
 
@@ -1112,7 +1506,6 @@
           <div class="hub-card-content">
             <span class="hub-card-tag text-amber-300 border-amber-400/30 bg-amber-500/10">GAME 05</span>
             <h3 class="hub-card-title">이게이게<br>틀렸어!</h3>
-            <p class="hub-card-desc">60초 안에 두 그림의 다른 부분 찾기</p>
           </div>
         </div>
 
@@ -1123,7 +1516,6 @@
           <div class="hub-card-content">
             <span class="hub-card-tag text-sky-300 border-sky-400/30 bg-sky-500/10">GAME 06</span>
             <h3 class="hub-card-title">리듬맞춰<br>또박또박!</h3>
-            <p class="hub-card-desc">들려주는 리듬에 맞춰 단어·그림을 꼬임없이 말하기</p>
           </div>
         </div>
 
@@ -1134,7 +1526,6 @@
           <div class="hub-card-content">
             <span class="hub-card-tag text-pink-300 border-pink-400/30 bg-pink-500/10">GAME 07</span>
             <h3 class="hub-card-title">이게누구<br>누구지?</h3>
-            <p class="hub-card-desc">보여지는 인물 이름을 망설임 없이 말하기</p>
           </div>
         </div>
 
@@ -1145,7 +1536,6 @@
           <div class="hub-card-content">
             <span class="hub-card-tag text-lime-300 border-lime-400/30 bg-lime-500/10">GAME 08</span>
             <h3 class="hub-card-title">땡땡땡땡<br>네글자!</h3>
-            <p class="hub-card-desc">보여주는 첫 두글자 보고 네글자 완성하기</p>
           </div>
         </div>
 
@@ -1154,6 +1544,7 @@
           <div class="hub-bg" style="background-image: url('assets/3d6f99c49ccdd3991e27453299a1df0d.jpg')"></div>
           <div class="hub-overlay"></div>
           <div class="hub-card-content">
+            <span class="hub-card-tag text-cyan-300 border-cyan-400/30 bg-cyan-500/10">GAME 09</span>
             <h3 class="hub-card-title">막힘없이<br>줄줄이 말해요</h3>
           </div>
         </div>
@@ -1166,6 +1557,7 @@
             <span class="offline-badge-dot"></span>오프라인
           </span>
           <div class="hub-card-content">
+            <span class="hub-card-tag text-yellow-300 border-yellow-400/30 bg-yellow-500/10">GAME 10</span>
             <h3 class="hub-card-title">바퀴벌레<br>Race</h3>
           </div>
         </div>
@@ -1178,6 +1570,7 @@
             <span class="offline-badge-dot"></span>오프라인
           </span>
           <div class="hub-card-content">
+            <span class="hub-card-tag text-fuchsia-300 border-fuchsia-400/30 bg-fuchsia-500/10">GAME 11</span>
             <h3 class="hub-card-title">지맘대로 통통<br>탁구공 빙고</h3>
           </div>
         </div>
@@ -1190,6 +1583,7 @@
             <span class="offline-badge-dot"></span>오프라인
           </span>
           <div class="hub-card-content">
+            <span class="hub-card-tag text-indigo-300 border-indigo-400/30 bg-indigo-500/10">GAME 12</span>
             <h3 class="hub-card-title">지멋대로 이리저리<br>물병에 빨대꽂기</h3>
           </div>
         </div>
@@ -1199,19 +1593,48 @@
           <div id="hub-card-13-bg" class="hub-bg"></div>
           <div class="hub-overlay"></div>
           <div class="hub-card-content">
+            <span class="hub-card-tag text-red-300 border-red-400/30 bg-red-500/10">GAME 13</span>
             <h3 class="hub-card-title">그건 거기 대사!<br>내가 젤 잘한다.</h3>
+          </div>
+        </div>
+
+        <!-- CARD 14: 초성퀴즈 - 니가비슷내가비슷 (5-problem chosung movie-title + quote quiz) -->
+        <div id="hub-card-14" onclick="openNewGamePopup('chosungGame')" class="game-hub-card aspect-[4/3]">
+          <div class="hub-bg" style="background-image: url('assets/d739fec9c0f62271349afb87a9f6d810.jpg');"></div>
+          <div class="hub-overlay"></div>
+          <div class="hub-card-content">
+            <span class="hub-card-tag text-orange-300 border-orange-400/30 bg-orange-500/10">GAME 14</span>
+            <h3 class="hub-card-title">초성퀴즈<br>니가비슷내가비슷</h3>
+          </div>
+        </div>
+
+        <!-- CARD 15: 각양각색 순발력 컵쌓기 -->
+        <div id="hub-card-15" onclick="openNewGamePopup('cupGame')" class="game-hub-card aspect-[4/3]">
+          <div class="hub-bg" style="background-image: url('assets/d89150c893b73c51df9a979b9aad6e26.jpg');"></div>
+          <div class="hub-overlay"></div>
+          <span class="hub-card-tag offline-badge offline-badge-top offline-badge-lg text-slate-200 border-slate-400/40 bg-slate-900/70">
+            <span class="offline-badge-dot"></span>오프라인
+          </span>
+          <div class="hub-card-content">
+            <span class="hub-card-tag text-purple-300 border-purple-400/30 bg-purple-500/10">GAME 15</span>
+            <h3 class="hub-card-title">각양각색<br>순발력 컵쌓기</h3>
+          </div>
+        </div>
+
+        <!-- CARD 16: 마시멜로 팀웍 챌린지 -->
+        <div id="hub-card-16" onclick="openNewGamePopup('marshGame')" class="game-hub-card aspect-[4/3]">
+          <div class="hub-bg" style="background-image: url('assets/210cea29af92cbf349a73ff5506841d5.jpg');"></div>
+          <div class="hub-overlay"></div>
+          <span class="hub-card-tag offline-badge offline-badge-top offline-badge-lg text-slate-200 border-slate-400/40 bg-slate-900/70">
+            <span class="offline-badge-dot"></span>오프라인
+          </span>
+          <div class="hub-card-content">
+            <span class="hub-card-tag text-green-300 border-green-400/30 bg-green-500/10">GAME 16</span>
+            <h3 class="hub-card-title">마시멜로<br>팀웍 챌린지</h3>
           </div>
         </div>
       </div>
 
-      <!-- Lightning Buzzer Button -->
-      <button onclick="openBuzzerPopup()" class="group relative flex items-center gap-2.5 bg-gradient-to-r from-rose-600 via-red-500 to-amber-500 hover:brightness-110 rounded-full pl-2.5 pr-5 py-2 shadow-lg shadow-rose-500/30 ring-1 ring-white/10 transition active:scale-95 mt-3">
-        <span class="absolute inset-0 rounded-full bg-rose-500/40 blur-md opacity-0 group-hover:opacity-70 transition"></span>
-        <span class="relative flex items-center justify-center w-7 h-7 rounded-full bg-white/20 backdrop-blur-sm">
-          <svg class="w-4 h-4 text-white drop-shadow" viewBox="0 0 24 24" fill="currentColor"><path d="M13 2 3 14h7l-1 8 11-14h-7l1-6z"/></svg>
-        </span>
-        <span class="relative text-sm font-black uppercase tracking-widest text-white">번개 부저</span>
-      </button>
 
       <div class="absolute top-6 right-6 md:top-8 md:right-8 z-20 flex items-center gap-2">
         <button onclick="toggleScoreboard(true)" class="px-5 py-2.5 bg-slate-900 hover:bg-slate-800 border border-slate-800 text-slate-300 font-bold rounded-xl active:scale-95 transition flex items-center justify-center gap-2 text-sm">
@@ -1591,11 +2014,11 @@
            게임 허브로
         </button>
       </div>
-      <div class="w-full bg-slate-950/95 rounded-3xl p-6 md:p-8 flex flex-col items-center gap-8">
+      <div class="w-full rounded-3xl p-6 md:p-8 flex flex-col items-center gap-8" style="background:linear-gradient(to bottom,rgba(2,6,23,.45) 0%,rgba(2,6,23,.68) 50%,rgba(2,6,23,.86) 100%),url('assets/f632b2e56128e1f4c19f78eaba4665ad.jpg') center/cover no-repeat,#020617">
       <div class="text-center">
         <span class="text-xs font-bold uppercase tracking-wider text-rose-400 px-3 py-1 bg-rose-500/10 border border-rose-500/20 rounded-full">Game 03</span>
         <h2 class="text-3xl font-extrabold text-slate-100 mt-3 mb-1">맞다맞다 그거지?</h2>
-        <p class="text-slate-400">가려진 포스터를 클릭해서 조각을 하나씩 지워가며 정답을 맞혀보세요!</p>
+        <p class="text-slate-200" style="text-shadow:0 1px 8px rgba(0,0,0,.8)">가려진 포스터를 클릭해서 조각을 하나씩 지워가며 정답을 맞혀보세요!</p>
       </div>
 
       <div class="grid sm:grid-cols-2 md:grid-cols-4 gap-4 w-full">
@@ -2697,6 +3120,7 @@
         soundBtn.classList.replace('text-slate-300', 'text-slate-500');
         stopBGM();
         stopPopupBGM();
+        missionBgmPause();
       }
     }
 
@@ -3157,7 +3581,10 @@
       { slide: null, accent: '#a855f7', cardId: 'hub-card-10', popupKey: 'race2' },
       { slide: null, accent: '#a855f7', cardId: 'hub-card-11', popupKey: 'pingpong' },
       { slide: null, accent: '#a855f7', cardId: 'hub-card-12', popupKey: 'straw' },
-      { slide: null, accent: '#0ea5e9', cardId: 'hub-card-13', popupKey: 'quoteGame' }
+      { slide: null, accent: '#0ea5e9', cardId: 'hub-card-13', popupKey: 'quoteGame' },
+      { slide: null, accent: '#f97316', cardId: 'hub-card-14', popupKey: 'chosungGame' },
+      { slide: null, accent: '#ec4899', cardId: 'hub-card-15', popupKey: 'cupGame' },
+      { slide: null, accent: '#f59e0b', cardId: 'hub-card-16', popupKey: 'marshGame' }
     ];
     const ROULETTE_REPEATS = 14;
     const ROULETTE_TARGET_SET = 9;
@@ -3549,11 +3976,355 @@
         subtitleEl.classList.add('hidden');
       }
       document.getElementById('offline-game-popup').classList.remove('hidden');
+      if (key === 'race2' || key === 'pingpong' || key === 'straw') { missionBgmRewind(); missionBgmPlay(); }
     }
 
     function closeOfflineGamePopup() {
+      missionBgmStop();
       document.getElementById('offline-game-popup').classList.add('hidden');
     }
+
+    // ---- New game popups: 초성퀴즈 / 컵쌓기 / 마시멜로 (blank shells, content to be added) ----
+    const NEW_GAME_POPUPS = {
+      chosungGame: { popup: 'chosung-game-popup', bg: 'chosung-popup-bg', card: 'hub-card-14' },
+      cupGame:     { popup: 'cup-game-popup',     bg: 'cup-popup-bg',     card: 'hub-card-15' },
+      marshGame:   { popup: 'marsh-game-popup',   bg: 'marsh-popup-bg',   card: 'hub-card-16' }
+    };
+
+    function openNewGamePopup(key) {
+      const d = NEW_GAME_POPUPS[key];
+      if (!d) return;
+      // The popup background reuses the card's photo (no need to embed the image twice).
+      const cardBg = document.querySelector(`#${d.card} .hub-bg`);
+      if (cardBg) document.getElementById(d.bg).style.backgroundImage = getComputedStyle(cardBg).backgroundImage;
+      document.getElementById(d.popup).classList.remove('hidden');
+      if (key === 'chosungGame') { chosungShowGrid(); smartPointerGamePending = true; } // next smart-pointer press opens problem 1
+      if (key === 'cupGame') cupShowPage(1);
+      if (key === 'marshGame') marshShowPage(1);
+    }
+
+    function closeNewGamePopup(key) {
+      if (key === 'cupGame') cupStackStop();
+      if (key === 'marshGame') marshTimerResetAll();
+      missionBgmStop();
+      smartPointerGamePending = false;
+      stopPopupBGM();
+      const d = NEW_GAME_POPUPS[key];
+      if (d) document.getElementById(d.popup).classList.add('hidden');
+    }
+
+    // Returns the key of whichever new-game popup is currently open (or null).
+    function openNewGameKey() {
+      return Object.keys(NEW_GAME_POPUPS).find(k => !document.getElementById(NEW_GAME_POPUPS[k].popup).classList.contains('hidden')) || null;
+    }
+
+    const CHOSUNG_TOTAL = 5;
+    let chosungCurrentProblem = null;
+
+    // ---- 마시멜로 팀웍 챌린지 popup pages: 1 준비물, 2 챌린지 + 게임 규칙, 3 카운트다운 스톱워치 ----
+    let marshPage = 1;
+    const MARSH_PAGES = 3;
+    function marshShowPage(n) {
+      marshPage = Math.max(1, Math.min(MARSH_PAGES, n));
+      for (let i = 1; i <= MARSH_PAGES; i++) document.getElementById(`marsh-page-${i}`).classList.toggle('hidden', marshPage !== i);
+      document.getElementById('marsh-page-badge').textContent = `${marshPage} / ${MARSH_PAGES}`;
+      marshTimerResetAll();
+      if (marshPage === 3) missionBgmPlay(); else missionBgmStop(); // timer page: theme starts as soon as it opens
+    }
+    // ---- page 3: two 5-minute countdown timers (1차 라운드 = 1, 최종 라운드 = 2) ----
+    const MARSH_TIMER_MS = 5 * 60 * 1000;
+    const marshTimers = { 1: { remain: MARSH_TIMER_MS, running: false, t0: 0, raf: 0 }, 2: { remain: MARSH_TIMER_MS, running: false, t0: 0, raf: 0 } };
+    let marshStep = 0; // 0 = idle, 1 = left started, 2 = left stopped, 3 = right started, 4 = right stopped
+    // (music now starts when the timer page opens; kept as a no-op hook)
+    function marshBgmSync() {}
+    function marshTimerRender(i) {
+      const t = marshTimers[i];
+      const left = Math.max(0, t.running ? t.remain - (performance.now() - t.t0) : t.remain);
+      const sec = Math.ceil(left / 1000);
+      const el = document.getElementById(`marsh-timer-${i}`);
+      el.textContent = `${String(Math.floor(sec / 60)).padStart(2, '0')}:${String(sec % 60).padStart(2, '0')}`;
+      el.style.animation = left <= 0 ? 'pulse 1s ease-in-out infinite' : '';
+      document.getElementById(`marsh-timer-btn-${i}`).textContent = t.running ? '멈춤' : '시작';
+      return left;
+    }
+    function marshTimerTick(i) {
+      const t = marshTimers[i];
+      if (!t.running) return;
+      if (marshTimerRender(i) <= 0) { t.running = false; t.remain = 0; marshTimerRender(i); marshBgmSync(); return; }
+      t.raf = requestAnimationFrame(() => marshTimerTick(i));
+    }
+    function marshTimerStart(i) {
+      const t = marshTimers[i];
+      if (t.running) return;
+      if (t.remain <= 0) t.remain = MARSH_TIMER_MS;
+      t.running = true; t.t0 = performance.now();
+      marshTimerTick(i);
+      marshBgmSync();
+    }
+    function marshTimerStop(i) {
+      const t = marshTimers[i];
+      if (!t.running) return;
+      t.remain = Math.max(0, t.remain - (performance.now() - t.t0));
+      t.running = false; cancelAnimationFrame(t.raf);
+      marshTimerRender(i);
+      marshBgmSync();
+    }
+    function marshTimerToggle(i) { marshTimers[i].running ? marshTimerStop(i) : marshTimerStart(i); }
+    function marshTimerReset(i) {
+      const t = marshTimers[i];
+      t.running = false; cancelAnimationFrame(t.raf); t.remain = MARSH_TIMER_MS;
+      marshTimerRender(i);
+      marshBgmSync();
+    }
+    function marshTimerResetAll() { marshTimerReset(1); marshTimerReset(2); marshStep = 0; }
+    function marshPrevPage() { marshShowPage(marshPage - 1); }
+    // One "다음" step: pages 1 -> 2 -> 3, then left start -> left stop -> right start -> right stop. false = finished.
+    function marshAdvance() {
+      if (marshPage < MARSH_PAGES) { marshShowPage(marshPage + 1); return true; }
+      if (marshStep >= 4) return false;
+      marshStep++;
+      if (marshStep === 1) marshTimerStart(1);
+      else if (marshStep === 2) marshTimerStop(1);
+      else if (marshStep === 3) marshTimerStart(2);
+      else marshTimerStop(2);
+      return true;
+    }
+    function marshNextPage() { marshAdvance(); }
+
+    // ---- 컵쌓기 popup pages: 1 안내, 2 연습, 3 1라운드, 4 2라운드, 5 색깔 단어, 6 LEVEL 1~3 ----
+    let cupPage = 1;
+    const CUP_PAGES = 6;
+    // stepped pages: page -> selector of the i-th problem's content (left -> middle -> right)
+    const CUP_STEP_SEL = { 3: i => `#cup-r1-panel-${i} svg`, 4: i => `#cup-r2-panel-${i} svg`, 6: i => `#cup-p6-col-${i} .cup-col-inner` };
+    function cupShowPage(n) {
+      cupPage = Math.max(1, Math.min(CUP_PAGES, n));
+      for (let i = 1; i <= CUP_PAGES; i++) document.getElementById(`cup-page-${i}`).classList.toggle('hidden', cupPage !== i);
+      document.getElementById('cup-page-badge').textContent = `${cupPage} / ${CUP_PAGES}`;
+      cupStackStop();
+      if (cupPage >= 2) missionBgmPlay(); else missionBgmStop();
+      if (cupPage === 2) { cupP2Shown = false; document.querySelectorAll('#cup-stack-svg .cup-layer').forEach(l => l.classList.remove('show')); }
+      if (cupPage === 5) { cupP5Shown = false; document.querySelectorAll('#cup-page-5 .cup-layer').forEach(l => l.classList.remove('show')); }
+      if (cupPage in CUP_STEP_SEL) cupRoundReset(cupPage);
+    }
+    function cupPrevPage() { cupShowPage(cupPage - 1); }
+
+    // One "다음" step. On round pages each step reveals the next problem (left -> middle -> right),
+    // then moves to the next page. Returns false once the last page has been reached.
+    let cupP2Shown = false; // page 2: practice cups appear on the first 다음
+    let cupP5Shown = false; // page 5: words appear on the first 다음
+    function cupAdvance() {
+      if (cupPage === 2 && !cupP2Shown) { cupP2Shown = true; cupStackStart(); return true; }
+      if (cupPage === 5 && !cupP5Shown) { cupP5Shown = true; cupStackStart('#cup-page-5 .cup-layer'); return true; }
+      if (cupPage in CUP_STEP_SEL && cupRoundStep < 3) { cupRoundShow(cupPage, cupRoundStep + 1); return true; }
+      if (cupPage < CUP_PAGES) { cupShowPage(cupPage + 1); return true; }
+      return false;
+    }
+    function cupNextPage() { cupAdvance(); }
+
+    // ---- Round pages: three color-order problems each, bottom -> top ----
+    const CUP_COLORS = { green: '#A0BF5E', purple: '#614B7D', yellow: '#F2D230', orange: '#F68625', blue: '#0052E0', magenta: '#B5127F' };
+    // layer geometry, bottom -> top (same cup shapes as the practice page)
+    const CUP_LAYERS = [
+      { y0: 453, y1: 515, tl: 7, tr: 208 }, { y0: 384, y1: 453, tl: 6, tr: 208 }, { y0: 323, y1: 384, tl: 5, tr: 209 },
+      { y0: 257, y1: 323, tl: 4, tr: 206 }, { y0: 200, y1: 257, tl: 1, tr: 209 }, { y0: 0, y1: 200, tl: 38, tr: 178 }
+    ];
+    const CUP_ROUNDS = [ // [round][problem] bottom -> top
+      [
+        ['green', 'blue', 'orange', 'magenta', 'yellow', 'purple'],
+        ['yellow', 'purple', 'magenta', 'blue', 'green', 'orange'],
+        ['magenta', 'yellow', 'green', 'purple', 'orange', 'blue']
+      ],
+      [
+        ['purple', 'magenta', 'orange', 'blue', 'green', 'yellow'],
+        ['blue', 'magenta', 'purple', 'orange', 'yellow', 'green'],
+        ['yellow', 'blue', 'orange', 'purple', 'green', 'magenta']
+      ]
+    ];
+    let cupRoundStep = 0; // 0 = nothing shown, 1 = left, 2 = middle, 3 = right
+
+    function cupRoundBuild() {
+      CUP_ROUNDS.forEach((problems, r) => problems.forEach((colors, idx) => {
+        const panel = document.getElementById(`cup-r${r + 1}-panel-${idx + 1}`);
+        if (panel.dataset.built) return;
+        const layers = colors.map((c, i) => {
+          const L = CUP_LAYERS[i];
+          return `<g class="cup-layer" data-order="${i}"><polygon points="${L.tl},${L.y0} ${L.tr},${L.y0} 215,${L.y1} 0,${L.y1}" fill="${CUP_COLORS[c]}" stroke="#2c4a6e" stroke-width="1.6" stroke-linejoin="round"/></g>`;
+        }).join('');
+        panel.innerHTML = `<svg viewBox="0 0 215 515" style="height:min(44vh,520px);max-width:100%;overflow:visible;visibility:hidden">${layers}</svg>`;
+        panel.dataset.built = '1';
+      }));
+    }
+
+    function cupRoundReset(page) {
+      cupStackStop();
+      cupRoundBuild();
+      cupRoundStep = 0;
+      for (let i = 1; i <= 3; i++) {
+        const el = document.querySelector(CUP_STEP_SEL[page](i));
+        el.style.visibility = 'hidden';
+        el.querySelectorAll('.cup-layer').forEach(l => l.classList.remove('show'));
+      }
+    }
+
+    function cupRoundShow(page, step) {
+      cupStackStop();
+      cupRoundBuild();
+      cupRoundStep = step;
+      // only the current problem is visible: hide the others, then pile the current one up
+      for (let i = 1; i <= 3; i++) {
+        const el = document.querySelector(CUP_STEP_SEL[page](i));
+        el.style.visibility = i === step ? 'visible' : 'hidden';
+        el.querySelectorAll('.cup-layer').forEach(l => l.classList.remove('show'));
+      }
+      document.querySelectorAll(`${CUP_STEP_SEL[page](step)} .cup-layer`).forEach(l => {
+        const order = parseInt(l.dataset.order, 10);
+        cupStackTimers.push(setTimeout(() => l.classList.add('show'), 150 + order * 190));
+      });
+    }
+
+    // Practice animation: the 6 cups pile up from the bottom to the top in quick succession (plays once each time page 2 is shown).
+    let cupStackTimers = [];
+    function cupStackStop() {
+      cupStackTimers.forEach(clearTimeout);
+      cupStackTimers = [];
+    }
+    function cupStackStart(sel = '#cup-stack-svg .cup-layer') {
+      cupStackStop();
+      const layers = [...document.querySelectorAll(sel)];
+      const STEP = 190;      // ms between cups (fast)
+      const run = () => {
+        layers.forEach(l => l.classList.remove('show'));
+        layers.forEach(l => {
+          const order = parseInt(l.dataset.order, 10);
+          cupStackTimers.push(setTimeout(() => l.classList.add('show'), 350 + order * STEP));
+        });
+      };
+      run();
+    }
+
+    function chosungShowGrid() {
+      stopPopupBGM();
+      missionBgmStop();
+      chosungCurrentProblem = null;
+      chosungStage = 0;
+      document.getElementById('chosung-poster-bg').style.opacity = '0';
+      document.getElementById('chosung-shade').style.background = 'linear-gradient(to bottom, rgba(2,6,23,0.62) 0%, rgba(2,6,23,0.84) 40%, rgba(2,6,23,0.95) 100%)';
+      document.getElementById('chosung-view-grid').classList.remove('hidden');
+      document.getElementById('chosung-view-problem').classList.add('hidden');
+      document.getElementById('chosung-header-back').classList.add('hidden');
+      document.getElementById('chosung-header-nav').classList.add('hidden');
+    }
+
+    function chosungBackToGrid() { chosungShowGrid(); }
+
+    const chosungData = {
+      1: { chosung: 'ㄱ ㅅ ㅊ', title: '기생충', quotes: ['아들아 너는 다 계획이 있구나'] },
+      2: { chosung: 'ㅌ ㅉ', title: '타짜', quotes: ['묻고 더블로 가', '나 이대 나온 여자야'] },
+      3: { chosung: 'ㄱ ㅎ ㅈ ㅇ', title: '극한직업', quotes: ['지금까지 이런맛은 없었다! 이것은 갈비인가 통닭인가?'] },
+      4: { chosung: 'ㅂ ㅈ ㄷ ㅅ', title: '범죄도시', quotes: ['너 내가 누군지 아니', '혼자니', '어 싱글이야'] },
+      5: { chosung: 'ㅂ ㅈ ㅇ ㅇ ㅈ ㅈ', title: '범죄와의 전쟁', quotes: ['내가 인마 느그 서장이랑 인마 어저깨도 으!'] }
+    };
+    const CHOSUNG_POSTERS = {
+      1: 'assets/511dd4f48f64e32ee61271e757e6895e.jpg',
+      2: 'assets/ddaadfd315bab5d8505f626af03c69a5.jpg',
+      3: 'assets/a2b919953b6e1b60428df2c51cbe6872.jpg',
+      4: 'assets/8aa2aa99b8896724b342ca40309d7b6d.jpg',
+      5: 'assets/41f24ecd653d2e4dd3496e3824140877.jpg',
+    };
+    let chosungStage = 0; // -1 = waiting (next problem selected, chosung not shown yet), 0 = chosung only, 1 = title revealed, 2 = quote(s) revealed
+
+    function chosungRender() {
+      const d = chosungData[chosungCurrentProblem];
+      if (!d) return;
+      const waiting = chosungStage < 0;
+      const waitEl = document.getElementById('chosung-wait');
+      waitEl.textContent = `문제 ${chosungCurrentProblem}`;
+      waitEl.classList.toggle('hidden', !waiting);
+      document.getElementById('chosung-label').classList.toggle('hidden', waiting);
+      const lettersEl = document.getElementById('chosung-letters');
+      lettersEl.classList.toggle('hidden', waiting);
+      const chars = [...d.chosung.replace(/\s+/g, '')];
+      // 6+ letters get smaller tiles so they always fit on one row
+      const tileW = chars.length >= 6 ? 'clamp(2.8rem,min(10.5vw,12vh),8rem)' : 'clamp(3.4rem,min(13.5vw,14vh),10rem)';
+      const tileF = chars.length >= 6 ? 'clamp(1.7rem,min(6.6vw,7vh),5rem)' : 'clamp(2.2rem,min(8.6vw,9vh),6.4rem)';
+      lettersEl.innerHTML = chars.map(ch =>
+        `<div class="flex items-center justify-center font-black text-white rounded-2xl shadow-xl" style="width:${tileW};aspect-ratio:1/1;font-size:${tileF};background:linear-gradient(160deg,#f59e0b,#c2410c);border:2px solid rgba(255,255,255,.25);text-shadow:0 2px 8px rgba(0,0,0,.4)">${ch}</div>`
+      ).join('');
+      const titleEl = document.getElementById('chosung-title');
+      titleEl.textContent = d.title;
+      titleEl.classList.toggle('hidden', chosungStage < 1);
+      // movie poster as the background once the answer is revealed (stage >= 1)
+      const posterEl = document.getElementById('chosung-poster-bg');
+      const shadeEl = document.getElementById('chosung-shade');
+      const showPoster = chosungStage >= 1 && CHOSUNG_POSTERS[chosungCurrentProblem];
+      if (showPoster) posterEl.style.backgroundImage = `url("${CHOSUNG_POSTERS[chosungCurrentProblem]}")`;
+      posterEl.style.opacity = showPoster ? '1' : '0';
+      shadeEl.style.background = showPoster
+        ? 'linear-gradient(to bottom, rgba(2,6,23,0.35) 0%, rgba(2,6,23,0.5) 45%, rgba(2,6,23,0.8) 100%)'
+        : 'linear-gradient(to bottom, rgba(2,6,23,0.62) 0%, rgba(2,6,23,0.84) 40%, rgba(2,6,23,0.95) 100%)';
+      const quotesEl = document.getElementById('chosung-quotes');
+      quotesEl.innerHTML = d.quotes.map(q =>
+        `<div class="px-5 py-1.5 rounded-2xl font-bold text-amber-100" style="font-size:clamp(1.05rem,${d.quotes.length >= 3 ? 'min(3.4vw,3vh)' : 'min(3.8vw,3.8vh)'},3rem);background:rgba(2,6,23,.65);border:1px solid rgba(251,191,36,.35)">“${q}”</div>`
+      ).join('');
+      quotesEl.classList.toggle('hidden', chosungStage < 2);
+      const btn = document.getElementById('chosung-step-btn');
+      btn.textContent = chosungStage < 0 ? '문제 공개' : chosungStage === 0 ? '정답 공개' : chosungStage === 1 ? '명대사 보기' : (chosungCurrentProblem < CHOSUNG_TOTAL ? '다음 문제' : '완료');
+    }
+
+    // waiting = true: the problem is selected but its chosung stays hidden until the next "다음"
+    function chosungSelectProblem(n, waiting = false) {
+      smartPointerGamePending = false;
+      chosungCurrentProblem = n;
+      chosungStage = waiting ? -1 : 0;
+      document.getElementById('chosung-view-grid').classList.add('hidden');
+      document.getElementById('chosung-view-problem').classList.remove('hidden');
+      document.getElementById('chosung-header-back').classList.remove('hidden');
+      document.getElementById('chosung-header-nav').classList.remove('hidden');
+      document.getElementById('chosung-header-badge').textContent = `문제 ${n}`;
+      chosungRender();
+      if (!waiting && soundEnabled) playChimeSound();
+      missionBgmPlay();
+    }
+
+    // One "다음" step: chosung -> title -> quote(s) -> next problem (or close after the last one).
+    function chosungAdvance() {
+      if (chosungCurrentProblem == null) return;
+      if (chosungStage < 0) {
+        chosungStage = 0;
+        chosungRender();
+        const l = document.getElementById('chosung-letters');
+        l.classList.remove('animate-joker-reveal'); void l.offsetWidth; l.classList.add('animate-joker-reveal');
+        if (soundEnabled) playChimeSound();
+      } else if (chosungStage === 0) {
+        chosungStage = 1;
+        chosungRender();
+        const t = document.getElementById('chosung-title');
+        t.classList.remove('animate-joker-reveal'); void t.offsetWidth; t.classList.add('animate-joker-reveal');
+        if (soundEnabled) playChimeSound();
+      } else if (chosungStage === 1) {
+        chosungStage = 2;
+        chosungRender();
+        const q = document.getElementById('chosung-quotes');
+        q.classList.remove('animate-joker-reveal'); void q.offsetWidth; q.classList.add('animate-joker-reveal');
+        if (soundEnabled) playCoinSound();
+      } else if (chosungCurrentProblem < CHOSUNG_TOTAL) {
+        chosungNextProblem();
+      } else {
+        closeNewGamePopup('chosungGame');
+        introSmartPointerStage = 1;
+      }
+    }
+
+    function chosungPrevProblem() {
+      if (chosungCurrentProblem != null && chosungCurrentProblem > 1) chosungSelectProblem(chosungCurrentProblem - 1);
+    }
+
+    function chosungNextProblem() {
+      if (chosungCurrentProblem == null) return;
+      if (chosungCurrentProblem < CHOSUNG_TOTAL) chosungSelectProblem(chosungCurrentProblem + 1, true);
+      else chosungBackToGrid();
+    }
+
 
     // ---- Joker Game: 막힘없이 줄줄이 말해요 (8-problem lightning name-chain game) ----
     const jokerGameData = {
@@ -3576,6 +4347,7 @@
     function openJokerGamePopup() {
       document.getElementById('joker-game-popup').classList.remove('hidden');
       jokerShowGrid();
+      smartPointerGamePending = true; // next smart-pointer press opens problem 1
     }
 
     function closeJokerGamePopup() {
@@ -3608,6 +4380,7 @@
     }
 
     function jokerSelectProblem(n) {
+      smartPointerGamePending = false;
       jokerCurrentProblem = n;
       document.getElementById('joker-view-grid').classList.add('hidden');
       document.getElementById('joker-view-play').classList.add('hidden');
@@ -3823,6 +4596,7 @@
     function openQuoteGamePopup() {
       document.getElementById('quote-game-popup').classList.remove('hidden');
       quoteShowGrid();
+      smartPointerGamePending = true; // next smart-pointer press opens problem 1
     }
 
     function closeQuoteGamePopup() {
@@ -3890,6 +4664,7 @@
     }
 
     function quoteSelectProblem(n) {
+      smartPointerGamePending = false;
       quoteSetWide(false);
       startPopupBGM();
       quoteStopAudio();
@@ -4076,6 +4851,45 @@
         return;
       }
 
+      // New-game popups (초성퀴즈 / 컵쌓기 / 마시멜로) are blank shells for now: the next press closes them.
+      const newGameKey = openNewGameKey();
+      if (newGameKey === 'chosungGame') {
+        const onGrid = !document.getElementById('chosung-view-grid').classList.contains('hidden');
+        if (onGrid) {
+          if (smartPointerGamePending) {
+            smartPointerGamePending = false;
+            chosungSelectProblem(1);
+          } else {
+            closeNewGamePopup('chosungGame');
+            introSmartPointerStage = 1;
+          }
+        } else {
+          chosungAdvance();
+        }
+        return;
+      }
+      if (newGameKey === 'cupGame') {
+        // pages 1 -> 2 -> 3, then left -> middle -> right problems; after the last one the popup closes
+        if (!cupAdvance()) {
+          closeNewGamePopup('cupGame');
+          introSmartPointerStage = 1;
+        }
+        return;
+      }
+      if (newGameKey === 'marshGame') {
+        // page 1 -> 2 -> 3, then the next press closes the popup
+        if (!marshAdvance()) {
+          closeNewGamePopup('marshGame');
+          introSmartPointerStage = 1;
+        }
+        return;
+      }
+      if (newGameKey) {
+        closeNewGamePopup(newGameKey);
+        introSmartPointerStage = 1;
+        return;
+      }
+
       // If an offline-game popup is open (however it was opened), the next press always closes it.
       const offlinePopup = document.getElementById('offline-game-popup');
       if (offlinePopup && !offlinePopup.classList.contains('hidden')) {
@@ -4123,6 +4937,9 @@
             } else if (rouletteSelected.popupKey === 'quoteGame') {
               openQuoteGamePopup();
               smartPointerGamePending = true;
+            } else if (NEW_GAME_POPUPS[rouletteSelected.popupKey]) {
+              openNewGamePopup(rouletteSelected.popupKey);
+              if (rouletteSelected.popupKey === 'chosungGame') smartPointerGamePending = true;
             } else if (rouletteSelected.popupKey) {
               openOfflineGamePopup(rouletteSelected.popupKey);
             }
@@ -5705,5 +6522,7 @@ const g3RoundsData = {
       });
     }
   </script>
+  <!-- Mission Impossible theme: background music for 바퀴벌레 Race / 초성퀴즈 / 컵쌓기 / 마시멜로 -->
+  <audio id="mission-bgm" loop preload="auto" src="assets/53718dc27ab6354f91d47937bbe8b3ae.mp3"></audio>
 </body>
 </html>

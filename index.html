@@ -1374,6 +1374,12 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
   .mb-body{ display:flex; gap:clamp(14px,2vw,28px); align-items:flex-start; }
   .mb-iceberg{ position:relative; flex:0 0 clamp(190px,25%,300px); border-radius:12px; overflow:hidden; box-shadow:0 8px 24px rgba(0,0,0,0.35); line-height:0; }
   .mb-iceberg img{ width:100%; height:auto; display:block; }
+  .mb-vid-btn{ position:absolute; bottom:12px; left:50%; transform:translateX(-50%); z-index:4; line-height:1.2; font:800 clamp(11px,0.95vw,14px) 'Noto Sans KR',sans-serif; color:#fff; background:transparent; border:1.5px solid #fff; border-radius:999px; padding:4px 14px; cursor:pointer; white-space:nowrap; }
+  .mb-vid-btn:hover{ background:rgba(255,255,255,0.2); }
+  .mb-vid-layer{ position:absolute; inset:0; z-index:5; display:none; background:#000; border-radius:16px; }
+  .mb-vid-layer.show{ display:block; }
+  .mb-vid-layer video{ width:100%; height:100%; border-radius:16px; background:#000; display:block; }
+  .mb-vid-back{ position:absolute; left:14px; top:14px; z-index:6; font:800 14px 'Noto Sans KR',sans-serif; color:#fff; background:rgba(0,0,0,0.65); border:1px solid rgba(255,255,255,0.6); border-radius:10px; padding:6px 14px; cursor:pointer; }
   .mb-ice-l{ position:absolute; left:50%; transform:translateX(-50%); font:900 clamp(22px,2.6vw,38px) 'Noto Sans KR',sans-serif; letter-spacing:.04em; color:#fff; text-shadow:0 2px 10px rgba(0,0,0,.75),0 0 18px rgba(0,0,0,.5); line-height:1; }
   .mb-ice-d{ top:21%; color:#c8102e; text-shadow:0 0 8px #fff,0 0 14px #fff,0 2px 6px rgba(255,255,255,.8); }
   .mb-ice-m{ top:56%; }
@@ -1412,7 +1418,7 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
   .dsc-msg-hl{ color:#ff8f8f; font-weight:900; }
   .dsc-msg-hl2{ color:#ffd43b; font-weight:900; }
   .dsc-card.active{ box-shadow:0 0 0 4px #ffd43b, 0 18px 50px -8px rgba(0,0,0,0.85); }
-  .dsc-card-cap{ position:absolute; left:0; right:0; bottom:0; z-index:2; padding:0 18px 20px; text-align:center; color:#fff; font:900 clamp(17px,1.7vw,28px)/1.25 'Noto Sans KR',sans-serif; text-shadow:0 2px 10px rgba(0,0,0,0.9); }
+  .dsc-card-cap{ position:absolute; left:0; right:0; bottom:0; z-index:2; padding:0 18px 20px; text-align:center; color:#fff; font:900 clamp(17px,1.7vw,28px)/1.25 'Noto Sans KR',sans-serif; text-shadow:0 2px 10px rgba(0,0,0,0.9); word-break:keep-all; }
   .dsc-pop{ position:fixed; inset:0; z-index:12000; display:none; align-items:center; justify-content:center; background:rgba(0,0,0,0.82); backdrop-filter:blur(4px); }
   .dsc-pop.show{ display:flex; }
   .dsc-pop-box{ position:relative; display:flex; flex-direction:column; align-items:center; }
@@ -1670,8 +1676,9 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
   }
   /* 본문: 드라이빙 스타일 사분면 이미지를 크게 */
   #page-driving-style .ds-page{ padding-top:clamp(18px, 3.5vh, 40px); }
-  #page-driving-style .ds-header .pill{ font-size:22px; padding:7px 24px; margin-bottom:12px; }
-  #page-driving-style .ds-header h1{ font-size:clamp(28px, 3.3vw, 48px); white-space:nowrap; }
+  #page-driving-style .ds-header .pill{ font-size:22px; padding:7px 24px; margin-bottom:6px; }
+  #page-driving-style .ds-header h1{ font-size:clamp(28px, 3.3vw, 48px); white-space:nowrap; line-height:1.15; }
+  #page-driving-style .ds-header .ds-mbti-btn{ margin-top:4px; }
   .ds-body{ position:relative; z-index:2; width:100%; flex:1; display:flex; align-items:center; justify-content:center; padding:14px 3vw 22px; box-sizing:border-box; }
   .ds-diagram{
     display:block; width:min(94vw, calc((100vh - 220px) * 2.12)); height:auto; max-width:100%;
@@ -1682,7 +1689,8 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
   .ds-stage .ds-diagram{ width:100%; }
   #page-driving-style .ds-body{ flex-direction:column; gap:12px; }
   #page-driving-style .ds-stage{ width:min(94vw, calc((100vh - 285px) * 2.12)); }
-  .ds-notice{ font-weight:900; font-size:clamp(16px,1.7vw,26px); color:#fff; background:rgba(0,0,0,0.55); border:1px solid rgba(255,255,255,0.25); padding:8px 26px; border-radius:999px; box-shadow:0 8px 24px rgba(0,0,0,0.5); text-align:center; white-space:nowrap; }
+  .ds-notice{ font-weight:900; font-size:clamp(19px,2.05vw,31px); color:#fff; background:rgba(0,0,0,0.55); border:1px solid rgba(255,255,255,0.25); padding:8px 26px; border-radius:999px; box-shadow:0 8px 24px rgba(0,0,0,0.5); text-align:center; white-space:nowrap; position:relative; top:-8px; animation:dsNoticePulse 2s ease-in-out infinite; }
+@keyframes dsNoticePulse{ 0%,100%{ transform:scale(1); } 50%{ transform:scale(1.08); } }
   .ds-notice b{ color:#ffd43b; }
   .ds-cube-layer{ position:absolute; inset:0; pointer-events:none; }
   /* ---- DISC 큐빅(큐브): 4개 사분면에 색깔별 상자. 클릭할 때마다 다음 면으로 회전, 각 면은 서로 다른 내용 ---- */
@@ -2248,6 +2256,7 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
     display:flex; align-items:center; justify-content:center; text-align:center;
     color:var(--gray); font-size:14px; line-height:1.6; padding:18px;
   }
+  #fdExpectStatusText.has-file, #ethicsPptStatusText.has-file{ cursor:pointer; color:#ff7ab8 !important; font-weight:800; text-decoration:underline; }
   .satisfaction-qr-btn-row{ display:flex; justify-content:center; gap:10px; margin-top:18px; flex-wrap:wrap; }
   .satisfaction-qr-btn-row .rv-side-btn{ font-size:14px; }
   /* '레이스 준비' 팝업: 배경 이미지 없이, 콘텐츠 높이에 맞춰 화면 중앙에 표시 */
@@ -3319,6 +3328,8 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
     align-items:center; justify-content:center; text-align:center; border-radius:12px;
     border:1.5px solid rgba(255,215,106,0.35); background:rgba(255,215,106,0.06); padding:2%; box-sizing:border-box;
   }
+  .qd1-core .qd1-ethics-btn{ position:relative; margin-top:8px; white-space:nowrap; padding:5px 12px; border-radius:999px; border:1.5px solid var(--gold,#ffd76a); background:rgba(0,0,0,.65); color:var(--gold,#ffd76a); font-weight:900; font-size:clamp(11px,1.1vw,15px); cursor:pointer; z-index:3; }
+  .qd1-core .qd1-ethics-btn:hover{ background:var(--gold,#ffd76a); color:#111; }
   .qd1-core .en{ font-weight:900; font-size:clamp(13px,1.7vw,22px); color:var(--gold,#ffd76a); }
   .qd1-core .kr{ font-weight:700; font-size:clamp(12px,1.5vw,19px); color:#fff; margin-top:5px; }
   .qd1-core-dot{
@@ -7431,7 +7442,6 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
       <button class="rv-side-btn rv-pink" onclick="openRapInfoPopup(event)"><span class="dot-blink" style="color:var(--red);">●</span> 최고 센터 만들기 레이스 미션</button>
       <button class="rv-side-btn rv-gold" onclick="openScoreboardPopup()"><span class="dot-blink">●</span> 팀/구성원 점수판 보기</button>
       <button class="rv-side-btn rv-pink" onclick="openRacingStatusBoard(event)"><span class="dot-blink">●</span> 레이싱 현황 보드</button>
-      <button class="rv-side-btn rv-green" onclick="rcbOpenPrizeRestricted(event)"><span class="dot-blink">●</span> 경품 추첨 보드</button>
     </div>
     <div class="lap1-center">
       <span class="lap1-badge">리허설 RACE Finish</span>
@@ -7691,7 +7701,7 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
 <div class="quiz-popup-overlay" id="rapInfoPopupOverlay" onclick="if(event.target===this) rcbAbortMissionFlow();">
   <div class="quiz-popup-box rcb-main-popup-box" id="rapInfoPopupBox">
     <button class="quiz-popup-close" onclick="rcbAbortMissionFlow()">✕</button>
-    <button class="rcb-rank-assign-btn" onclick="openRcbRankAssignPopup(event)">🏆 1·2·3등 조 / MVP 지정</button>
+    <button class="rcb-rank-assign-btn" onclick="openRcbRankAssignPopup(event)">🏆 1등 조 / MVP 지정</button>
     <div class="rcb-title-banner">
       <h2 class="mrm-title rcb-title-banner-text">최고의 <span style="color:var(--red);">우리 센터</span> 만들기 RACE 안내</h2>
       <p class="rcb-title-banner-desc">최고의 <span style="color:#3ddc71;">팀웍</span>으로 빠르게 경로를 만들어서 우승하라!</p>
@@ -7740,35 +7750,15 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
   </div>
 </div>
 
+
 <div class="quiz-popup-overlay" id="rcbRankAssignOverlay" onclick="if(event.target===this) closeRcbRankAssignPopup();">
   <div class="rcb-rank-assign-box" id="rcbRankAssignBox">
     <button class="quiz-popup-close" onclick="closeRcbRankAssignPopup()">✕</button>
-    <h3 class="rcb-rank-assign-title">🏆 1·2·3등 조 / MVP·준우승자 지정</h3>
-    <p class="rcb-rank-assign-desc">편성된 조 중에서 1등·2등·3등 조를 직접 선택하고, MVP와 준우승자를 이름으로 직접 입력할 수 있습니다. 선택하지 않으면 자동(실제 레이스 결과)으로 표시됩니다.</p>
-    <div class="rcb-rank-assign-row">
-      <label>🥇 1등 조</label>
-      <select id="rcbRankSelect1" class="admin-input" onchange="saveRcbRankAssign()"></select>
-    </div>
-    <div class="rcb-rank-assign-row">
-      <label>🥈 2등 조</label>
-      <select id="rcbRankSelect2" class="admin-input" onchange="saveRcbRankAssign()"></select>
-    </div>
-    <div class="rcb-rank-assign-row">
-      <label>🥉 3등 조</label>
-      <select id="rcbRankSelect3" class="admin-input" onchange="saveRcbRankAssign()"></select>
-    </div>
-    <div class="rcb-rank-assign-row">
-      <label>⭐ MVP</label>
-      <input type="text" id="rcbMvpInput" class="admin-input" placeholder="MVP 이름 입력" onchange="saveRcbRankAssign()">
-    </div>
-    <div class="rcb-rank-assign-row">
-      <label>🎖️ 준우승자</label>
-      <input type="text" id="rcbRunnerUpInput" class="admin-input" placeholder="준우승자 이름 입력" onchange="saveRcbRankAssign()">
-    </div>
-    <div class="rcb-rank-assign-row">
-      <label>🎁 경품 추첨 강제 지정 인원 (여러 명)</label>
-      <textarea id="rcbPrizeExtraInput" class="admin-input" rows="3" placeholder="이름을 쉼표(,) 또는 줄바꿈으로 구분해서 여러 명 입력" onchange="saveRcbRankAssign()" style="resize:vertical;"></textarea>
-    </div>
+    <h3 class="rcb-rank-assign-title" style="padding-right:48px;">🏆 1등 조 / MVP·준우승자 지정</h3>
+    <p class="rcb-rank-assign-desc">편성된 조 중에서 1등 조를 직접 선택하고, MVP와 준우승자를 직접 입력할 수 있습니다. ('자동'이면 레이스 결과를 따릅니다.)</p>
+    <div class="rcb-rank-assign-row"><label>🥇 1등 조</label><select id="rcbRankSelect1" class="admin-input" onchange="saveRcbRankAssign()"></select></div>
+    <div class="rcb-rank-assign-row"><label>⭐ MVP</label><input type="text" id="rcbMvpInput" class="admin-input" placeholder="MVP 이름 입력" onchange="saveRcbRankAssign()"></div>
+    <div class="rcb-rank-assign-row"><label>🎖️ 준우승자</label><input type="text" id="rcbRunnerUpInput" class="admin-input" placeholder="준우승자 이름 입력" onchange="saveRcbRankAssign()"></div>
     <div class="rcb-rank-assign-status" id="rcbRankAssignStatus"></div>
   </div>
 </div>
@@ -7795,7 +7785,7 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
         <div class="qd1-core-dot" style="left:61.9%;">•</div>
         <div class="qd1-core" style="left:62.4%; width:15.7%;"><span class="en" contenteditable="true">Reliability</span><span class="kr" contenteditable="true">신뢰</span></div>
         <div class="qd1-core-dot" style="left:77.5%;">•</div>
-        <div class="qd1-core" style="left:78%; width:15.5%;"><span class="en" contenteditable="true">Ethics</span><span class="kr" contenteditable="true">떳떳함</span></div>
+        <div class="qd1-core" style="left:78%; width:15.5%;"><span class="en" contenteditable="true">Ethics</span><span class="kr" contenteditable="true">떳떳함</span><button type="button" class="qd1-ethics-btn" onclick="event.stopPropagation();ethicsPptClick(event)" oncontextmenu="event.stopPropagation();openEthicsPpt();return false;" title="클릭: 등록된 PPT 열기 / 우클릭 또는 Shift+클릭: 파일 선택·교체">📑 정도경영실천</button></div>
         <div class="qd1-row3" style="position:absolute; left:32.2%; top:64.9%; width:61.3%; height:25.2%;">
           <div class="qd1-row3-formula" contenteditable="true">Proactive&nbsp; C<sub>x</sub>&nbsp;•&nbsp;A<sub>x</sub>&nbsp;•&nbsp;Performance</div>
           <div class="qd1-row3-sub" contenteditable="true">능동적/선제적 C-A-P 일하는 방식으로 최고의 고객경험 제공과 사업기여</div>
@@ -8002,7 +7992,6 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
       <button class="rv-side-btn rv-pink" onclick="openRapInfoPopup(event)"><span class="dot-blink" style="color:var(--red);">●</span> 최고 센터 만들기 레이스 미션</button>
       <button class="rv-side-btn rv-gold" onclick="openScoreboardPopup()"><span class="dot-blink">●</span> 팀/구성원 점수판 보기</button>
       <button class="rv-side-btn rv-pink" onclick="openRacingStatusBoard(event)"><span class="dot-blink">●</span> 레이싱 현황 보드</button>
-      <button class="rv-side-btn rv-green" onclick="rcbOpenPrizeRestricted(event)"><span class="dot-blink">●</span> 경품 추첨 보드</button>
     </div>
     <div class="lap1-center">
       <span class="lap1-badge">리허설 RACE Finish</span>
@@ -8101,7 +8090,7 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
       </div>
 
       <div id="bmGame" style="display:none;">
-        <button class="rcb-rank-assign-btn bm-rank-assign-btn" onclick="openRcbRankAssignPopup(event)">🏆 1·2·3등 조 / MVP 지정</button>
+        <button class="rcb-rank-assign-btn bm-rank-assign-btn" onclick="openRcbRankAssignPopup(event)">🏆 1등 조 / MVP 지정</button>
         <button class="rcb-rank-assign-btn bm-rank-assign-btn bm-celebrate-btn" onclick="bmShowCelebrationNow(event)">🏁 도착 세레모니</button>
         <div class="bm-game-top">
           <div class="bm-turn-picker" id="bmTurnPicker"></div>
@@ -8144,8 +8133,8 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
 
     <div id="prizeRoot" style="display:none;">
       <div class="pz-top">
+        <button class="pz-assign-open-btn" id="pzAssignOpenBtn" onclick="openRcbRankAssignPopup(event)" style="position:absolute;left:20px;top:18px;padding:8px 14px;border-radius:999px;border:1px solid var(--gold);background:rgba(0,0,0,.55);color:var(--gold);font-weight:800;font-size:13px;cursor:pointer;z-index:5;">🏆 1등 조 / MVP 지정</button>
         <h2 id="pzBoardTitle">🎁 행운권 추첨 보드</h2>
-        <button class="pz-assign-open-btn" id="pzAssignOpenBtn" onclick="openRcbRankAssignPopup(event)" style="position:absolute;left:20px;top:18px;padding:8px 14px;border-radius:999px;border:1px solid var(--gold);background:rgba(212,175,55,0.12);color:var(--gold);font-weight:800;font-size:13px;cursor:pointer;">🏆 추첨 대상 지정</button>
       </div>
 
       <div class="pz-roulette-row">
@@ -8846,12 +8835,17 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
     <div class="ds-mbti-pop" id="dsMbtiPop" onclick="if(event.target===this)dsCloseMbti()">
       <div class="ds-mbti-box">
         <button type="button" class="ds2-pop-close" onclick="dsCloseMbti()" aria-label="닫기">✕</button>
+        <div class="mb-vid-layer" id="dsMbtiVidLayer">
+          <video id="dsWhyVideo" controls playsinline preload="none" src="assets/videos/김경일 교수.mp4"></video>
+          <div class="ds2-pop-empty" id="dsWhyEmpty" style="display:none">영상이 아직 등록되지 않았습니다.<br>(관리자 설정 → 영상 링크 → '스타일은 왜 다른가? 영상')</div>
+          <button type="button" class="mb-vid-back" onclick="dsMbtiStopVideo()">← 돌아가기</button>
+        </div>
         <div class="ds-mbti-paper">
           <h2 class="mb-title">MBTI와 DISC, 어떻게 다를까?</h2>
           <div class="mb-bar"></div>
           <div class="mb-sub">두 도구가 살펴보는 관점과 활용 방법</div>
           <div class="mb-body">
-            <div class="mb-iceberg"><img src="assets/f96962b4f3322eabcfed35bba19c4c62.jpg" alt="빙산: 물 위 DISC, 물 아래 MBTI"><span class="mb-ice-l mb-ice-d">DISC</span><span class="mb-ice-l mb-ice-m">MBTI</span><span class="mb-ice-cap mb-ice-cd">겉으로 드러나는 행동</span><span class="mb-ice-cap mb-ice-cm">내면의 선호</span></div>
+            <div class="mb-iceberg"><img src="assets/f96962b4f3322eabcfed35bba19c4c62.jpg" alt="빙산: 물 위 DISC, 물 아래 MBTI"><span class="mb-ice-l mb-ice-d">DISC</span><span class="mb-ice-l mb-ice-m">MBTI</span><span class="mb-ice-cap mb-ice-cd">겉으로 드러나는 행동</span><span class="mb-ice-cap mb-ice-cm">내면의 선호</span><button type="button" class="mb-vid-btn" id="dsMbtiVidBtn" onclick="dsMbtiPlayVideo(event)">▶ 영상보기</button></div>
             <div class="mb-main">
           <div class="mb-lead">
             MBTI는 <b class="mb-g">‘나는 어떤 방식을 편하게 느끼는 사람인가’</b>를 확인하는 진단이라면,<br>
@@ -8903,9 +8897,9 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
       <span class="dsc-line"><span class="dsc-accent">하나된 마음</span>으로 더 멋지고 행복한 센터를 만들어 갑니다.</span>
     </h1>
     <div class="dsc-cards">
-      <button type="button" class="dsc-card" data-idx="0" onclick="dscOpenCard(0,event)"><img src="assets/1417db927953b7737f38d781b36acdac.jpg" alt="공감 소통"><span class="dsc-card-cap">공감 소통</span></button>
-      <button type="button" class="dsc-card" data-idx="1" onclick="dscOpenCard(1,event)"><img src="assets/9ca77fc14940f52b2de956ed96682f0c.jpg" alt="조하리의 창"><span class="dsc-card-cap">조하리의 창</span></button>
-      <button type="button" class="dsc-card" data-idx="2" onclick="dscOpenCard(2,event)"><img src="assets/45f3399c37f29c55ed11ca1243234c6d.jpg" alt="소중한 사람, 행복"><span class="dsc-card-cap">소중한 사람, 행복</span></button>
+      <button type="button" class="dsc-card" data-idx="0" onclick="dscOpenCard(0,event)"><img src="assets/1417db927953b7737f38d781b36acdac.jpg" alt="공감 소통"><span class="dsc-card-cap">동료에 대한 이해가<br>진정한 공감/소통의<br>출발점</span></button>
+      <button type="button" class="dsc-card" data-idx="1" onclick="dscOpenCard(1,event)"><img src="assets/9ca77fc14940f52b2de956ed96682f0c.jpg" alt="조하리의 창"><span class="dsc-card-cap">우리 동료를<br>알아가기 위한 노력</span></button>
+      <button type="button" class="dsc-card" data-idx="2" onclick="dscOpenCard(2,event)"><img src="assets/45f3399c37f29c55ed11ca1243234c6d.jpg" alt="소중한 사람, 행복"><span class="dsc-card-cap">우리 센터 동료와의<br>만남과 생활은<br>행복입니다.</span></button>
     </div>
     <div class="dsc-pop" id="dscPop" onclick="if(event.target===this)dscClosePop()">
       <div class="dsc-pop-box">
@@ -8917,11 +8911,11 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
         <img id="dscPopImg" alt="">
       </div>
     </div>
-    <!-- '공감 소통' 카드 다음 영상 팝업 (영상 파일은 이 HTML 과 같은 폴더에 두세요: 상대경로) -->
-    <div class="ds2-pop" id="dscVideoPop" style="z-index:12050" onclick="if(event.target===this)dscCloseVideo()">
-      <div class="ds2-pop-box">
-        <button type="button" class="ds2-pop-close" onclick="dscCloseVideo()" aria-label="닫기">✕</button>
-        <video id="dscVideo" controls playsinline preload="none" src="assets/videos/고요속의 외침.mp4"></video>
+    <!-- '공감 소통' 카드 팝업에서 '다음' → 감자/질문 카드 팝업 -->
+    <div class="dsq-pop" id="dsqPop">
+      <div class="dsq-stage">
+        <button type="button" class="ds2-pop-close dsq-x" onclick="dsqClose(true)" aria-label="닫기">✕</button>
+        <div class="dsq-flip" id="dsqFlip"><div class="dsq-face" id="dsqF0"></div><div class="dsq-face dsq-back" id="dsqF1"></div></div>
       </div>
     </div>
   </div>
@@ -8936,31 +8930,23 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
     </div>
     <div class="ds2-cards">
       <button type="button" class="ds2-card" id="dsCardWhy" onclick="dsOpenWhyVideo(event)" style="--ds2-bg:var(--img-ccs-performance)">
-        <span class="ds2-card-play">▶</span>
-        <span class="ds2-card-tag">VIDEO</span>
-        <span class="ds2-card-title">스타일은 왜 다른가?</span>
+        <span class="ds2-card-tag">POPUP</span>
+        <span class="ds2-card-title">같은 유형끼리의<br>협력 레이스는 과연?</span>
       </button>
       <button type="button" class="ds2-card" id="dsCardRace1" onclick="dsOpenRace1Popup(event)" style="--ds2-bg:var(--img-ccs-highfive)">
         <span class="ds2-card-tag">POPUP</span>
-        <span class="ds2-card-title">동족 RACE 1</span>
+        <span class="ds2-card-title">동족 레이스 1</span>
       </button>
       <a class="ds2-card" id="dsRace2Link" href="code_artifact.html" target="_blank" rel="noopener" style="--ds2-bg:var(--img-fd-team)">
         <span class="ds2-card-tag">LINK</span>
-        <span class="ds2-card-title">동족 RACE 2</span>
+        <span class="ds2-card-title">동족 레이스 2</span>
       </a>
     </div>
-    <!-- '스타일은 왜 다른가?' 영상 팝업: 영상 경로는 관리자 설정(영상 링크 등록) 또는 아래 video 의 src 에 지정 -->
+    <!-- '스타일은 왜 다른가?' 영상 팝업 (영상 파일은 이 HTML 과 같은 폴더에 두세요: 상대경로) -->
     <div class="ds2-pop" id="dsWhyPop" onclick="if(event.target===this)dsCloseWhyVideo()">
       <div class="ds2-pop-box">
         <button type="button" class="ds2-pop-close" onclick="dsCloseWhyVideo()" aria-label="닫기">✕</button>
-        <video id="dsWhyVideo" controls playsinline preload="none" src="assets/videos/김경일 교수.mp4"></video>
-        <div class="ds2-pop-empty" id="dsWhyEmpty" style="display:none">영상이 아직 등록되지 않았습니다.<br>(관리자 설정 → 영상 링크 → '스타일은 왜 다른가? 영상')</div>
-      </div>
-    </div>
-    <div class="dsq-pop" id="dsqPop">
-      <div class="dsq-stage">
-        <button type="button" class="ds2-pop-close dsq-x" onclick="dsqClose(true)" aria-label="닫기">✕</button>
-        <div class="dsq-flip" id="dsqFlip"><div class="dsq-face" id="dsqF0"></div><div class="dsq-face dsq-back" id="dsqF1"></div></div>
+        <video id="dscVideo" controls playsinline preload="none" src="assets/videos/고요속의 외침.mp4"></video>
       </div>
     </div>
     <!-- '동족 RACE 1' 팝업: DISC 게임 허브(5가지 게임) -->
@@ -8982,7 +8968,6 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
       <button class="rv-side-btn rv-pink" onclick="openRapInfoPopup(event)"><span class="dot-blink" style="color:var(--red);">●</span> 최고 센터 만들기 레이스 미션</button>
       <button class="rv-side-btn rv-gold" onclick="openScoreboardPopup()"><span class="dot-blink">●</span> 팀/구성원 점수판 보기</button>
       <button class="rv-side-btn rv-pink" onclick="openRacingStatusBoard(event)"><span class="dot-blink">●</span> 레이싱 현황 보드</button>
-      <button class="rv-side-btn rv-green" onclick="rcbOpenPrizeRestricted(event)"><span class="dot-blink">●</span> 경품 추첨 보드</button>
     </div>
     <div class="lap1-center">
       <span class="lap1-badge">본격 RACE Finish</span>
@@ -9044,7 +9029,7 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
       <span class="pill solid pill-yellow">Final Race</span>
       <h1>센터와 나 더 성장하기 위한 실천 다짐</h1>
       <div class="ccs-ppt-link-wrap" style="margin-top:16px; margin-bottom:0;">
-        <a class="ccs-ppt-link-btn" id="fdExpectLink" href="#" onclick="openFdExpectPopup(event); return false;"><span class="dot-blink" style="color:var(--red);">●</span> 센터장 메시지 파일 열기</a>
+        <a class="ccs-ppt-link-btn" id="fdExpectLink" href="#" onclick="fdExpectClick(event); return false;" oncontextmenu="openFdExpectPopup(event); return false;" title="클릭: 등록된 PPT 열기 / 우클릭 또는 Shift+클릭: 파일 선택·교체"><span class="dot-blink" style="color:var(--red);">●</span> 센터장/실장 메시지</a>
       </div>
     </div>
   </div>
@@ -9124,7 +9109,6 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
       <button class="rv-side-btn rv-pink" onclick="openRapInfoPopup(event)"><span class="dot-blink" style="color:var(--red);">●</span> 최고 센터 만들기 레이스 미션</button>
       <button class="rv-side-btn rv-gold" onclick="openScoreboardPopup()"><span class="dot-blink">●</span> 팀/구성원 점수판 보기</button>
       <button class="rv-side-btn rv-pink" onclick="openRacingStatusBoard(event)"><span class="dot-blink">●</span> 레이싱 현황 보드</button>
-      <button class="rv-side-btn rv-green" onclick="rcbOpenPrizeRestricted(event)"><span class="dot-blink">●</span> 경품 추첨 보드</button>
     </div>
     <div class="lap1-center">
       <span class="lap1-badge">Final RACE Finish</span>
@@ -9191,12 +9175,11 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
 <section class="page" id="page-closing-thanks">
   <div class="final-story-page final-story-video thanks-pan-bg" onclick="toggleHeroThanksVideoManual(event)">
     <video class="mission-video-bg mv-hidden" id="heroThanksVideoEl" muted playsinline preload="none"></video>
-    <input type="file" id="heroThanksVideoFileInput" accept="video/*" style="display:none;" onchange="handleHeroThanksVideoUpload(event)">
+    <input type="file" id="heroThanksVideoFileInput" accept="video/*" style="display:none;" onclick="event.stopPropagation()" onchange="handleHeroThanksVideoUpload(event)">
     <div class="mission-text final-story-text">
       <span class="fs-line">우리 센터 HERO들에게</span>
       <span class="fs-line fs-gold">보내온 감사와 응원 영상</span>
-      <span class="final-story-play-btn" aria-label="영상 파일 등록" onclick="triggerHeroThanksVideoUpload(event)"></span>
-      <span class="final-story-hint">🎬 영사기를 클릭해 영상 파일을 등록하세요</span>
+      <span class="final-story-play-btn" aria-label="영상 등록/재생" title="클릭: 등록된 영상 재생(없으면 파일 등록) / Shift+클릭: 영상 파일 선택·교체" onclick="heroProjectorClick(event)"></span>
     </div>
   </div>
 </section>
@@ -9223,7 +9206,7 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
     <div class="awards-banner"></div>
     <button class="winner-reveal-close" onclick="closeWinnerReveal()">✕</button>
     <h2 class="awards-title">그랑프리 시상식</h2>
-    <div class="winner-prize-btn-row" style="display:flex;justify-content:center;margin:6px 0 14px;position:relative;z-index:5;"><button class="rv-side-btn rv-green" onclick="event.stopPropagation();closeWinnerReveal();rcbOpenPrizeRestricted(event)"><span class="dot-blink">●</span> 경품 추첨 보드</button></div>
+    <div class="winner-prize-btn-row" style="display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin:6px 0 14px;position:relative;z-index:5;"><button class="rv-side-btn rv-red" onclick="event.stopPropagation();closeWinnerReveal();openWheelPopup(event)"><span class="dot-blink">●</span> 행운추첨 회전판</button><button class="rv-side-btn rv-green" onclick="event.stopPropagation();closeWinnerReveal();rcbOpenPrizeFromAwards(event)"><span class="dot-blink">●</span> 행운권 추첨 보드</button></div>
     <div class="awards-row">
       <div class="wcard-flip-outer gold" id="wcardOuter2" onclick="flipWinnerCard(2)">
         <div class="wcard-flip-inner">
@@ -9345,17 +9328,28 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
   <div class="rv-popup pink-theme rv-popup-autoheight satisfaction-qr-popup-box" id="fdExpectPopupBox">
     <button class="rv-popup-close" onclick="closeFdExpectPopup()">✕</button>
     <h2 class="mrm-title" style="text-align:center; margin-bottom:6px; font-size:22px;">📄 센터장 메시지 파일</h2>
-    <p style="text-align:center; color:var(--gray); font-size:14px; margin:0 0 14px;" id="fdExpectStatusText">아직 등록된 PPT 파일이 없습니다.</p>
+    <p style="text-align:center; color:var(--gray); font-size:14px; margin:0 0 14px;" id="fdExpectStatusText" onclick="if(this.classList.contains('has-file'))openFdExpectFile()">아직 등록된 PPT 파일이 없습니다.</p>
     <input type="file" id="fdExpectFileInput" accept=".ppt,.pptx,application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.presentation" style="display:none;" onchange="handleFdExpectUpload(event)">
     <div class="satisfaction-qr-btn-row">
       <button class="rv-side-btn rv-pink" onclick="triggerFdExpectUpload()">📁 PPT 파일 선택/교체</button>
-      <button class="rv-side-btn" id="fdExpectOpenBtn" onclick="openFdExpectFile()" disabled>📂 파일 열기</button>
-      <button class="rv-side-btn" onclick="clearFdExpectFile(event)">🗑️ 지우기</button>
     </div>
   </div>
 </div>
 
 
+
+<!-- ============ 정도경영실천 PPT 심기/열기 (센터장 메시지 파일과 동일한 방식) ============ -->
+<div class="rv-popup-overlay center-mode" id="ethicsPptOverlay" style="z-index:12100" onclick="if(event.target===this) closeEthicsPpt();">
+  <div class="rv-popup pink-theme rv-popup-autoheight satisfaction-qr-popup-box" id="ethicsPptBox">
+    <button class="rv-popup-close" onclick="closeEthicsPpt()">✕</button>
+    <h2 class="mrm-title" style="text-align:center; margin-bottom:6px; font-size:22px;">📑 정도경영실천 파일</h2>
+    <p style="text-align:center; color:var(--gray); font-size:14px; margin:0 0 14px;" id="ethicsPptStatusText" onclick="if(this.classList.contains('has-file'))openEthicsPptFile()">아직 등록된 PPT 파일이 없습니다.</p>
+    <input type="file" id="ethicsPptFileInput" accept=".ppt,.pptx,application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.presentation" style="display:none;" onchange="handleEthicsPptUpload(event)">
+    <div class="satisfaction-qr-btn-row">
+      <button class="rv-side-btn rv-pink" onclick="document.getElementById('ethicsPptFileInput').click()">📁 PPT 파일 선택/교체</button>
+    </div>
+  </div>
+</div>
 
 <div class="admin-gate-overlay" id="adminGateOverlay" onclick="if(event.target===this) closeAdminGate();">
   <div class="admin-gate-box admin-gate-box-wide">
@@ -9363,11 +9357,11 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
     <h3>⚙ 관리자 인증</h3>
     <p id="adminGateStep1Hint">담당 권역을 선택해주세요.</p>
     <div class="region-gate-grid" id="regionGateGrid">
-      <div class="region-gate-box" onclick="selectRegionGate('수도권')"><span class="region-gate-num">1</span>수도권</div>
-      <div class="region-gate-box" onclick="selectRegionGate('중부·강원실')"><span class="region-gate-num">2</span>중부·강원실</div>
-      <div class="region-gate-box" onclick="selectRegionGate('서남부_호남/제주/충청실')"><span class="region-gate-num">3</span>서남부_호남/제주/충청실</div>
-      <div class="region-gate-box" onclick="selectRegionGate('서남부_경상권')"><span class="region-gate-num">4</span>서남부_경상권</div>
-      <div class="region-gate-box region-gate-box-instructor" onclick="selectRegionGate('사내강사팀')"><span class="region-gate-num">5</span>사내강사팀</div>
+      <div class="region-gate-box" onclick="selectRegionGate('수도권')"><span class="region-gate-num">1</span>수도권 (1001)</div>
+      <div class="region-gate-box" onclick="selectRegionGate('중부·강원실')"><span class="region-gate-num">2</span>중부·강원실 (1002)</div>
+      <div class="region-gate-box" onclick="selectRegionGate('서남부_호남/제주/충청실')"><span class="region-gate-num">3</span>서남부_호남/제주/충청실 (1004)</div>
+      <div class="region-gate-box" onclick="selectRegionGate('서남부_경상권')"><span class="region-gate-num">4</span>서남부_경상권 (1005)</div>
+      <div class="region-gate-box region-gate-box-instructor" onclick="selectRegionGate('전체')"><span class="region-gate-num">5</span>전체 (2026)</div>
     </div>
     <div class="region-gate-pin-area" id="regionGatePinArea" style="display:none;">
       <p class="region-gate-selected-label" id="regionGateSelectedLabel"></p>
@@ -9408,6 +9402,7 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
       <button class="admin-action-btn" onclick="document.getElementById('unifiedRosterUpload').click();">📁 명단 엑셀 선택해서 올리기 (명단+사진 한 번에)</button>
       <span class="admin-status" id="adminUnifiedRosterStatus"></span>
     </div>
+
     </div>
   </div>
 </div>
@@ -9677,7 +9672,7 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
     const prevId = currentPageId();
     if((id === 'driving-style-ccs' || prevId === 'driving-style-ccs') && typeof dscReset === 'function'){ dscReset(); }
     if(id === 'driving-style' && prevId !== 'driving-style' && typeof dsResetSeq === 'function'){ dsResetSeq(); }
-    if(prevId === 'driving-style2' && id !== 'driving-style2'){ if(typeof dsCloseWhyVideo === 'function') dsCloseWhyVideo(); if(typeof dsqReset === 'function') dsqReset(); ds2AfterQuiz = false; ds2Started = false; if(typeof dsCloseRace1Popup === 'function') dsCloseRace1Popup(); }
+    if(prevId === 'driving-style2' && id !== 'driving-style2'){ if(typeof dsCloseWhyVideo === 'function') dsCloseWhyVideo(); ds2AfterQuiz = false; ds2Started = false; if(typeof dsCloseRace1Popup === 'function') dsCloseRace1Popup(); }
     if(prevId === 'driving-style' && id !== 'driving-style' && typeof dsCloseMbti === 'function'){ dsCloseMbti(); }
     if(prevId === 'driving-style' && id !== 'driving-style' && typeof dsCloseDetail === 'function'){ dsCloseDetail(); }
     if(prevId === 'mission' && id !== 'mission'){
@@ -10257,7 +10252,9 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
     const sorted = list.slice().sort(function(a,b){ return a.name.localeCompare(b.name, 'ko'); });
     if(select){
       const optsHtml = sorted.map(function(c){ return '<option value="' + c.name + '">' + c.name + '</option>'; }).join('');
-      select.innerHTML = '<option value="">센터를 선택하세요</option>' + optsHtml;
+      // 전체(마스터) 인증이면 사내강사팀 등 추가 센터도 선택할 수 있습니다.
+      const extraHtml = (!regionFilter && typeof EXTRA_CENTER_NAMES !== 'undefined') ? EXTRA_CENTER_NAMES.map(function(n){ return '<option value="' + n + '">' + n + '</option>'; }).join('') : '';
+      select.innerHTML = '<option value="">센터를 선택하세요</option>' + extraHtml + optsHtml;
     }
   }
   window.addEventListener('load', function(){ populateCenterNameList(); });
@@ -11041,11 +11038,11 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
     if(dir === 1){
       const winnerOvNext = document.getElementById('winnerRevealOverlay');
       if(winnerOvNext && winnerOvNext.classList.contains('show')){
-        // 순서: 1등 컨스트럭터(팀) → 센터 챔피언(개인) → 한국 서비스 챔피언(센터) → '경품 추첨 보드' 팝업 열림
+        // 순서: 1등 컨스트럭터(팀) → 센터 챔피언(개인) → 한국 서비스 챔피언(센터) → '행운추첨 회전판' 팝업 열림
         // (이후 '다음'은 룰렛 돌리기 → 멈춤 → 당첨 팝업 닫음을 반복)
         const order = [1, 3, 2];
         const nextCard = order.find(function(n){ return !document.getElementById('wcardOuter' + n).classList.contains('flipped'); });
-        if(nextCard){ flipWinnerCard(nextCard); } else { closeWinnerReveal(); rcbOpenPrizeRestricted(); }
+        if(nextCard){ flipWinnerCard(nextCard); } else { closeWinnerReveal(); openWheelPopup(); }
         return;
       }
     }
@@ -11188,7 +11185,6 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
       // step 3부터는 아래로 흘려보내 다음 페이지로 이동합니다.
     } else if(dir === 1 && cur === 'closing-thanks'){
       if(!closingThanksVideoStarted){
-        closingThanksVideoStarted = true;
         playHeroThanksVideo();
         return;
       }
@@ -11377,44 +11373,99 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
       });
     });
   }
-  /* ---- '보내온 감사와 응원 영상' 페이지: 영사기 아이콘을 클릭해 영상 파일을 심고(embedFileSave),
-     스마트 포인터 '다음'을 누르면 심어둔 영상을 불러와 재생합니다. ---- */
+  /* ---- '보내온 감사와 응원 영상' 페이지: 권역별 영상 파일을 상대경로(이 HTML 과 같은 폴더)로 연결해 재생합니다. ---- */
+  const HERO_THANKS_VIDEO_BY_REGION = {
+    '수도권': 'videos/[LG고가혁] 전사원_수도권역(1016).mp4',
+    '중부·강원실': 'videos/[LG고가혁] 전사원_중부강원권역(1016).mp4',
+    '서남부_호남/제주/충청실': 'videos/[LG고가혁] 전사원_서부충청권역(1016).mp4',
+    '서남부_경상권': 'videos/[LG고가혁] 전사원_남부권역(1016).mp4'
+  };
+  // 관리자 인증에서 고른 권역을 우선 사용하고, 사내강사팀/미지정이면 현재 선택된 센터가 속한 권역으로 판단합니다.
+  function getHeroThanksRegion(){
+    if(currentAdminRegion && HERO_THANKS_VIDEO_BY_REGION[currentAdminRegion]) return currentAdminRegion;
+    try{
+      const c = (typeof CENTER_MARKERS !== 'undefined' && currentSeatCenter) ? CENTER_MARKERS.find(function(m){ return m.name === currentSeatCenter; }) : null;
+      if(c){
+        const keys = Object.keys(REGION_GROUP_MAP);
+        for(let i = 0; i < keys.length; i++){
+          if(REGION_GROUP_MAP[keys[i]].indexOf(c.region) !== -1) return keys[i];
+        }
+      }
+    } catch(err){}
+    return null;
+  }
+  // 영사기 이미지 클릭: 등록된 영상이 있으면 재생, 없으면(또는 Shift+클릭) 영상 파일 등록/교체 창을 엽니다.
   function triggerHeroThanksVideoUpload(e){
     if(e){ e.stopPropagation(); }
     const input = document.getElementById('heroThanksVideoFileInput');
     if(input) input.click();
+  }
+  function heroProjectorClick(e){
+    if(e){ e.stopPropagation(); }
+    if(e && e.shiftKey){ triggerHeroThanksVideoUpload(); return; }
+    const v = document.getElementById('heroThanksVideoEl');
+    if(v && !v.paused){ stopHeroThanksVideo(); return; }
+    embedFileLoad('heroThanksVideo').then(function(rec){
+      if(rec && rec.blob) playHeroThanksVideo('registered'); else triggerHeroThanksVideoUpload();
+    }).catch(function(){ triggerHeroThanksVideoUpload(); });
   }
   function handleHeroThanksVideoUpload(e){
     const file = e.target.files && e.target.files[0];
     e.target.value = '';
     if(!file) return;
     embedFileSave('heroThanksVideo', file).then(function(){
-      alert('영상 파일이 등록되었습니다.\n이제 스마트 포인터 \'다음\'을 누르거나 영사기를 다시 클릭하면 이 영상이 재생됩니다.');
+      const v = document.getElementById('heroThanksVideoEl');
+      if(v){ v.removeAttribute('data-src'); }
+      alert('영상 파일이 등록되었습니다.\n영사기 이미지를 직접 클릭하면 이 영상이 재생됩니다. (스마트 포인터 \'다음\'은 권역별 영상을 재생합니다.)');
     }).catch(function(err){
       alert('영상 파일을 저장하지 못했습니다: ' + (err && err.message ? err.message : err));
     });
   }
   let heroThanksVideoObjectUrl = null;
-  function playHeroThanksVideo(){
+  // source: 'region'(기본: 권역별 상대경로 영상) | 'registered'(영사기를 직접 클릭해 등록해 둔 영상)
+  function playHeroThanksVideo(source){
     const v = document.getElementById('heroThanksVideoEl');
     if(!v) return Promise.resolve();
     const mt = v.parentElement ? v.parentElement.querySelector('.mission-text') : null;
-    return embedFileLoad('heroThanksVideo').then(function(rec){
-      if(!rec || !rec.blob){
-        alert('아직 등록된 영상 파일이 없습니다. 영사기 아이콘을 클릭해 영상을 먼저 등록해주세요.');
-        return;
-      }
-      if(heroThanksVideoObjectUrl) URL.revokeObjectURL(heroThanksVideoObjectUrl);
-      heroThanksVideoObjectUrl = URL.createObjectURL(rec.blob);
-      v.src = heroThanksVideoObjectUrl;
+    function start(){
+      closingThanksVideoStarted = true;
       v.classList.remove('mv-hidden');
       if(mt) mt.classList.add('ccs-text-hidden');
       v.muted = false;
       const p = v.play();
       if(p && p.catch){ p.catch(function(){ v.muted = true; v.play().catch(function(){}); }); }
-    }).catch(function(err){
-      alert('영상 파일을 불러오지 못했습니다: ' + (err && err.message ? err.message : err));
-    });
+    }
+    if(source === 'registered'){
+      return embedFileLoad('heroThanksVideo').then(function(rec){
+        if(!rec || !rec.blob){ triggerHeroThanksVideoUpload(); return; }
+        if(heroThanksVideoObjectUrl) URL.revokeObjectURL(heroThanksVideoObjectUrl);
+        heroThanksVideoObjectUrl = URL.createObjectURL(rec.blob);
+        v.onerror = null;
+        v.setAttribute('data-src', 'registered');
+        v.src = heroThanksVideoObjectUrl;
+        start();
+      }).catch(function(err){
+        alert('영상 파일을 불러오지 못했습니다: ' + (err && err.message ? err.message : err));
+      });
+    }
+    // 기본: 권역별 상대경로 영상(이 HTML 과 같은 폴더)
+    const region = getHeroThanksRegion();
+    if(!region){
+      alert('담당 권역을 알 수 없습니다.\n관리자 인증에서 권역을 선택하거나, 지도에서 센터를 먼저 선택해주세요.');
+      return Promise.resolve();
+    }
+    const file = HERO_THANKS_VIDEO_BY_REGION[region];
+    const url = encodeURI(file);
+    if(v.getAttribute('data-src') !== url){
+      v.setAttribute('data-src', url);
+      v.src = url;
+      v.onerror = function(){
+        stopHeroThanksVideo();
+        alert('영상 파일을 찾을 수 없습니다.\n"' + file + '" 파일을 이 HTML 파일과 같은 폴더에 넣어주세요.');
+      };
+    }
+    start();
+    return Promise.resolve();
   }
   function stopHeroThanksVideo(){
     const v = document.getElementById('heroThanksVideoEl');
@@ -11583,13 +11634,13 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
       popup.classList.remove('rv-popup-autoheight');
       overlay.classList.remove('center-mode');
       prizeRoot.style.display = 'flex';
-      pzRestricted = pzRestrictNext; pzRestrictNext = false;
+      // '행운권 추첨 보드'도 '경품 추첨 보드'와 동일한 내용(경품 이미지/당첨 카드/추첨 대상 제한)을 사용하고 제목만 다릅니다.
+      const pzLucky = true;
+      pzRestricted = true; pzRestrictNext = false;
       // '경품 추첨 보드'(pz-fancy: 경품 이미지/당첨 카드/추첨 대상 제한)와 '행운권 추첨 보드'(기존 버전)를 구분합니다.
       prizeRoot.classList.toggle('pz-fancy', pzRestricted);
       const ttl = document.getElementById('pzBoardTitle');
-      if(ttl) ttl.textContent = pzRestricted ? '🎁 경품 추첨 보드' : '🎁 행운권 추첨 보드';
-      const asg = document.getElementById('pzAssignOpenBtn');
-      if(asg) asg.style.display = pzRestricted ? '' : 'none';
+      if(ttl) ttl.textContent = '🎁 행운권 추첨 보드';
       const sigNow = pzRestricted ? 'F:' + pzEligibleMembers().map(function(m){ return m.team + '|' + m.name; }).join(',') : '';
       if(!pzOpened || sigNow !== pzRestrictSig){
         pzOpened = true;
@@ -12144,11 +12195,6 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
   }
   // 시상식 팝업에서 '행운권 추첨 보드' 버튼을 직접 눌러 다음 단계로 넘어갈 때도,
   // 스마트 포인터 시퀀스(rcbRevealStep)가 6에 멈춰 있는 채로 남지 않도록 함께 리셋합니다.
-  function rcbOpenPrizeRestricted(e){
-    rcbRevealStep = 0;
-    pzRestrictNext = true;
-    openSidePopup('prize', e);
-  }
   function rcbOpenPrizeFromAwards(e){
     rcbRevealStep = 0;
     openSidePopup('prize', e);
@@ -14345,19 +14391,20 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
   }
   function renderFdExpectStatus(){
     const statusText = document.getElementById('fdExpectStatusText');
-    const openBtn = document.getElementById('fdExpectOpenBtn');
+    function setNone(){ if(statusText){ statusText.textContent = '아직 등록된 PPT 파일이 없습니다.'; statusText.classList.remove('has-file'); } }
     embedFileLoad('fdExpectPpt').then(function(rec){
       if(rec && rec.blob){
-        if(statusText) statusText.textContent = '등록된 파일: ' + (rec.name || 'PPT 파일');
-        if(openBtn) openBtn.disabled = false;
-      } else {
-        if(statusText) statusText.textContent = '아직 등록된 PPT 파일이 없습니다.';
-        if(openBtn) openBtn.disabled = true;
-      }
-    }).catch(function(){
-      if(statusText) statusText.textContent = '아직 등록된 PPT 파일이 없습니다.';
-      if(openBtn) openBtn.disabled = true;
-    });
+        if(statusText){ statusText.textContent = '📂 ' + (rec.name || 'PPT 파일') + ' (클릭하면 열립니다)'; statusText.classList.add('has-file'); }
+      } else setNone();
+    }).catch(setNone);
+  }
+  // 버튼 클릭: 등록된 PPT가 있으면 바로 열고, 없으면(또는 Shift+클릭) 파일 선택/교체 팝업을 엽니다.
+  function fdExpectClick(e){
+    if(e){ e.stopPropagation(); }
+    if(e && e.shiftKey){ openFdExpectPopup(e); return; }
+    embedFileLoad('fdExpectPpt').then(function(rec){
+      if(rec && rec.blob) openFdExpectFile(); else openFdExpectPopup(e);
+    }).catch(function(){ openFdExpectPopup(e); });
   }
   function triggerFdExpectUpload(){
     const input = document.getElementById('fdExpectFileInput');
@@ -14395,6 +14442,55 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
   function clearFdExpectFile(e){
     if(e){ e.stopPropagation(); }
     embedFileDelete('fdExpectPpt').then(function(){ renderFdExpectStatus(); });
+  }
+  /* ---- '정도경영실천' 버튼: 센터장 메시지 파일과 동일하게 PPT를 심고(embedFileSave) 다시 열 수 있습니다. ---- */
+  function openEthicsPpt(){
+    const overlay = document.getElementById('ethicsPptOverlay');
+    if(!overlay) return;
+    renderEthicsPptStatus();
+    overlay.classList.add('active');
+    overlay.classList.remove('open');
+    requestAnimationFrame(function(){ requestAnimationFrame(function(){ overlay.classList.add('open'); }); });
+  }
+  function closeEthicsPpt(){
+    const overlay = document.getElementById('ethicsPptOverlay');
+    if(!overlay) return;
+    overlay.classList.remove('open');
+    setTimeout(function(){ overlay.classList.remove('active'); }, 420);
+  }
+  function renderEthicsPptStatus(){
+    const st = document.getElementById('ethicsPptStatusText');
+    function none(){ if(st){ st.textContent = '아직 등록된 PPT 파일이 없습니다.'; st.classList.remove('has-file'); } }
+    embedFileLoad('ethicsPpt').then(function(rec){
+      if(rec && rec.blob){ if(st){ st.textContent = '📂 ' + (rec.name || 'PPT 파일') + ' (클릭하면 열립니다)'; st.classList.add('has-file'); } }
+      else none();
+    }).catch(none);
+  }
+  function ethicsPptClick(e){
+    if(e && e.shiftKey){ openEthicsPpt(); return; }
+    embedFileLoad('ethicsPpt').then(function(rec){
+      if(rec && rec.blob) openEthicsPptFile(); else openEthicsPpt();
+    }).catch(function(){ openEthicsPpt(); });
+  }
+  function handleEthicsPptUpload(e){
+    const file = e.target.files && e.target.files[0];
+    e.target.value = '';
+    if(!file) return;
+    embedFileSave('ethicsPpt', file).then(function(){ renderEthicsPptStatus(); }).catch(function(err){
+      alert('PPT 파일을 저장하지 못했습니다: ' + (err && err.message ? err.message : err));
+    });
+  }
+  let ethicsPptObjectUrl = null;
+  function openEthicsPptFile(){
+    embedFileLoad('ethicsPpt').then(function(rec){
+      if(!rec || !rec.blob){ alert('아직 등록된 PPT 파일이 없습니다. 먼저 파일을 선택해주세요.'); return; }
+      if(ethicsPptObjectUrl) URL.revokeObjectURL(ethicsPptObjectUrl);
+      ethicsPptObjectUrl = URL.createObjectURL(rec.blob);
+      const a = document.createElement('a');
+      a.href = ethicsPptObjectUrl;
+      a.download = rec.name || 'presentation.pptx';
+      document.body.appendChild(a); a.click(); a.remove();
+    }).catch(function(err){ alert('PPT 파일을 열지 못했습니다: ' + (err && err.message ? err.message : err)); });
   }
   /* ---- 통합 참여 허브(#play): 부스트/사진 콘테스트 QR을 하나로 통합 ---- */
   function initPlayHubIfNeeded(){
@@ -14496,7 +14592,7 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
     { label: '칩', icon: '🪙' }
   ];
   // 경품 목록(8종, 25개 풍선 구성) — 경품 추첨 보드 풍선 셀/당첨 팝업에 사용
-  const PZ_PRIZE_LIST = [{"label": "꽝", "icon": "💣", "img": "assets/7e3d41311414603a2284c73b95e5631c.jpg"}, {"label": "메가커피 5천원권", "icon": "🎁", "img": "assets/960eae5851adf55c7b7773e38edcc67a.jpg"}, {"label": "편의점 상품권 1만원권", "icon": "🎁", "img": "assets/c006556d43a4fa9d0c84a54df262dc89.jpg"}, {"label": "다이소 2천원권", "icon": "🎁", "img": "assets/723f6d38a8a914742416432f833872fc.jpg"}, {"label": "신세계상품권 3만원권", "icon": "🎁", "img": "assets/5865467a013b45fdad226be119fc286f.jpg"}, {"label": "아이스 아메리카노 기프티콘", "icon": "☕", "img": "assets/7b9110d08a8619f3584bbbce2a28c300.jpg"}];
+  const PZ_PRIZE_LIST = [{"label": "꽝", "icon": "💣", "img": "assets/7e3d41311414603a2284c73b95e5631c.jpg"}, {"label": "해피콘 5천원권", "icon": "🎁", "img": "assets/e9f5a9eac27ec7970eb4183921c89738.jpg"}, {"label": "편의점 상품권 1만원권", "icon": "🎁", "img": "assets/c006556d43a4fa9d0c84a54df262dc89.jpg"}, {"label": "다이소 5천원권", "icon": "🎁", "img": "assets/55f1ba89f67bef8a14de548188702590.jpg"}, {"label": "신세계상품권 3만원권", "icon": "🎁", "img": "assets/5865467a013b45fdad226be119fc286f.jpg"}, {"label": "아이스 아메리카노 기프티콘", "icon": "☕", "img": "assets/7b9110d08a8619f3584bbbce2a28c300.jpg"}];
   // 풍선 40개 경품 구성(엑셀 기준: 꽝 3 / 메가커피 10 / 편의점 10 / 다이소 7 / 신세계 3 / 아메리카노 7)
   const PZ_PRIZE_SEQ25 = [0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 5, 5, 5, 5, 5, 5, 5];
   const PRIZE_ITEMS = [];
@@ -14556,53 +14652,29 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
   // 30개 풍선 셀에 구성원을 무작위로 배정(인원이 30명 미만이면 순환 배정)
   // '경품 추첨 보드' 버튼(Final RACE Finish / 우승자 발표 팝업)으로 연 경우: 1등조 전원 + MVP + 강제 직접 지정 인원만 추첨 대상
   let pzRestrictNext = false, pzRestricted = false, pzRestrictSig = '';
+  // 지정(1등 조 / MVP / 준우승자)이 있으면 그 인원만, 하나도 없으면 센터 구성원 전체가 추첨 대상
   function pzEligibleMembers(){
     const all = getCenterAllMembers();
-    const data = (currentSeatCenter && typeof SEAT_DATA_BY_CENTER !== 'undefined') ? SEAT_DATA_BY_CENTER[currentSeatCenter] : null;
+    const rk = rcbRankKey();
     const picked = [];
     const add = function(m){ if(m && picked.indexOf(m) === -1) picked.push(m); };
-    // (1) 1등조 전체 인원
-    let teamKey = null;
     try{
-      const teams = getRcbRaceTeams();
-      const rk = rcbRankKey();
-      let idx = null;
       const f = RCB_FORCED_RANK[rk];
-      if(f && f[1] !== undefined && teams[parseInt(f[1], 10)]) idx = parseInt(f[1], 10);
-      else if(RCB_AUTO_RANK && RCB_AUTO_RANK[1] !== undefined && teams[parseInt(RCB_AUTO_RANK[1], 10)]) idx = parseInt(RCB_AUTO_RANK[1], 10);
-      if(idx !== null){
+      if(f && f[1] !== undefined && f[1] !== ''){
+        const teams = getRcbRaceTeams();
+        const idx = parseInt(f[1], 10);
         const t = teams[idx];
-        teamKey = resolveSeatTeamKeyForTeam(t, resolveRcbTeamName(t, idx));
-      } else if(typeof getForcedTeamWinner === 'function' && getForcedTeamWinner()){
-        teamKey = getForcedTeamWinner();
-      } else if(typeof bmTeams !== 'undefined' && bmTeams.length){
-        let best = 0;
-        bmTeams.forEach(function(t, i){
-          const b = bmTeams[best];
-          if((t.laps||0) > (b.laps||0) || ((t.laps||0) === (b.laps||0) && ((t.pos||0) > (b.pos||0) || ((t.pos||0) === (b.pos||0) && (t.score||0) > (b.score||0))))) best = i;
-        });
-        teamKey = resolveSeatTeamKeyForTeam(bmTeams[best], resolveRcbTeamName(bmTeams[best], best));
+        if(t){
+          const teamKey = resolveSeatTeamKeyForTeam(t, resolveRcbTeamName(t, idx));
+          all.forEach(function(m){ if(m.team === teamKey) add(m); });
+        }
       }
     } catch(err){}
-    if(teamKey) all.forEach(function(m){ if(m.team === teamKey) add(m); });
-    // (2) MVP 선정 인원
-    const mvp = (RCB_MVP_NAME[rcbRankKey()] || '').trim();
+    const mvp = (RCB_MVP_NAME[rk] || '').trim();
     if(mvp) all.forEach(function(m){ if(m.name === mvp) add(m); });
-    // (2-1) 준우승자
-    const ru = (RCB_RUNNERUP_NAME[rcbRankKey()] || '').trim();
+    const ru = (RCB_RUNNERUP_NAME[rk] || '').trim();
     if(ru) all.forEach(function(m){ if(m.name === ru) add(m); });
-    // (2-2) 강제 지정 인원(여러 명, 쉼표/줄바꿈 구분)
-    (RCB_PRIZE_EXTRA[rcbRankKey()] || '').split(/[,\n，、;]+/).forEach(function(nm){
-      nm = nm.trim();
-      if(nm) all.forEach(function(m){ if(m.name === nm) add(m); });
-    });
-    // (3) 강제 직접 지정 인원(센터 챔피언(개인) 지정)
-    const fi = (typeof getForcedIndivWinner === 'function') ? getForcedIndivWinner() : '';
-    if(fi){
-      const parts = fi.split('|');
-      all.forEach(function(m){ if(m.team === parts[0] && m.name === parts[1]) add(m); });
-    }
-    return picked;
+    return picked.length ? picked : all.slice();
   }
   function assignPzCellMembers(){
     let all = getCenterAllMembers();
@@ -14616,6 +14688,19 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
     for(let i = pool.length - 1; i > 0; i--){
       const j = Math.floor(Math.random() * (i + 1));
       const tmp = pool[i]; pool[i] = pool[j]; pool[j] = tmp;
+    }
+    if(pzRestricted){
+      // 대상자 1인당 1칸(중복 없음), 최대 40칸(40명 초과 시 무작위 40명). 지정된 MVP만 2칸(1등 조 소속이라 2번 당첨 가능)
+      const mvpNm = (RCB_MVP_NAME[rcbRankKey()] || '').trim();
+      const list = pool.slice(0, 40);
+      const mv = mvpNm ? list.filter(function(m){ return m.name === mvpNm; })[0] : null;
+      if(mv && list.length < 40) list.push(mv);
+      for(let i = list.length - 1; i > 0; i--){
+        const j = Math.floor(Math.random() * (i + 1));
+        const t = list[i]; list[i] = list[j]; list[j] = t;
+      }
+      for(let i = 0; i < list.length; i++) PZ_CELL_MEMBERS.push(list[i]);
+      return;
     }
     for(let i = 0; i < 40; i++){
       PZ_CELL_MEMBERS.push(pool[i % pool.length]);
@@ -14896,6 +14981,23 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
     if(nameEl) nameEl.textContent = person.name || '';
     if(posEl) posEl.textContent = person.position || '';
   }
+  let pzPrizeDeck = [], pzPrizeLast = -1;
+  function pzNextPrizeIdx(n){
+    if(!pzPrizeDeck.length){
+      for(let tries = 0; tries < 500; tries++){
+        const idx = []; for(let i = 0; i < n; i++) idx.push(i);
+        for(let i = n - 1; i > 0; i--){ const j = Math.floor(Math.random()*(i+1)); const t = idx[i]; idx[i] = idx[j]; idx[j] = t; }
+        const d = idx.concat(idx.slice(0, Math.max(0, 10 - n)));
+        for(let i = d.length - 1; i > 0; i--){ const j = Math.floor(Math.random()*(i+1)); const t = d[i]; d[i] = d[j]; d[j] = t; }
+        let ok = d[0] !== pzPrizeLast;
+        for(let i = 1; ok && i < d.length; i++) if(d[i] === d[i-1]) ok = false;
+        if(ok){ pzPrizeDeck = d; break; }
+      }
+      if(!pzPrizeDeck.length) pzPrizeDeck = [Math.floor(Math.random()*n)];
+    }
+    pzPrizeLast = pzPrizeDeck.shift();
+    return pzPrizeLast;
+  }
   function startPzRoulette(){
     if(pzRouletteSpinning) return;
     if(!PZ_CELL_MEMBERS.length){
@@ -14909,6 +15011,14 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
       return;
     }
     pzRouletteWinnerIdx = remaining[Math.floor(Math.random() * remaining.length)];
+    // 경품 균등 배정: 연속 동일 경품 금지 + 10회 중 같은 경품 최대 2번(6종 고르게)
+    if(pzRestricted && !(PRIZE_ITEMS[pzRouletteWinnerIdx] && PRIZE_ITEMS[pzRouletteWinnerIdx].custom)){
+      const pi = pzNextPrizeIdx(PZ_PRIZE_LIST.length);
+      const t = PZ_PRIZE_LIST[pi], it = PRIZE_ITEMS[pzRouletteWinnerIdx];
+      it.label = t.label; it.icon = t.icon; it.img = t.img;
+      const th = document.querySelector('#pzCell' + pzRouletteWinnerIdx + ' .pz-cell-prize-thumb');
+      if(th && t.img) th.src = t.img;
+    }
     pzRouletteSpinning = true;
     // 직전 당첨자 축하 팝업이 아직 떠 있으면(자동으로 닫히기 전) 바로 닫고 새 룰렛을 돌립니다.
     const prevWinOv = document.getElementById('pzPopupOverlay');
@@ -15787,9 +15897,8 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
     { key:'bodyVideoRapCarousel', label:'본격 Race 여정 배경 영상', elId:'bodyVideoRapCarousel' },
     { key:'bodyVideoFinal', label:'Final Race 배경 영상', elId:'bodyVideoFinal' },
     { key:'bodyVideoClosing1', label:'챔피언은 누구? 배경 영상', elId:'bodyVideoClosing1' },
-    { key:'dsWhyVideo', label:'스타일은 왜 다른가? 영상', elId:'dsWhyVideo' },
-    { key:'dscVideo', label:'공감 소통 영상 (고요속의 외침)', elId:'dscVideo' },
-    { key:'heroThanksVideo', label:'감사와 가족응원 영상', elId:'heroThanksVideoEl' }
+    { key:'dsWhyVideo', label:'DISC vs MBTI 팝업 영상 (영상보기)', elId:'dsWhyVideo' },
+    { key:'dscVideo', label:'스타일은 왜 다른가? 영상 (고요속의 외침)', elId:'dscVideo' }
   ];
   const FILE_LINK_REGISTRY = [
     { key:'prizeBoardLink', label:'경품추첨 보드', elId:'prizeBoardLink', attr:'href' },
@@ -18256,6 +18365,24 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
     const seg = Math.floor((((whAngle % 360) + 360) % 360) / 60);
     if(seg !== whLastSeg){ whLastSeg = seg; if(whState === 'spinning' || whState === 'stopping'){ sfxPzRouletteTick(); } }
   }
+  // 10회 단위로 6개 경품이 고르게(4개는 2번, 2개는 1번) 당첨되고 연속 중복은 없도록 순서를 미리 구성
+  let whDeck = [], whLastPick = -1;
+  function whNextTarget(n){
+    if(!whDeck.length){
+      for(let tries = 0; tries < 500; tries++){
+        const idx = []; for(let i = 0; i < n; i++) idx.push(i);
+        for(let i = n - 1; i > 0; i--){ const j = Math.floor(Math.random()*(i+1)); const t = idx[i]; idx[i] = idx[j]; idx[j] = t; }
+        let d = idx.concat(idx.slice(0, 10 - n));          // 전 항목 1회 + 4개 항목 추가 1회 = 10회
+        for(let i = d.length - 1; i > 0; i--){ const j = Math.floor(Math.random()*(i+1)); const t = d[i]; d[i] = d[j]; d[j] = t; }
+        let ok = d[0] !== whLastPick;
+        for(let i = 1; ok && i < d.length; i++) if(d[i] === d[i-1]) ok = false;
+        if(ok){ whDeck = d; break; }
+      }
+      if(!whDeck.length) whDeck = [Math.floor(Math.random()*n)];
+    }
+    whLastPick = whDeck.shift();
+    return whLastPick;
+  }
   let whStopT0 = 0, whStopDur = 4200, whStopFrom = 0, whStopTo = 0, whTarget = 0;
   function whStart(){
     bmEnsureAudio(); sfxRouletteSpin();
@@ -18266,7 +18393,7 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
   }
   function whStop(){
     const n = PZ_PRIZE_LIST.length, seg = 360 / n;
-    whTarget = Math.floor(Math.random() * n);
+    whTarget = whNextTarget(n);
     const jitter = (Math.random() - 0.5) * seg * 0.6;
     const want = -(whTarget + 0.5) * seg + jitter;          // 포인터(맨 위)에 whTarget 조각의 중심이 오는 각도
     const cur = whAngle;
@@ -18671,24 +18798,36 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
   function dsOpenWhyVideo(ev){
     if(ev) ev.stopPropagation();
     ds2Started = true;
+    const v = document.getElementById('dscVideo');
+    document.getElementById('dsWhyPop').classList.add('show');
+    if(v){ try{ v.load(); v.currentTime = 0; const pr = v.play(); if(pr && pr.catch) pr.catch(function(){}); }catch(e){} }
+  }
+  function dsMbtiVideoOpen(){ const l = document.getElementById('dsMbtiVidLayer'); return !!(l && l.classList.contains('show')); }
+  function dsMbtiPlayVideo(ev){
+    if(ev) ev.stopPropagation();
+    dsMbtiShown = true;
+    const pop = document.getElementById('dsMbtiPop'); if(pop) pop.classList.add('show');
     const v = document.getElementById('dsWhyVideo'), empty = document.getElementById('dsWhyEmpty');
     const has = !!(v && v.getAttribute('src'));
     if(empty) empty.style.display = has ? 'none' : 'flex';
     if(v) v.style.visibility = has ? 'visible' : 'hidden';
-    document.getElementById('dsWhyPop').classList.add('show');
+    document.getElementById('dsMbtiVidLayer').classList.add('show');
     if(has){ try{ v.load(); v.currentTime = 0; const pr = v.play(); if(pr && pr.catch) pr.catch(function(){}); }catch(e){} }
   }
-  function dsCloseWhyVideo(){
+  function dsMbtiStopVideo(){
     const v = document.getElementById('dsWhyVideo');
     if(v){ try{ v.pause(); }catch(e){} }
-    document.getElementById('dsWhyPop').classList.remove('show');
+    const l = document.getElementById('dsMbtiVidLayer'); if(l) l.classList.remove('show');
+  }
+  function dsCloseWhyVideo(){
+    const v = document.getElementById('dscVideo');
+    if(v){ try{ v.pause(); }catch(e){} }
+    const p = document.getElementById('dsWhyPop'); if(p) p.classList.remove('show');
   }
   // 스타일은 왜 다른가?: 영상 팝업에서 '다음' → 영상 닫고 카드 팝업(감자 → 질문/이미지 4장) 시퀀스
   let ds2AfterQuiz = false, ds2Started = false;
   function ds2HandleNext(){
-    if(document.getElementById('dsWhyPop').classList.contains('show')){ dsCloseWhyVideo(); dsqReset(); ds2AfterQuiz = true; dsqAdvance(); return true; }
-    if(document.getElementById('dsqPop').classList.contains('show')){ dsqAdvance(); return true; }
-    if(ds2AfterQuiz){ ds2AfterQuiz = false; dsOpenRace1Popup(); return true; }
+    if(document.getElementById('dsWhyPop').classList.contains('show')){ dsCloseWhyVideo(); dsOpenRace1Popup(); return true; }
     if(!ds2Started){ dsOpenWhyVideo(); return true; }
     return false;
   }
@@ -18701,7 +18840,7 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
   /* ---- DISC vs MBTI 팝업 ---- */
   let dsMbtiShown = false;
   function dsOpenMbti(ev){ dsMbtiShown = true; if(ev) ev.stopPropagation(); document.getElementById('dsMbtiPop').classList.add('show'); }
-  function dsCloseMbti(){ const e = document.getElementById('dsMbtiPop'); if(e) e.classList.remove('show'); }
+  function dsCloseMbti(){ dsMbtiStopVideo(); const e = document.getElementById('dsMbtiPop'); if(e) e.classList.remove('show'); }
   document.addEventListener('keydown', function(ev){ if(ev.key === 'Escape') dsCloseMbti(); });
 
   /* ---- '공감 소통' 카드: 팝업 앞 2단계 팝업(감자 사진 가림 → 질문/이미지 카드 뒤집기 시퀀스) ---- */
@@ -18765,33 +18904,21 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
     document.querySelector('.dsc-pop-box').classList.toggle('with-msg', i === 1);
     document.getElementById('dscPop').classList.add('show');
     cards.forEach(function(c, k){ c.classList.toggle('active', k === i); });
-    dscIdx = i; if(i === 0) dscVidDone = false; dscCloseVideo();
+    dscIdx = i; dsqReset();
   }
   function dscClosePop(){
     const pop = document.getElementById('dscPop'); if(pop) pop.classList.remove('show');
     document.querySelectorAll('.dsc-card').forEach(function(c){ c.classList.remove('active'); });
   }
   let dscVidDone = false;
-  function dscVideoOpen(){ const p = document.getElementById('dscVideoPop'); return !!(p && p.classList.contains('show')); }
-  function dscOpenVideo(){
-    dscVidDone = true;
-    const v = document.getElementById('dscVideo');
-    document.getElementById('dscVideoPop').classList.add('show');
-    if(v){ try{ v.load(); v.currentTime = 0; const pr = v.play(); if(pr && pr.catch) pr.catch(function(){}); }catch(e){} }
-  }
-  function dscCloseVideo(){
-    const v = document.getElementById('dscVideo');
-    if(v){ try{ v.pause(); }catch(e){} }
-    const p = document.getElementById('dscVideoPop'); if(p) p.classList.remove('show');
-  }
-  function dscReset(){ dscIdx = -1; dscVidDone = false; dscCloseVideo(); dscClosePop(); }
-  document.addEventListener('keydown', function(ev){ if(ev.key !== 'Escape') return; if(dscVideoOpen()){ dscCloseVideo(); return; } dscClosePop(); });
+  function dscReset(){ dscIdx = -1; dscVidDone = false; dsqReset(); dscClosePop(); }
+  document.addEventListener('keydown', function(ev){ if(ev.key !== 'Escape') return; dscClosePop(); });
   // true 반환 = 이 페이지에서 '다음'을 처리함. 왼쪽 카드부터 차례로 팝업 → 마지막 카드 다음엔 팝업을 닫고, 그다음 '다음'에서 페이지 이동
   function dscHandleNext(){
     const n = document.querySelectorAll('.dsc-card').length;
     const popOpen = document.getElementById('dscPop').classList.contains('show');
-    if(dscVideoOpen()){ dscCloseVideo(); if(dscIdx + 1 < n){ dscOpenCard(dscIdx + 1); return true; } dscClosePop(); return true; }
-    if(dscIdx === 0 && popOpen && !dscVidDone){ dscOpenVideo(); return true; }
+    if(document.getElementById('dsqPop').classList.contains('show')){ dsqAdvance(); return true; }
+    if(dscIdx === 0 && popOpen && dsqStep < DSQ_STEPS){ dsqReset(); dsqAdvance(); return true; }
     if(dscIdx + 1 < n){ dscOpenCard(dscIdx + 1); return true; }
     if(popOpen){ dscClosePop(); return true; }
     dscIdx = -1;
@@ -18841,7 +18968,7 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
   }
   // true 를 반환하면 이 '다음' 입력을 이 페이지에서 처리한 것(다음 페이지로 넘어가지 않음)
   function dsHandleNext(){
-    { const mp = document.getElementById('dsMbtiPop'); if(mp && mp.classList.contains('show')){ dsCloseMbti(); return true; } }
+    { const mp = document.getElementById('dsMbtiPop'); if(mp && mp.classList.contains('show')){ if(dsMbtiVideoOpen()){ dsCloseMbti(); } else { dsMbtiPlayVideo(); } return true; } }
     if(!dsMbtiShown && dsSeq.ci === 0 && dsSeq.st === 0 && !dsDetailOpenKey){ dsOpenMbti(); return true; }
     if(dsDetailOpenKey){ dsCloseDetail(); dsSeq.st = 7; return true; }
     const wraps = document.querySelectorAll('#dsCubeLayer .ds-cube-wrap');
@@ -19798,6 +19925,7 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
     const overlay = document.getElementById('rcbRankAssignOverlay');
     if(!overlay) return;
     renderRcbRankAssignSelects();
+    overlay.style.zIndex = '13000';
     overlay.classList.add('show');
   }
   function closeRcbRankAssignPopup(){
@@ -19808,7 +19936,7 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
     const teams = getRcbRaceTeams();
     const key = rcbRankKey();
     const saved = RCB_FORCED_RANK[key] || {};
-    [1,2,3].forEach(function(rank){
+    [1].forEach(function(rank){
       const sel = document.getElementById('rcbRankSelect' + rank);
       if(!sel) return;
       sel.innerHTML = '<option value="">자동</option>' + teams.map(function(t, i){
@@ -19820,13 +19948,11 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
     const ruInput = document.getElementById('rcbRunnerUpInput');
     if(mvpInput) mvpInput.value = RCB_MVP_NAME[key] || '';
     if(ruInput) ruInput.value = RCB_RUNNERUP_NAME[key] || '';
-    const exInput = document.getElementById('rcbPrizeExtraInput');
-    if(exInput) exInput.value = RCB_PRIZE_EXTRA[key] || '';
   }
   function saveRcbRankAssign(){
     const key = rcbRankKey();
     const picks = {};
-    [1,2,3].forEach(function(rank){
+    [1].forEach(function(rank){
       const sel = document.getElementById('rcbRankSelect' + rank);
       if(sel && sel.value !== '') picks[rank] = sel.value;
     });
@@ -19835,14 +19961,18 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
     const ruInput = document.getElementById('rcbRunnerUpInput');
     RCB_MVP_NAME[key] = mvpInput ? mvpInput.value.trim() : '';
     RCB_RUNNERUP_NAME[key] = ruInput ? ruInput.value.trim() : '';
-    const exInput = document.getElementById('rcbPrizeExtraInput');
-    RCB_PRIZE_EXTRA[key] = exInput ? exInput.value.trim() : '';
     const status = document.getElementById('rcbRankAssignStatus');
     if(status){
       status.textContent = '✅ 저장되었습니다.';
       setTimeout(function(){ status.textContent = ''; }, 1800);
     }
     if(typeof refreshRcbFinishMvpDisplay === 'function') refreshRcbFinishMvpDisplay();
+    // 행운권 추첨 보드가 열려 있으면 바뀐 지정 인원으로 즉시 다시 구성
+    const pr = document.getElementById('prizeRoot');
+    if(pr && pr.style.display !== 'none' && typeof renderPrizeBoard === 'function'){
+      pzRestrictSig = 'F:' + pzEligibleMembers().map(function(m){ return m.team + '|' + m.name; }).join(',');
+      renderPrizeBoard();
+    }
   }
   // 결승 세레모니가 이미 표시된 상태라면, MVP/준우승자 배지를 즉시 갱신합니다.
   function refreshRcbFinishMvpDisplay(){
@@ -19871,8 +20001,7 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
     let fRankTeam1 = null, fRankTeam2 = null, fRankTeam3 = null;
     if(forced && forced[1] !== undefined && teams[parseInt(forced[1], 10)]){
       const idx1 = parseInt(forced[1], 10);
-      const idx2 = (forced[2] !== undefined && teams[parseInt(forced[2], 10)]) ? parseInt(forced[2], 10) : null;
-      const idx3 = (forced[3] !== undefined && teams[parseInt(forced[3], 10)]) ? parseInt(forced[3], 10) : null;
+      const idx2 = null, idx3 = null; // 1등 조만 표시(2·3등 조는 표시하지 않음)
       fRankTeam1 = teams[idx1];
       fRankTeam2 = (idx2 !== null) ? teams[idx2] : null;
       fRankTeam3 = (idx3 !== null) ? teams[idx3] : null;
@@ -20572,7 +20701,7 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
     '중부·강원실': '1002',
     '서남부_호남/제주/충청실': '1004',
     '서남부_경상권': '1005',
-    '사내강사팀': '1007'
+    '전체': ADMIN_PIN // 전체(마스터) 인증 — 모든 센터(사내강사팀 포함) 열람
   };
   // 지역담당(7개 권역) → CENTER_MARKERS의 세부 region 값 매핑 (엑셀 '지역담당'/'권역'/'센터' 열 기준)
   const REGION_GROUP_MAP = {
@@ -20587,8 +20716,8 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
     '수도권': 'D:\\26년 센터 전사원 교육 운영 자료\\26 전사원 교육생 명단_수도권_시트분리.xlsx',
     '중부·강원실': 'D:\\26년 센터 전사원 교육 운영 자료\\26 전사원 교육생 명단_중부,강원실_시트분리.xlsx',
     '서남부_호남/제주/충청실': 'D:\\26년 센터 전사원 교육 운영 자료\\26 전사원 교육생 명단_서부,충청실_시트분리.xlsx',
-    '서남부_경상권': 'D:\\26년 센터 전사원 교육 운영 자료\\26 전사원 교육생 명단_남부_시트분리.xlsx',
-    '사내강사팀': '' // 추후 파일 경로 반영 예정
+    '서남부_경상권': 'D:\\26년 센터 전사원 교육 운영 자료\\26 전사원 교육생 명단_남부_시트분리.xlsx'
+
   };
   let selectedRegionGate = null;
   function selectRegionGate(region){
@@ -20671,7 +20800,7 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
       if(pinInput){ pinInput.value = ''; pinInput.focus(); }
       return;
     }
-    const region = (val === ADMIN_PIN) ? null : selectedRegionGate;
+    const region = (val === ADMIN_PIN || selectedRegionGate === '전체') ? null : selectedRegionGate;
     closeAdminGate();
     openAdminPanel(region);
   }
