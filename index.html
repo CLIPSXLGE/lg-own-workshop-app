@@ -1137,6 +1137,13 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
     background:radial-gradient(ellipse at center, rgba(0,0,0,0.22) 0%, rgba(0,0,0,0.62) 55%, rgba(0,0,0,0.97) 100%);
   }
   .overview-panel > *{position:relative; z-index:2;}
+  .ov-pit-btn{ position:absolute !important; left:50%; bottom:18px; transform:translateX(-50%); font:800 14px 'Noto Sans KR',sans-serif; color:#fff; background:transparent; border:1.5px solid #fff; border-radius:999px; padding:4px 14px; cursor:pointer; white-space:nowrap; }
+  .ov-pit-btn .dot-blink{ color:#ff2b3f; margin-right:2px; }
+  .ov-pit-btn:hover{ background:rgba(255,255,255,0.2); }
+  .ov-pit-pop{ position:fixed; inset:0; z-index:12000; display:none; align-items:center; justify-content:center; background:rgba(0,0,0,0.82); backdrop-filter:blur(4px); }
+  .ov-pit-pop.show{ display:flex; }
+  .ov-pit-box{ position:relative; width:min(96vw,1700px); aspect-ratio:16/9; max-height:94vh; background:#000; border-radius:16px; box-shadow:0 24px 80px rgba(0,0,0,0.85); }
+  .ov-pit-box video{ width:100%; height:100%; border-radius:16px; background:#000; display:block; }
   .overview-panel .pill{margin-bottom:16px; font-size:26px; padding:9px 24px; white-space:nowrap; word-break:keep-all;}
 
   @keyframes badgeBlink{
@@ -2154,6 +2161,7 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
   .admin-gate-err{ color:#ff6f6f; font-size:14px; min-height:18px; margin-top:8px; }
   .admin-gate-box-wide{ width:min(92vw,520px); padding:30px 28px; }
   .region-gate-grid{ display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:16px; }
+  .region-gate-code{ color:#ff2b3f; font-weight:900; }
   .region-gate-box{
     background:rgba(255,255,255,0.06); border:1.5px solid var(--line); border-radius:10px;
     padding:16px 10px; color:#fff; font-weight:800; font-size:14px; text-align:center; cursor:pointer;
@@ -7192,6 +7200,12 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
     <div class="ov-hero-video-overlay" id="ovHeroVideoOverlay">
       <video class="ov-hero-video" id="ovHeroVideo" muted playsinline preload="none" src="videos/올해를_빛낸_히어로들에게.mp4"></video>
     </div>
+    <div class="ov-pit-pop" id="ovPitPop" onclick="event.stopPropagation(); if(event.target===this)ovPitClose();">
+      <div class="ov-pit-box">
+        <button type="button" class="ds2-pop-close" onclick="event.stopPropagation(); ovPitClose();" aria-label="닫기">✕</button>
+        <video id="ovPitVideo" controls playsinline preload="none" src="videos/1.2. 피트스탑 영상.mp4"></video>
+      </div>
+    </div>
     <div class="rap-flyby-lane" id="rapFlybyLane">
       <div class="rv-flyby-car" id="rapFlybyCar">
         <div class="rv-flyby-car-img" style="background-image:var(--img-bmcar1);"></div>
@@ -7204,6 +7218,7 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
       <div class="overview-panel ov-carousel-item" id="ovItem1" style="background-image:var(--img-ovpanel1);" onclick="event.stopPropagation(); handleOvItemClick(1, event, 'rehearsal');">
         <span class="pill solid ov-badge-green">리허설 Race</span>
         <p>진정한 서비스 히어로로서 역할수행을 위해<br>나의 조직/업/관계/마인드의 현 성능 튜닝을 할 것인가?</p>
+        <button type="button" class="ov-pit-btn" id="ovPitBtn" onclick="event.stopPropagation(); ovPitOpen();"><span class="dot-blink">●</span> 우리의 피트-스탑</button>
       </div>
       <div class="overview-panel ov-carousel-item" id="ovItem2" style="background-image:var(--img-ovpanel2b);" onclick="event.stopPropagation(); handleOvItemClick(2, event, 'main');">
         <span class="pill solid ov-badge-red">본격 Race</span>
@@ -9357,11 +9372,11 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
     <h3>⚙ 관리자 인증</h3>
     <p id="adminGateStep1Hint">담당 권역을 선택해주세요.</p>
     <div class="region-gate-grid" id="regionGateGrid">
-      <div class="region-gate-box" onclick="selectRegionGate('수도권')"><span class="region-gate-num">1</span>수도권 (1001)</div>
-      <div class="region-gate-box" onclick="selectRegionGate('중부·강원실')"><span class="region-gate-num">2</span>중부·강원실 (1002)</div>
-      <div class="region-gate-box" onclick="selectRegionGate('서남부_호남/제주/충청실')"><span class="region-gate-num">3</span>서남부_호남/제주/충청실 (1004)</div>
-      <div class="region-gate-box" onclick="selectRegionGate('서남부_경상권')"><span class="region-gate-num">4</span>서남부_경상권 (1005)</div>
-      <div class="region-gate-box region-gate-box-instructor" onclick="selectRegionGate('전체')"><span class="region-gate-num">5</span>전체 (2026)</div>
+      <div class="region-gate-box" onclick="selectRegionGate('수도권')"><span class="region-gate-num">1</span><span>수도권 <span class="region-gate-code">(1001)</span></span></div>
+      <div class="region-gate-box" onclick="selectRegionGate('중부·강원실')"><span class="region-gate-num">2</span><span>중부·강원실 <span class="region-gate-code">(1002)</span></span></div>
+      <div class="region-gate-box" onclick="selectRegionGate('서남부_호남/제주/충청실')"><span class="region-gate-num">3</span><span>서남부_호남/제주/충청실 <span class="region-gate-code">(1004)</span></span></div>
+      <div class="region-gate-box" onclick="selectRegionGate('서남부_경상권')"><span class="region-gate-num">4</span><span>서남부_경상권 <span class="region-gate-code">(1005)</span></span></div>
+      <div class="region-gate-box region-gate-box-instructor" onclick="selectRegionGate('전체')"><span class="region-gate-num">5</span><span>전체 <span class="region-gate-code">(2026)</span></span></div>
     </div>
     <div class="region-gate-pin-area" id="regionGatePinArea" style="display:none;">
       <p class="region-gate-selected-label" id="regionGateSelectedLabel"></p>
@@ -9750,7 +9765,8 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
     if(prevId === 'circuitview' && prevId !== id){ const v = document.getElementById('cvcVideo1'); if(v) v.pause(); }
     if(id === 'ccs-quiz'){ bmEnsureAudio(); startBgm(); if(typeof startQuizBuzzerAutoPlay === 'function') startQuizBuzzerAutoPlay(); }
     if(id === 'circuitview'){ if(typeof playCircuitFlybyCar === 'function') playCircuitFlybyCar(); circuitviewStep = 0; }
-    if(id === 'overview'){ if(typeof playMainFlybyCar === 'function') playMainFlybyCar(); ovHeroSmartStep = 0; }
+    if(id === 'overview'){ if(typeof playMainFlybyCar === 'function') playMainFlybyCar(); ovHeroSmartStep = 0; ovPitDone = false; }
+    if(prevId === 'overview' && prevId !== id && typeof ovPitClose === 'function') ovPitClose();
     if(prevId === 'overview' && prevId !== id && typeof ovHeroVideoPlaying !== 'undefined' && ovHeroVideoPlaying){
       // 영상이 재생 중인 상태로 다른 페이지로 넘어가면 정리합니다.
       const v = document.getElementById('ovHeroVideo');
@@ -9822,6 +9838,19 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
     requestAnimationFrame(fitPageToScreen);
   }
 
+  let ovPitDone = false;
+  function ovPitIsOpen(){ const p = document.getElementById('ovPitPop'); return !!(p && p.classList.contains('show')); }
+  function ovPitOpen(){
+    ovPitDone = true;
+    const v = document.getElementById('ovPitVideo');
+    document.getElementById('ovPitPop').classList.add('show');
+    if(v){ try{ v.load(); v.currentTime = 0; const pr = v.play(); if(pr && pr.catch) pr.catch(function(){}); }catch(e){} }
+  }
+  function ovPitClose(){
+    const v = document.getElementById('ovPitVideo');
+    if(v){ try{ v.pause(); }catch(e){} }
+    const p = document.getElementById('ovPitPop'); if(p) p.classList.remove('show');
+  }
   function handleOvItemClick(idx, e, targetPage){
     if(e) e.stopPropagation();
     if(idx !== ovCarouselIdx){
@@ -10971,6 +11000,8 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
     }
     const cur = currentPageId();
     if(cur === 'overview'){
+      if(ovPitIsOpen()){ ovPitClose(); return; }
+      if(dir === 1 && ovCarouselIdx === 1 && !ovPitDone){ ovPitOpen(); return; }
       if(dir === 1 && typeof ovCarouselIdx !== 'undefined' && ovCarouselIdx < 3){ stepOvCarousel(1); return; }
       if(dir === -1 && typeof ovCarouselIdx !== 'undefined' && ovCarouselIdx > 0){ stepOvCarousel(-1); return; }
     }
@@ -15893,6 +15924,7 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
     { key:'tcWinnerVideo', label:'최고 에너지 레벨의 고객 행복 수호대 카드 영상', elId:'tcWinnerVideo' },
     { key:'ccsVideo2', label:'우리의 미래 미션 영상', elId:'ccsVideo2' },
     { key:'ccsVideo3', label:'고가혁 지향점 미션 영상', elId:'ccsVideo3' },
+    { key:'ovPitVideo', label:'우리의 피트-스탑 영상 (리허설 Race 카드)', elId:'ovPitVideo' },
     { key:'bodyVideoMain', label:'본격 Race 배경 영상', elId:'bodyVideoMain' },
     { key:'bodyVideoRapCarousel', label:'본격 Race 여정 배경 영상', elId:'bodyVideoRapCarousel' },
     { key:'bodyVideoFinal', label:'Final Race 배경 영상', elId:'bodyVideoFinal' },
